@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Free Demo | ScaleBuddy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: '#6E45E2',
+                            500: '#7D5BDE',
+                            600: '#88D3CE'
+                        },
+                        dark: {
+                            900: '#0F0F15',
+                            800: '#1A1A25'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Form animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .fade-in-up-delay {
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        /* Form input styling */
+        .form-input {
+            background-color: rgba(26, 26, 37, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #7D5BDE;
+            box-shadow: 0 0 0 3px rgba(125, 91, 222, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-input:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Submit button */
+        .submit-btn {
+            background: linear-gradient(to right, #7D5BDE, #88D3CE);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(125, 91, 222, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Confirmation state */
+        .confirmation-state {
+            display: none;
+        }
+
+        .confirmation-state.show {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Google Meet button */
+        .meet-btn {
+            background: linear-gradient(to right, #7D5BDE, #88D3CE);
+            transition: all 0.3s ease;
+        }
+
+        .meet-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(125, 91, 222, 0.5);
+        }
+
+        /* Checkbox styling */
+        .checkbox-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #7D5BDE;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-100 font-sans min-h-screen">
+    <!-- Navbar with Logo -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-dark-800/95 backdrop-blur-lg border-b border-gray-800 px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6E45E2;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#88D3CE;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" opacity="0.2"/>
+                    <path d="M30 50 L45 35 L70 35 L70 50 L45 50 Z" fill="url(#logoGradient)"/>
+                    <path d="M30 65 L45 50 L70 50 L70 65 L45 65 Z" fill="url(#logoGradient)"/>
+                    <circle cx="50" cy="50" r="3" fill="white"/>
+                </svg>
+                <span class="text-xl font-bold font-display bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">ScaleBuddy</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="index.html#demos" class="text-gray-300 hover:text-primary-400 transition-colors">Demos</a>
+                <a href="index.html#book-demo" class="text-gray-300 hover:text-primary-400 transition-colors">Pricing</a>
+                <a href="book-demo.html" class="px-4 py-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium hover:opacity-90 transition-all">Book Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 fade-in-up">
+                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">Book a Free Demo</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-xl mx-auto">
+                    We'll show you how ScaleBuddy can help your business grow smarter with AI automation.
+                </p>
+            </div>
+
+            <!-- Form Container -->
+            <div class="bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 md:p-10 shadow-xl fade-in-up-delay">
+                <!-- Form -->
+                <form id="demoForm" action="https://formspree.io/f/xkgpldpo" method="POST" class="space-y-6">
+                    <!-- Full Name -->
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-300 mb-2">
+                            Full Name <span class="text-red-400">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            name="fullName" 
+                            required
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                            placeholder="John Doe"
+                        />
+                        <span class="error-message" id="fullNameError">Please enter your full name</span>
+                    </div>
+
+                    <!-- Business Name -->
+                    <div>
+                        <label for="businessName" class="block text-sm font-medium text-gray-300 mb-2">
+                            Business Name
+                        </label>
+                        <input 
+                            type="text" 
+                            id="businessName" 
+                            name="businessName"
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                            placeholder="Acme Inc."
+                        />
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+                            Email Address <span class="text-red-400">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                            placeholder="john@example.com"
+                        />
+                        <span class="error-message" id="emailError">Please enter a valid email address</span>
+                    </div>
+
+                    <!-- Service Interest -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-3">
+                            What services are you interested in? <span class="text-gray-500 text-xs">(select all that apply)</span>
+                        </label>
+                        <div class="space-y-3">
+                            <div class="checkbox-container">
+                                <input 
+                                    type="checkbox" 
+                                    id="service-ai-websites" 
+                                    name="services[]" 
+                                    value="AI Websites"
+                                    class="mr-3"
+                                />
+                                <label for="service-ai-websites" class="text-gray-300 cursor-pointer">AI Websites</label>
+                            </div>
+                            <div class="checkbox-container">
+                                <input 
+                                    type="checkbox" 
+                                    id="service-chatbots" 
+                                    name="services[]" 
+                                    value="Chatbots"
+                                    class="mr-3"
+                                />
+                                <label for="service-chatbots" class="text-gray-300 cursor-pointer">Chatbots</label>
+                            </div>
+                            <div class="checkbox-container">
+                                <input 
+                                    type="checkbox" 
+                                    id="service-voice-agents" 
+                                    name="services[]" 
+                                    value="Voice Agents"
+                                    class="mr-3"
+                                />
+                                <label for="service-voice-agents" class="text-gray-300 cursor-pointer">Voice Agents</label>
+                            </div>
+                            <div class="checkbox-container">
+                                <input 
+                                    type="checkbox" 
+                                    id="service-workflow-automations" 
+                                    name="services[]" 
+                                    value="Workflow Automations"
+                                    class="mr-3"
+                                />
+                                <label for="service-workflow-automations" class="text-gray-300 cursor-pointer">Workflow Automations</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-300 mb-2">
+                            Message <span class="text-gray-500 text-xs">(optional)</span>
+                        </label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            rows="4"
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500 resize-none"
+                            placeholder="Tell us about your business needs..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Checkbox -->
+                    <div class="checkbox-container pt-2">
+                        <input 
+                            type="checkbox" 
+                            id="liveDemo" 
+                            name="liveDemo"
+                            class="mr-3"
+                        />
+                        <label for="liveDemo" class="text-gray-300 cursor-pointer">
+                            I'd like to book a live demo meeting now
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        class="submit-btn w-full py-4 rounded-lg text-white font-semibold text-lg mt-8"
+                    >
+                        Submit Request
+                    </button>
+                </form>
+
+                <!-- Confirmation State -->
+                <div id="confirmationState" class="confirmation-state text-center py-8">
+                    <div class="mb-6">
+                        <svg class="w-16 h-16 mx-auto text-primary-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p id="confirmationMessage" class="text-lg text-gray-300 mb-6"></p>
+                    </div>
+                    <div id="meetButtonContainer" class="hidden">
+                        <a 
+                            href="https://calendar.app.google/knec2xu6uySGetXF8" 
+                            target="_blank"
+                            class="meet-btn inline-block px-8 py-4 rounded-lg text-white font-semibold text-lg"
+                        >
+                            Schedule a Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400">
+                © 2025 ScaleBuddy | <a href="mailto:hello@scalebuddy.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalebuddy.ai</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Form Handling Script -->
+    <script>
+        // Form validation
+        const form = document.getElementById('demoForm');
+        const confirmationState = document.getElementById('confirmationState');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+        const meetButtonContainer = document.getElementById('meetButtonContainer');
+        
+        // Real-time validation
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        
+        function validateField(field, errorElement) {
+            const value = field.value.trim();
+            let isValid = true;
+            
+            if (field.hasAttribute('required') && !value) {
+                isValid = false;
+            } else if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(value);
+            }
+            
+            if (!isValid) {
+                field.classList.add('error');
+                errorElement.classList.add('show');
+            } else {
+                field.classList.remove('error');
+                errorElement.classList.remove('show');
+            }
+            
+            return isValid;
+        }
+        
+        fullNameInput.addEventListener('blur', () => {
+            validateField(fullNameInput, document.getElementById('fullNameError'));
+        });
+        
+        emailInput.addEventListener('blur', () => {
+            validateField(emailInput, document.getElementById('emailError'));
+        });
+        
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate required fields
+            const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
+            const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
+            
+            if (!isFullNameValid || !isEmailValid) {
+                return;
+            }
+            
+            // Get form data
+            const formData = new FormData(form);
+            // Get all selected services
+            const selectedServices = formData.getAll('services[]');
+            const data = {
+                fullName: formData.get('fullName'),
+                businessName: formData.get('businessName'),
+                email: formData.get('email'),
+                services: selectedServices.length > 0 ? selectedServices.join(', ') : 'None selected',
+                message: formData.get('message'),
+                liveDemo: formData.get('liveDemo') === 'on'
+            };
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Submit to Formspree
+                const response = await fetch('https://formspree.io/f/xkgpldpo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Submission failed');
+                }
+                
+                // Hide form and show confirmation
+                form.style.display = 'none';
+                confirmationState.classList.add('show');
+                
+                // Check if live demo was requested
+                if (data.liveDemo) {
+                    confirmationMessage.textContent = "Thanks for contacting ScaleBuddy! We'll be in touch shortly. Click below to schedule a live demo meeting and test it out for yourself.";
+                    meetButtonContainer.classList.remove('hidden');
+                } else {
+                    confirmationMessage.textContent = "Thanks for reaching out to ScaleBuddy! We'll contact you soon to schedule your demo.";
+                    meetButtonContainer.classList.add('hidden');
+                }
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('There was an error submitting your request. Please try again or email us directly at hello@scalebuddy.ai');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Fade in animation on load
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+
+</body>
+</html>
+
