@@ -172,26 +172,8 @@ function initChatbot() {
     const sendBtn = document.getElementById('sendBtn');
     const chatMessages = document.getElementById('chatMessages');
     
-    // Debug: Check if elements are found
-    console.log('Chatbot elements:', {
-        chatToggleBtn: !!chatToggleBtn,
-        toggleBtnText: !!toggleBtnText,
-        demoMode: !!demoMode,
-        chatMode: !!chatMode,
-        chatInput: !!chatInput,
-        sendBtn: !!sendBtn,
-        chatMessages: !!chatMessages
-    });
-    
     let isChatMode = false;
     let typingTimeout = null;
-    
-    // Toggle between demo and chat mode
-    console.log('Initializing chatbot...', {
-        chatToggleBtn: !!chatToggleBtn,
-        demoMode: !!demoMode,
-        chatMode: !!chatMode
-    });
     
     if (!chatToggleBtn) {
         console.error('chatToggleBtn not found!');
@@ -223,13 +205,11 @@ function initChatbot() {
     function handleToggle(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('✅ Button clicked! Current mode:', isChatMode);
         
         isChatMode = !isChatMode;
         
         if (isChatMode) {
             // Switch to chat mode
-            console.log('Switching to CHAT mode');
             demoMode.style.display = 'none';
             demoMode.classList.add('hidden');
             chatMode.style.display = 'block';
@@ -248,12 +228,10 @@ function initChatbot() {
             setTimeout(() => {
                 if (chatInput) {
                     chatInput.focus();
-                    console.log('Chat input focused');
                 }
             }, 100);
         } else {
             // Switch to demo mode
-            console.log('Switching to DEMO mode');
             chatMode.style.display = 'none';
             chatMode.classList.add('hidden');
             demoMode.style.display = 'block';
@@ -273,17 +251,14 @@ function initChatbot() {
     chatToggleBtn.addEventListener('mousedown', handleToggle);
     chatToggleBtn.onclick = handleToggle;
     
-    // Test if button is clickable
+    // Button hover effects
     chatToggleBtn.addEventListener('mouseenter', function() {
-        console.log('Button hover detected!');
         this.style.transform = 'scale(1.05)';
     });
     
     chatToggleBtn.addEventListener('mouseleave', function() {
         this.style.transform = 'scale(1)';
     });
-    
-    console.log('✅ Chat toggle button setup complete! Button is ready.');
     
     // Send message function
     function sendMessage() {
@@ -493,8 +468,8 @@ function initChatbot() {
             normalizedMessage.includes('discount') || normalizedMessage.includes('trial')) {
             
             // Monthly vs Yearly plans
-            if (normalizedMessage.includes('monthly') && normalizedMessage.includes('yearly') || 
-                normalizedMessage.includes('monthly') && normalizedMessage.includes('annual')) {
+            if ((normalizedMessage.includes('monthly') && normalizedMessage.includes('yearly')) || 
+                (normalizedMessage.includes('monthly') && normalizedMessage.includes('annual'))) {
                 return "We currently offer **monthly plans** only. All plans are billed monthly:\n\n• **Starter** - $99/month + $499 one-time setup\n• **Growth** - $199/month + $999 one-time setup\n• **Scale** - $299/month + $1,499 one-time setup\n• **Automation** - $750 per project (one-time)\n\n[View full pricing details](#book-demo) or [book a demo](book-demo.html) to discuss annual payment options.";
             }
             
@@ -536,7 +511,6 @@ function initChatbot() {
             }
             
             // Check for services not offered
-            const offeredServices = ['website', 'chatbot', 'chat assistant', 'voice', 'receptionist', 'automation', 'workflow'];
             const notOfferedKeywords = ['social media', 'seo service', 'graphic design', 'content writing', 'advertising', 
                                        'ppc', 'google ads', 'facebook ads', 'email marketing', 'consulting', 'training'];
             
@@ -604,7 +578,6 @@ function initChatbot() {
                 return "Getting started is simple:\n\n**Step 1:** [Book a free demo](book-demo.html) (30 minutes)\n**Step 2:** We'll discuss your business needs\n**Step 3:** We build your custom AI solution\n**Step 4:** Launch in 1-3 weeks\n\nNo coding required! Ready to start?";
             }
         }
-        
         
         // AI Websites
         if (normalizedMessage.includes('website') || normalizedMessage.includes('web')) {
