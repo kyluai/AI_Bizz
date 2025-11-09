@@ -305,11 +305,28 @@ function initChatbot() {
         }, 800);
     }
     
-    // Format text with basic markdown
+    // Format text with basic markdown and links
     function formatMessage(text) {
-        return escapeHtml(text)
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary-400">$1</strong>')
-            .replace(/\n/g, '<br>');
+        let formatted = escapeHtml(text);
+        
+        // Handle links - process markdown links
+        formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(match, linkText, url) {
+            if (url.startsWith('#')) {
+                // Anchor link - use smooth scroll
+                return `<a href="${url}" class="text-primary-400 hover:text-primary-300 underline cursor-pointer" onclick="event.preventDefault(); event.stopPropagation(); const el = document.querySelector('${url}'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); return false;">${linkText}</a>`;
+            } else {
+                // External or page link
+                return `<a href="${url}" class="text-primary-400 hover:text-primary-300 underline" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+            }
+        });
+        
+        // Handle bold text
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary-400">$1</strong>');
+        
+        // Handle line breaks
+        formatted = formatted.replace(/\n/g, '<br>');
+        
+        return formatted;
     }
     
     // Add message to chat
@@ -382,77 +399,265 @@ function initChatbot() {
         }
     }
     
+    // Website knowledge base - what the bot knows about
+    const websiteKnowledge = {
+        pages: {
+            'home': { url: 'index.html', description: 'Main homepage' },
+            'book demo': { url: 'book-demo.html', description: 'Book a demo page' },
+            'demo': { url: 'book-demo.html', description: 'Book a demo page' }
+        },
+        sections: {
+            'demos': { anchor: '#demos', description: 'Demo videos section' },
+            'pricing': { anchor: '#book-demo', description: 'Pricing information' }
+        },
+        services: ['AI Websites', 'Chat Assistants', 'Workflow Automations', 'Voice Receptionists'],
+        topics: ['services', 'pricing', 'demos', 'testimonials', 'features', 'setup', 'contact', 'booking']
+    };
+
+    // Check if question is ambiguous
+    function isAmbiguous(message) {
+        const ambiguousPatterns = [
+            /\b(it|that|this|they|them)\b/i,
+            /\b(what|which|how)\s+(is|are|do|does|can)\s+\w{1,3}\?/i,
+            /^\w{1,5}\?$/,
+            /\b(more|details?|info|information)\b/i
+        ];
+        
+        const words = message.toLowerCase().split(/\s+/);
+        if (words.length < 3) return true;
+        
+        return ambiguousPatterns.some(pattern => pattern.test(message));
+    }
+
+    // Check if question is outside knowledge base
+    function isOutsideKnowledge(message) {
+        const lowerMessage = message.toLowerCase();
+        const unrelatedTopics = [
+            'weather', 'sports', 'politics', 'news', 'recipe', 'cooking',
+            'movie', 'music', 'game', 'joke', 'funny', 'personal', 'your',
+            'other company', 'competitor', 'weather forecast'
+        ];
+        
+        // Check if it's asking about unrelated topics
+        if (unrelatedTopics.some(topic => lowerMessage.includes(topic))) {
+            return true;
+        }
+        
+        // Check if it's asking about things not on the website
+        const websiteTopics = [
+            'service', 'price', 'pricing', 'cost', 'website', 'chatbot',
+            'voice', 'call', 'automation', 'workflow', 'demo', 'book',
+            'schedule', 'contact', 'email', 'setup', 'how', 'what', 'where',
+            'when', 'why', 'navigation', 'page', 'section', 'demos', 'testimonial'
+        ];
+        
+        // If message doesn't contain any website-related keywords and is a question
+        if (!websiteTopics.some(topic => lowerMessage.includes(topic)) && 
+            (lowerMessage.includes('?') || lowerMessage.startsWith('what') || 
+             lowerMessage.startsWith('how') || lowerMessage.startsWith('where') ||
+             lowerMessage.startsWith('when') || lowerMessage.startsWith('why'))) {
+            return true;
+        }
+        
+        return false;
+    }
+
     // Get AI response based on user input
     function getAIResponse(message) {
-        const lowerMessage = message.toLowerCase();
+        const lowerMessage = message.toLowerCase().trim();
         
-        // Service questions
-        if (lowerMessage.includes('service') || lowerMessage.includes('offer') || lowerMessage.includes('what do you')) {
-            return "We offer 4 main services:\n\n1️⃣ **AI Websites** - Conversion-driven sites with built-in AI chat and automated booking\n2️⃣ **Chatbots** - 24/7 automated support that answers questions and captures leads\n3️⃣ **Voice Agents** - AI receptionists that never miss a call and schedule appointments\n4️⃣ **Workflow Automations** - Seamlessly connect calls, chats, and calendars\n\nWhich service interests you most?";
+        // Normalize common typos and casual language
+        const normalizedMessage = lowerMessage
+            .replace(/\b(ur|u|yu|ya)\b/g, 'you')
+            .replace(/\b(pls|plz|pleez)\b/g, 'please')
+            .replace(/\b(thx|thanx|tks)\b/g, 'thanks')
+            .replace(/\b(yea|yeah|yep|yup)\b/g, 'yes')
+            .replace(/\b(nah|nope|na)\b/g, 'no')
+            .replace(/\b(wut|wat)\b/g, 'what')
+            .replace(/\b(how much|how much does|how much do|cost|price|pricing)\b/g, 'pricing');
+        
+        // Check for ambiguous questions
+        if (isAmbiguous(message) && !normalizedMessage.match(/^(hi|hello|hey|thanks|thank you)/)) {
+            return "I'd be happy to help! Could you clarify what you'd like to know? For example:\n\n• \"What services do you offer?\"\n• \"How do I book a demo?\"\n• \"Where can I see pricing?\"\n\nWhat specific information can I help you with?";
         }
         
-        // Pricing questions
-        if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('how much') || lowerMessage.includes('pricing')) {
-            return "Our pricing tiers:\n\n💰 **Starter** - $99/mo + $499 setup\n   • AI Voice Agent, 100 calls/month\n\n🚀 **Growth** (Most Popular) - $199/mo + $999 setup\n   • Voice + Chatbot, 250 calls/month, Advanced Scheduling\n\n📈 **Scale** - $299/mo + $1,499 setup\n   • Full AI Website, Built-in Chatbot, SEO Optimized, 1 Year Hosting\n\n⚙️ **Automation** - $750/project\n   • Business Workflow Setup, CRM Integration, Notifications\n\nWant to book a free demo to see which plan fits your business?";
+        // Check if question is outside knowledge base
+        if (isOutsideKnowledge(message)) {
+            return "I don't have information about that topic. I'm here to help with:\n\n• **Navigation** - Finding pages and sections on our website\n• **Services** - Our AI solutions (websites, chatbots, voice agents, automations)\n• **Pricing** - Our plans and pricing\n• **Booking** - How to schedule a demo\n\nWhat would you like to know about ScaleBuddy?";
         }
+        
+        // Enhanced Pricing Questions - Monthly vs Yearly, Free Trials, Discounts
+        if (normalizedMessage.includes('pricing') || normalizedMessage.includes('price') || normalizedMessage.includes('cost') || 
+            normalizedMessage.includes('how much') || normalizedMessage.includes('monthly') || normalizedMessage.includes('yearly') ||
+            normalizedMessage.includes('annual') || normalizedMessage.includes('free trial') || 
+            normalizedMessage.includes('discount') || normalizedMessage.includes('trial')) {
+            
+            // Monthly vs Yearly plans
+            if (normalizedMessage.includes('monthly') && normalizedMessage.includes('yearly') || 
+                normalizedMessage.includes('monthly') && normalizedMessage.includes('annual')) {
+                return "We currently offer **monthly plans** only. All plans are billed monthly:\n\n• **Starter** - $99/month + $499 one-time setup\n• **Growth** - $199/month + $999 one-time setup\n• **Scale** - $299/month + $1,499 one-time setup\n• **Automation** - $750 per project (one-time)\n\n[View full pricing details](#book-demo) or [book a demo](book-demo.html) to discuss annual payment options.";
+            }
+            
+            // Free trial questions
+            if (normalizedMessage.includes('free trial') || normalizedMessage.includes('trial') || 
+                (normalizedMessage.includes('free') && normalizedMessage.includes('try'))) {
+                return "We offer a **free demo** (not a free trial) where we show you exactly how our AI solutions work for your business.\n\nThe demo is:\n• **100% free** - No cost, no obligation\n• **30 minutes** - Quick overview of our services\n• **Personalized** - Tailored to your business needs\n\n[Book your free demo](book-demo.html) to see our AI in action!";
+            }
+            
+            // Discount questions
+            if (normalizedMessage.includes('discount') || normalizedMessage.includes('promo') || 
+                normalizedMessage.includes('coupon') || normalizedMessage.includes('deal')) {
+                return "We don't currently offer discounts or promo codes. Our pricing is transparent and all-inclusive.\n\nHowever, you can:\n• [Book a free demo](book-demo.html) to see if our services fit your needs\n• Discuss custom pricing for enterprise needs during your demo\n\n[View our pricing](#book-demo) to see all plans.";
+            }
+            
+            // General pricing question
+            return "Our pricing plans:\n\n**Starter** - $99/month + $499 setup\n• AI Voice Agent, 100 calls/month, Basic Scheduling\n\n**Growth** (Most Popular) - $199/month + $999 setup\n• Voice + Chatbot, 250 calls/month, Advanced Scheduling, Lead Capture\n\n**Scale** - $299/month + $1,499 setup\n• Full AI Website, Built-in Chatbot, SEO Optimized, 1 Year Hosting\n\n**Automation** - $750/project (one-time)\n• Workflow Setup, CRM Integration, Email/SMS Notifications\n\nAll plans are **monthly billing**. [View full details](#book-demo) or [book a demo](book-demo.html) to discuss which plan fits you.";
+        }
+        
+        // Enhanced Service Questions - Which plan includes what, services not offered
+        if (normalizedMessage.includes('service') || normalizedMessage.includes('offer') || normalizedMessage.includes('what do you') ||
+            normalizedMessage.includes('which plan') || normalizedMessage.includes('what plan') || normalizedMessage.includes('plan include')) {
+            
+            // Which plan includes specific feature
+            if (normalizedMessage.includes('which plan') || normalizedMessage.includes('what plan') || normalizedMessage.includes('plan include')) {
+                if (normalizedMessage.includes('website') || normalizedMessage.includes('web')) {
+                    return "**AI Websites** are included in the **Scale** plan ($299/month + $1,499 setup).\n\nThis includes:\n• Full AI-powered website\n• Built-in chatbot\n• SEO optimization\n• 1 year hosting\n\n[View Scale plan details](#book-demo) or [book a demo](book-demo.html) to see it in action.";
+                }
+                if (normalizedMessage.includes('chatbot') || normalizedMessage.includes('chat assistant')) {
+                    return "**Chat Assistants** are included in:\n\n• **Growth** plan ($199/month) - Chatbot + Voice Agent\n• **Scale** plan ($299/month) - Built into the AI Website\n\n[View pricing](#book-demo) or [book a demo](book-demo.html) to learn more.";
+                }
+                if (normalizedMessage.includes('voice') || normalizedMessage.includes('receptionist') || normalizedMessage.includes('call')) {
+                    return "**Voice Receptionists** are included in:\n\n• **Starter** plan ($99/month) - Voice Agent only\n• **Growth** plan ($199/month) - Voice + Chatbot\n\n[View pricing details](#book-demo) or [book a demo](book-demo.html).";
+                }
+                if (normalizedMessage.includes('automation') || normalizedMessage.includes('workflow')) {
+                    return "**Workflow Automations** are available as a separate **Automation** project ($750 one-time).\n\nThis can be added to any plan and includes:\n• Forms → CRM integration\n• Email/SMS notifications\n• Zapier/Make automation\n\n[Book a demo](book-demo.html) to discuss your automation needs.";
+                }
+                return "Here's which plan includes what:\n\n• **Starter** - Voice Agent only\n• **Growth** - Voice + Chatbot\n• **Scale** - Full AI Website with chatbot\n• **Automation** - Workflow automation (add-on)\n\n[View full pricing](#book-demo) or ask about a specific feature.";
+            }
+            
+            // Check for services not offered
+            const offeredServices = ['website', 'chatbot', 'chat assistant', 'voice', 'receptionist', 'automation', 'workflow'];
+            const notOfferedKeywords = ['social media', 'seo service', 'graphic design', 'content writing', 'advertising', 
+                                       'ppc', 'google ads', 'facebook ads', 'email marketing', 'consulting', 'training'];
+            
+            if (notOfferedKeywords.some(keyword => normalizedMessage.includes(keyword))) {
+                return "We don't offer that service. We specialize in:\n\n• **AI Websites** - Conversion-driven sites with built-in AI\n• **Chat Assistants** - 24/7 automated support\n• **Voice Receptionists** - AI phone agents\n• **Workflow Automations** - Tool integrations\n\n[View our services](#demos) or [book a demo](book-demo.html) to see what we can do for your business.";
+            }
+            
+            // General service question
+            return "We offer 4 main services:\n\n1. **AI Websites** - Sites with built-in AI chat and automated booking (Scale plan)\n2. **Chat Assistants** - 24/7 automated support (Growth & Scale plans)\n3. **Voice Receptionists** - AI phone agents (Starter & Growth plans)\n4. **Workflow Automations** - Connect your tools (Separate project)\n\n[View demos](#demos) or ask which plan includes a specific service.";
+        }
+        
+        // Enhanced Booking Demo Questions - Free confirmation, scheduling, rescheduling
+        if (normalizedMessage.includes('book') || normalizedMessage.includes('demo') || normalizedMessage.includes('schedule') ||
+            normalizedMessage.includes('appointment') || normalizedMessage.includes('meeting') || normalizedMessage.includes('next week') ||
+            normalizedMessage.includes('reschedule') || normalizedMessage.includes('cancel')) {
+            
+            // Is demo free?
+            if (normalizedMessage.includes('free') && (normalizedMessage.includes('demo') || normalizedMessage.includes('book'))) {
+                return "Yes! The demo is **completely free** with no obligation.\n\n**What to expect:**\n• 30-minute personalized demo\n• See our AI solutions in action\n• Discuss your business needs\n• Get a custom recommendation\n\n[Book your free demo](book-demo.html) now!";
+            }
+            
+            // Scheduling for specific time (next week, etc.)
+            if (normalizedMessage.includes('next week') || normalizedMessage.includes('tomorrow') || normalizedMessage.includes('today') ||
+                normalizedMessage.includes('when can') || normalizedMessage.includes('available')) {
+                return "To schedule a demo:\n\n**Step 1:** [Visit book-demo.html](book-demo.html)\n**Step 2:** Fill out the form with your preferred date/time\n**Step 3:** We'll confirm your appointment via email\n\nWe typically schedule demos within 1-2 business days. [Book now](book-demo.html) and mention your preferred time in the form!";
+            }
+            
+            // Rescheduling
+            if (normalizedMessage.includes('reschedule') || normalizedMessage.includes('change') || normalizedMessage.includes('move')) {
+                return "To reschedule your demo:\n\n**Option 1:** Reply to your confirmation email\n**Option 2:** Email us at hello@scalebuddy.ai\n**Option 3:** [Book a new demo](book-demo.html) and mention it's a reschedule\n\nWe're happy to find a time that works better for you!";
+            }
+            
+            // Canceling
+            if (normalizedMessage.includes('cancel')) {
+                return "To cancel your demo:\n\n• Reply to your confirmation email\n• Or email us at hello@scalebuddy.ai\n\nNo problem at all! You can always [book again](book-demo.html) when you're ready.";
+            }
+            
+            // General booking question
+            return "Here's how to book a demo:\n\n**Step 1:** Click \"Book Demo\" in the navigation (top right)\n**Step 2:** Or [visit book-demo.html](book-demo.html) directly\n**Step 3:** Fill out the form with your information\n**Step 4:** We'll contact you within 1-2 business days to schedule\n\n**The demo is:**\n• ✅ **100% free** - No cost, no obligation\n• ⏱️ **30 minutes** - Quick and informative\n• 🎯 **Personalized** - Tailored to your business\n\n[Book your free demo](book-demo.html) now!";
+        }
+        
+        // Navigation questions
+        if (normalizedMessage.includes('where') && (normalizedMessage.includes('find') || normalizedMessage.includes('see') || normalizedMessage.includes('go') || normalizedMessage.includes('navigate'))) {
+            if (normalizedMessage.includes('pricing') || normalizedMessage.includes('price')) {
+                return "You can find pricing information in two ways:\n\n1. Scroll down to the **Pricing** section on this page\n2. Click the \"Pricing\" link in the navigation bar\n\nOr [view pricing section](#book-demo) directly.";
+            }
+            if (normalizedMessage.includes('demo') || normalizedMessage.includes('demos')) {
+                return "You can view demos here:\n\n1. Scroll to the **Demos** section on this page\n2. Click \"Demos\" in the navigation bar\n3. Visit [book-demo.html](book-demo.html) to schedule a demo\n\nOr [view demos section](#demos) directly.";
+            }
+            if (normalizedMessage.includes('service')) {
+                return "Our services are listed in the **Services** section on this page. Scroll down from the top to view them.\n\nWe offer: AI Websites, Chat Assistants, Workflow Automations, and Voice Receptionists.\n\nYou can also [view demos](#demos) to see them in action.";
+            }
+            if (normalizedMessage.includes('testimonial') || normalizedMessage.includes('review')) {
+                return "Testimonials are in the **Testimonials** section. Scroll down on this page to read client reviews.";
+            }
+            return "Here's how to navigate our site:\n\n• **Services** - Scroll down or use navigation\n• **Demos** - [View demos section](#demos)\n• **Pricing** - [View pricing section](#book-demo)\n• **Book Demo** - [Visit book-demo.html](book-demo.html)\n\nWhat section would you like to find?";
+        }
+        
+        // How to do something - step-by-step guidance
+        if (normalizedMessage.includes('how') && (normalizedMessage.includes('do') || normalizedMessage.includes('can') || normalizedMessage.includes('to'))) {
+            if (normalizedMessage.includes('contact') || normalizedMessage.includes('reach')) {
+                return "Here's how to contact us:\n\n**Step 1:** Book a demo using the \"Book Demo\" button\n**Step 2:** Or use this chat to ask questions\n**Step 3:** Email us at hello@scalebuddy.ai\n\nWe're here to help! What do you need?";
+            }
+            if (normalizedMessage.includes('get started') || normalizedMessage.includes('start')) {
+                return "Getting started is simple:\n\n**Step 1:** [Book a free demo](book-demo.html) (30 minutes)\n**Step 2:** We'll discuss your business needs\n**Step 3:** We build your custom AI solution\n**Step 4:** Launch in 1-3 weeks\n\nNo coding required! Ready to start?";
+            }
+        }
+        
         
         // AI Websites
-        if (lowerMessage.includes('website') || lowerMessage.includes('web')) {
-            return "Our **AI Websites** are conversion-driven sites with:\n\n✨ Built-in AI chat that engages visitors\n📅 Automated booking systems\n🎯 SEO optimized for better rankings\n📱 Fully responsive design\n\nTurn visitors into customers automatically. Want to see a demo?";
+        if (normalizedMessage.includes('website') || normalizedMessage.includes('web')) {
+            return "**AI Websites** are included in the **Scale** plan ($299/month).\n\n**Features:**\n• Built-in AI chat\n• Automated booking\n• SEO optimized\n• Fully responsive\n• 1 year hosting included\n\n[View demos](#demos) or [book a demo](book-demo.html) to see it in action.";
         }
         
         // Chatbots
-        if (lowerMessage.includes('chatbot') || lowerMessage.includes('chat bot')) {
-            return "Our **Chatbots** provide:\n\n🤖 24/7 automated customer support\n💬 Answers questions instantly\n📋 Qualifies leads automatically\n📞 Books appointments while you sleep\n\nNever miss a lead again! Our chatbots handle everything automatically.";
+        if (normalizedMessage.includes('chatbot') || normalizedMessage.includes('chat assistant') || normalizedMessage.includes('chat bot')) {
+            return "**Chat Assistants** are available in:\n\n• **Growth** plan ($199/month) - Standalone chatbot\n• **Scale** plan ($299/month) - Built into AI Website\n\n**Features:**\n• 24/7 automated support\n• Instant answers\n• Lead qualification\n• Appointment booking\n\n[See chatbot demo](#demos) or [view pricing](#book-demo).";
         }
         
         // Voice Agents
-        if (lowerMessage.includes('voice') || lowerMessage.includes('call') || lowerMessage.includes('receptionist') || lowerMessage.includes('phone')) {
-            return "Our **Voice Agents** (AI Receptionists):\n\n📞 Answer calls 24/7\n✅ Qualify leads automatically\n📅 Schedule appointments\n💼 Never miss a call\n\nImagine never missing a lead because your AI picks up every call, even at 2 AM!";
+        if (normalizedMessage.includes('voice') || normalizedMessage.includes('receptionist') || (normalizedMessage.includes('call') && normalizedMessage.includes('ai'))) {
+            return "**Voice Receptionists** are available in:\n\n• **Starter** plan ($99/month) - Voice Agent only\n• **Growth** plan ($199/month) - Voice + Chatbot\n\n**Features:**\n• Answer calls 24/7\n• Qualify leads automatically\n• Schedule appointments\n• Never miss a call\n\n[View voice agent demo](#demos) or [see pricing](#book-demo).";
         }
         
         // Automation
-        if (lowerMessage.includes('automation') || lowerMessage.includes('workflow') || lowerMessage.includes('integrat')) {
-            return "Our **Workflow Automations** connect everything:\n\n🔗 Forms → CRM integration\n📧 Email/SMS notifications\n⚡ Zapier/Make automation\n🔄 Seamless tool connections\n\nEverything runs automatically in the background. What used to take hours now happens instantly!";
+        if (normalizedMessage.includes('automation') || normalizedMessage.includes('workflow') || normalizedMessage.includes('integrat')) {
+            return "**Workflow Automations** are available as a separate project ($750 one-time).\n\n**Features:**\n• Forms → CRM integration\n• Email/SMS notifications\n• Zapier/Make connections\n• Seamless tool integration\n\nCan be added to any plan. [See automation demo](#demos) or [book a demo](book-demo.html) to discuss your needs.";
         }
         
-        // Benefits/Why choose
-        if (lowerMessage.includes('benefit') || lowerMessage.includes('why') || lowerMessage.includes('advantage') || lowerMessage.includes('help')) {
-            return "Here's how ScaleBuddy helps your business:\n\n⏰ **Save 10+ hours/week** - AI handles routine tasks\n📈 **Close 20% more leads** - Never miss an opportunity\n💰 **Reduce overhead** - No need to hire 24/7 staff\n🚀 **Scale faster** - AI works while you sleep\n\nOur clients see results immediately. Want to learn more?";
+        // Benefits/Why choose - shorter
+        if (normalizedMessage.includes('benefit') || normalizedMessage.includes('why') || normalizedMessage.includes('advantage')) {
+            return "Key benefits:\n\n• Save 10+ hours/week\n• Close 20% more leads\n• Reduce overhead costs\n• Scale 24/7\n\nScroll down to read testimonials from our clients.";
         }
         
-        // Setup/How it works
-        if (lowerMessage.includes('setup') || lowerMessage.includes('how') || lowerMessage.includes('work') || lowerMessage.includes('get started')) {
-            return "Getting started is easy:\n\n1️⃣ Book a free demo (takes 30 minutes)\n2️⃣ We understand your business needs\n3️⃣ Custom AI solution built for you\n4️⃣ Launch in days, not weeks\n\nNo coding required! We handle everything. Ready to book your demo?";
+        // Setup/How it works - step-by-step
+        if (normalizedMessage.includes('setup') || (normalizedMessage.includes('how') && normalizedMessage.includes('work'))) {
+            return "Setup process:\n\n**Step 1:** [Book a free demo](book-demo.html)\n**Step 2:** We understand your needs\n**Step 3:** Custom solution built\n**Step 4:** Launch in 1-3 weeks\n\nNo coding required!";
         }
         
-        // Demo/Book
-        if (lowerMessage.includes('demo') || lowerMessage.includes('book') || lowerMessage.includes('schedule') || lowerMessage.includes('meeting')) {
-            return "Great! You can book a free demo right now:\n\n📅 Click the 'Book Demo' button on our site\n📞 Or visit: book-demo.html\n\nWe'll show you exactly how our AI can help your business grow. The demo takes about 30 minutes and you'll see live examples of our AI in action!";
+        // Contact - concise
+        if (normalizedMessage.includes('contact') || normalizedMessage.includes('email') || normalizedMessage.includes('reach')) {
+            return "Contact us:\n\n• **Book Demo:** [book-demo.html](book-demo.html)\n• **Email:** hello@scalebuddy.ai\n• **Chat:** Right here!\n\nWhat can I help you with?";
         }
         
-        // Contact
-        if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('reach')) {
-            return "You can reach us at:\n\n📧 **Email:** hello@scalebuddy.ai\n📅 **Book Demo:** Click 'Book Demo' on our site\n💬 **Live Chat:** Right here! 😊\n\nWe're here to help! What else would you like to know?";
+        // Time/When - shorter
+        if (normalizedMessage.includes('time') || normalizedMessage.includes('when') || normalizedMessage.includes('how long')) {
+            return "Setup times:\n\n• Chatbots/Voice: 1-2 weeks\n• Websites: 2-3 weeks\n• Automations: 1-2 weeks\n\nResults start immediately after launch!";
         }
         
-        // Time/When
-        if (lowerMessage.includes('time') || lowerMessage.includes('when') || lowerMessage.includes('how long') || lowerMessage.includes('fast')) {
-            return "Setup times vary by service:\n\n⚡ **Chatbots/Voice Agents** - 1-2 weeks\n🌐 **AI Websites** - 2-3 weeks\n⚙️ **Automations** - 1-2 weeks\n\nBut results start showing immediately after launch! Our AI works 24/7 from day one.";
+        // Technology - concise
+        if (normalizedMessage.includes('tech') || normalizedMessage.includes('built') || normalizedMessage.includes('openai') || normalizedMessage.includes('gpt')) {
+            return "We use:\n\n• OpenAI GPT-4\n• Custom code\n• Enterprise security\n• < 100ms response times\n\nWe build custom AI solutions, not basic chatbots.";
         }
         
-        // Technology/How it's built
-        if (lowerMessage.includes('tech') || lowerMessage.includes('built') || lowerMessage.includes('openai') || lowerMessage.includes('gpt')) {
-            return "We use cutting-edge AI technology:\n\n🤖 **OpenAI GPT-4** - Latest AI models\n💻 **Custom Code** - Built specifically for your business\n🔒 **Secure** - Enterprise-grade security\n⚡ **Fast** - < 100ms response times\n\nWe're developers who build custom AI solutions, not just basic chatbots!";
+        // Greetings - friendly
+        if (normalizedMessage.match(/^(hi|hello|hey|greetings)/)) {
+            return "Hi! 👋 I'm here to help you navigate our website and learn about ScaleBuddy's AI services.\n\nI can help with:\n• Finding pages and sections\n• Service information\n• Pricing details\n• Booking a demo\n\nWhat would you like to know?";
         }
         
-        // Default/General
-        if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-            return "Hi! 👋 I'm here to help you learn about ScaleBuddy's AI services. You can ask me about:\n\n• Our services (websites, chatbots, voice agents, automations)\n• Pricing\n• How it works\n• Booking a demo\n\nWhat would you like to know?";
-        }
-        
-        // Default fallback
-        return "Great question! I can help you with:\n\n• **Services** - AI Websites, Chatbots, Voice Agents, Automations\n• **Pricing** - Plans starting at $99/mo\n• **Features** - What each service includes\n• **Demo** - Book a free live demo\n• **Setup** - How we get you started\n\nWhat specific question can I answer?";
+        // Default fallback - helpful
+        return "I can help you with:\n\n• **Navigation** - Finding sections like [demos](#demos) or [pricing](#book-demo)\n• **Services** - AI Websites, Chatbots, Voice Agents, Automations\n• **Pricing** - Our plans starting at $99/mo\n• **Booking** - [Book a demo](book-demo.html)\n\nWhat specific question can I answer?";
     }
     
     // Escape HTML to prevent XSS
