@@ -754,7 +754,6 @@ function handleNewsletterSubmit(event) {
 function initChatModal() {
     // Elements
     const modal = document.getElementById('chatModal');
-    const backdrop = document.getElementById('chatBackdrop');
     const closeBtn = document.getElementById('closeModalBtn');
     const startChatBtn = document.getElementById('startChatBtn');
     const agentTeaser = document.getElementById('agentTeaser');
@@ -767,6 +766,10 @@ function initChatModal() {
     
     if (!modal) {
         console.error('Chat modal element not found!');
+        // Still expose function for debugging
+        window.openChatModal = function() {
+            console.error('Cannot open modal - modal element not found!');
+        };
         return;
     }
     
@@ -786,26 +789,31 @@ function initChatModal() {
     // Open Modal
     function openModal() {
         console.log('Opening chat modal...', modal);
-        if (!modal) {
-            console.error('Modal element not found!');
+        const m = document.getElementById('chatModal');
+        
+        if (!m) {
+            console.error('Modal element not found in openModal!');
             return;
         }
         
         isChatOpen = true;
         
         // Remove inline display:none style to allow CSS to take over
-        modal.style.removeProperty('display');
-        if (backdrop) backdrop.style.removeProperty('opacity');
+        m.style.removeProperty('display');
         
         // Force a reflow, then add active class
-        void modal.offsetHeight;
-        modal.classList.add('active');
+        void m.offsetHeight;
+        m.classList.add('active');
+        
+        // Lock body scroll - CRITICAL
+        document.body.style.overflow = 'hidden';
         document.body.classList.add('modal-open');
         
         // Focus input after a short delay
+        const input = document.getElementById('modalChatInput');
         setTimeout(() => {
-            if (chatInput) {
-                chatInput.focus();
+            if (input) {
+                input.focus();
                 console.log('Input focused');
             }
         }, 100);
@@ -821,14 +829,15 @@ function initChatModal() {
         // After animation, restore inline styles to ensure it stays hidden
         setTimeout(() => {
             modal.style.setProperty('display', 'none', 'important');
-            if (backdrop) backdrop.style.setProperty('opacity', '0', 'important');
+            // Unlock body scroll - CRITICAL
+            document.body.style.overflow = '';
+            document.body.classList.remove('modal-open');
             resetToWelcome();
         }, 300);
     }
     
-    // Expose to global scope for inline onclick and debugging
-    window.openChatModal = openModal;
-    window.closeChatModal = closeModal;
+    // EXPOSE TO GLOBAL SCOPE - after both functions are defined (will be set again in command bar handlers)
+    console.log('openChatModal exposed to window');
     
     // Test function for debugging
     window.testModal = function() {
@@ -1045,10 +1054,13 @@ function initChatModal() {
         closeBtn.addEventListener('click', closeModal);
     }
     
-    // Close on backdrop click
-    if (backdrop) {
-        backdrop.addEventListener('click', closeModal);
-    }
+    // Close on backdrop click (backdrop is now part of the overlay)
+    modal.addEventListener('click', function(e) {
+        // Only close if clicking the backdrop (not the modal content)
+        if (e.target === modal || e.target.id === 'chatModal') {
+            closeModal();
+        }
+    });
     
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
@@ -1079,4 +1091,120 @@ function initChatModal() {
         });
     }
     
+    // ============================================
+    // HERO COMMAND BAR - Typewriter Animation & Click Handler
+    // ============================================
+    initTypewriterAnimation();
+    
+    // Command bar click handler - expose openModal first
+    window.openChatModal = openModal;
+    window.closeChatModal = closeModal;
+    
+    // Command bar click handler
+    function attachCommandBarHandlers() {
+        const commandBar = document.getElementById('heroCommandBar');
+        const commandBarBtn = document.getElementById('commandBarBtn');
+        
+        if (commandBar) {
+            console.log('Command bar found, attaching click handler');
+            commandBar.addEventListener('click', function(e) {
+                // Don't prevent default if clicking the button
+                if (commandBarBtn && (e.target === commandBarBtn || commandBarBtn.contains(e.target))) {
+                    return; // Let button handler handle it
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Command bar clicked! Opening modal...');
+                openModal();
+            });
+        } else {
+            console.warn('Command bar not found');
+        }
+        
+        if (commandBarBtn) {
+            console.log('Command bar button found, attaching click handler');
+            commandBarBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Command bar button clicked! Opening modal...');
+                openModal();
+            });
+        } else {
+            console.warn('Command bar button not found');
+        }
+    }
+    
+    // Attach handlers immediately and with retries
+    attachCommandBarHandlers();
+    setTimeout(attachCommandBarHandlers, 100);
+    setTimeout(attachCommandBarHandlers, 500);
+    
+}
+
+// ============================================
+// TYPEWRITER ANIMATION FOR HERO COMMAND BAR
+// ============================================
+function initTypewriterAnimation() {
+    const typewriterElement = document.getElementById('typewriterText');
+    const cursorElement = document.getElementById('typewriterCursor');
+    
+    if (!typewriterElement) {
+        console.warn('Typewriter element not found');
+        return;
+    }
+    
+    // Ensure cursor is visible and styled
+    if (cursorElement) {
+        cursorElement.style.display = 'inline-block';
+        cursorElement.style.opacity = '1';
+        cursorElement.style.color = '#818cf8'; // indigo-400
+        cursorElement.style.fontSize = '1.125rem'; // text-lg
+        cursorElement.style.marginLeft = '4px';
+        cursorElement.style.fontWeight = '600';
+    }
+    
+    const phrases = [
+        "Can I use this to automate booking for my business?",
+        "Do you build full websites with SEO and maintenance?",
+        "How long does the installation take?"
+    ];
+    
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 50;
+    let timeoutId = null;
+    
+    function type() {
+        const currentPhrase = phrases[phraseIndex];
+        
+        if (isDeleting) {
+            typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+            charIndex--;
+            typingSpeed = 30; // Faster when deleting
+        } else {
+            typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+            charIndex++;
+            typingSpeed = 50; // Normal speed when typing
+        }
+        
+        if (!isDeleting && charIndex === currentPhrase.length) {
+            // Pause at end of phrase
+            typingSpeed = 2000;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            // Move to next phrase
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            typingSpeed = 500; // Pause before starting new phrase
+        }
+        
+        timeoutId = setTimeout(type, typingSpeed);
+    }
+    
+    // Start typing after a short delay
+    timeoutId = setTimeout(type, 1000);
+    
+    // Store timeout ID for cleanup if needed
+    window.typewriterTimeout = timeoutId;
 }

@@ -101,50 +101,34 @@
                 </div>
             </div>
             
-            <!-- Agent Profile Card (Teaser) -->
+            <!-- Hero Command Bar -->
             <div class="mt-20 flex justify-center">
-                <div class="relative w-full max-w-xl">
-                    <!-- Glow effect -->
-                    <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-sky-500/20 to-indigo-500/20 rounded-3xl blur-xl opacity-50 animate-pulse-slow"></div>
-                    
-                    <!-- Agent Card (Teaser State) -->
-                    <div id="agentTeaser" class="agent-card relative bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 shadow-2xl transition-all duration-500 hover:border-indigo-500/30 hover:shadow-indigo-500/10">
-                        <!-- Inner glow -->
-                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/5 via-transparent to-sky-500/5 pointer-events-none"></div>
-                        
-                        <div class="relative flex items-center gap-6">
-                            <!-- Avatar -->
-                            <div class="relative flex-shrink-0">
-                                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                                <!-- Online indicator -->
-                                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-slate-900 rounded-full flex items-center justify-center">
-                                    <div class="relative">
-                                        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                                        <div class="absolute inset-0 w-3 h-3 rounded-full bg-emerald-500 animate-ping opacity-75"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Info -->
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <h3 class="text-xl font-display font-semibold text-white">ScaleBuddy AI</h3>
-                                    <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">Online</span>
-                                </div>
-                                <p class="text-slate-400 text-sm font-sans leading-relaxed">Ready to qualify your leads and book appointments automatically.</p>
+                <div class="relative w-full max-w-3xl">
+                    <!-- Command Bar -->
+                    <div id="heroCommandBar" onclick="window.openChatModal && window.openChatModal()" class="hero-command-bar relative h-20 bg-slate-900/60 backdrop-blur-xl border border-indigo-500/30 rounded-full shadow-[0_0_40px_-10px_rgba(99,102,241,0.3)] flex items-center px-6 transition-all duration-300 hover:border-indigo-400 hover:shadow-[0_0_50px_-5px_rgba(99,102,241,0.4)] hover:scale-[1.02] cursor-pointer group">
+                        <!-- Left: Status Badge -->
+                        <div class="flex-shrink-0">
+                            <div class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-full text-xs font-medium tracking-wide flex items-center gap-1.5">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                                <span>AI AGENT ONLINE</span>
                             </div>
                         </div>
                         
-                        <!-- CTA Button -->
-                        <button id="startChatBtn" onclick="if(window.openChatModal){window.openChatModal();}else{console.error('openChatModal not available');}" class="mt-6 w-full py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-sky-500 text-white font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        <!-- Center: Typewriter Placeholder -->
+                        <div class="flex-1 flex items-center justify-center px-6">
+                            <span id="typewriterText" class="text-slate-200 text-lg font-sans italic"></span>
+                            <span id="typewriterCursor" class="typewriter-cursor">|</span>
+                        </div>
+                        
+                        <!-- Right: Action Button -->
+                        <button id="commandBarBtn" onclick="event.stopPropagation(); window.openChatModal && window.openChatModal();" class="flex-shrink-0 bg-gradient-to-r from-indigo-500 to-sky-500 text-white px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-105 group-hover:scale-105 flex items-center gap-2">
+                            <span>Start Demo</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                             </svg>
-                            Interview Our AI
                         </button>
                     </div>
                 </div>
@@ -155,13 +139,10 @@
     <!-- ============================================
          GEMINI-STYLE CHAT MODAL OVERLAY
          ============================================ -->
-    <div id="chatModal" class="chat-modal-overlay fixed inset-0 z-[200]" style="display: none !important;">
-        <!-- Backdrop -->
-        <div id="chatBackdrop" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" style="opacity: 0 !important;"></div>
-        
+    <div id="chatModal" class="chat-modal-overlay fixed inset-0 z-[9999] h-screen w-screen flex items-center justify-center bg-slate-900/80 backdrop-blur-sm" style="display: none !important;">
         <!-- Modal Container -->
-        <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div id="chatModalContent" class="chat-modal-content relative w-full max-w-4xl h-[85vh] bg-slate-900 border border-indigo-500/30 rounded-3xl shadow-2xl shadow-indigo-500/10 flex flex-col overflow-hidden">
+        <div class="relative w-full max-w-4xl h-[85vh] mx-4 p-4">
+            <div id="chatModalContent" class="chat-modal-content relative w-full h-full bg-slate-900 border border-indigo-500/30 rounded-3xl shadow-2xl shadow-indigo-500/10 flex flex-col overflow-hidden">
                 
                 <!-- Minimal Header -->
                 <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800/50">
@@ -219,31 +200,31 @@
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-500/20 transition-colors">
                                         <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                                         </svg>
                                     </div>
                                     <div>
                                         <h3 class="font-semibold text-white mb-1">Explore our AI services</h3>
-                                        <p class="text-sm text-slate-400">Voice agents, chatbots & automations</p>
+                                        <p class="text-sm text-slate-400">Voice agents, chatbots, and websites.</p>
                                     </div>
                                 </div>
                             </button>
                             
-                            <button class="suggestion-card group p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 transition-all duration-300 text-left" data-question="qualify">
+                            <button class="suggestion-card group p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 transition-all duration-300 text-left" data-question="help">
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500/20 transition-colors">
                                         <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 class="font-semibold text-white mb-1">Qualify my leads 24/7</h3>
-                                        <p class="text-sm text-slate-400">Never miss another opportunity</p>
+                                        <h3 class="font-semibold text-white mb-1">How can this help my business?</h3>
+                                        <p class="text-sm text-slate-400">See use cases and benefits.</p>
                                     </div>
                                 </div>
                             </button>
                             
-                            <button class="suggestion-card group p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 transition-all duration-300 text-left" data-question="cost">
+                            <button class="suggestion-card group p-5 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 transition-all duration-300 text-left" data-question="pricing">
                                 <div class="flex items-start gap-4">
                                     <div class="w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-sky-500/20 transition-colors">
                                         <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,8 +232,8 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 class="font-semibold text-white mb-1">See pricing plans</h3>
-                                        <p class="text-sm text-slate-400">Starting at $99/month</p>
+                                        <h3 class="font-semibold text-white mb-1">What are the prices?</h3>
+                                        <p class="text-sm text-slate-400">View plans starting at $99/mo.</p>
                                     </div>
                                 </div>
                             </button>
@@ -265,8 +246,8 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 class="font-semibold text-white mb-1">Book a free demo</h3>
-                                        <p class="text-sm text-slate-400">30 min personalized walkthrough</p>
+                                        <h3 class="font-semibold text-white mb-1">Book a Free Demo</h3>
+                                        <p class="text-sm text-slate-400">Schedule a personalized walkthrough.</p>
                                     </div>
                                 </div>
                             </button>
@@ -889,7 +870,7 @@
 
     <script src="components/faq.js"></script>
     <script src="components/footer.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
     <script>
         feather.replace();
     </script>

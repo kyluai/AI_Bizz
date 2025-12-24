@@ -576,15 +576,6 @@ body {
     pointer-events: auto;
 }
 
-/* Backdrop fade in */
-.chat-modal-overlay #chatBackdrop {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.chat-modal-overlay.active #chatBackdrop {
-    opacity: 1;
-}
 
 /* Modal Content - Scale Up + Fade In */
 .chat-modal-content {
@@ -664,4 +655,64 @@ body {
 /* Prevent body scroll when modal is open */
 body.modal-open {
     overflow: hidden;
+}
+
+/* ============================================
+   HERO COMMAND BAR - Premium Glowing Design
+   ============================================ */
+
+.hero-command-bar {
+    position: relative;
+}
+
+/* Glow effect behind the bar */
+.hero-command-bar::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(14, 165, 233, 0.2));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    filter: blur(12px);
+}
+
+.hero-command-bar:hover::before {
+    opacity: 1;
+}
+
+/* Additional inner glow on hover */
+.hero-command-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(14, 165, 233, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero-command-bar:hover::after {
+    opacity: 1;
+}
+
+.typewriter-cursor {
+    display: inline-block;
+    margin-left: 4px;
+    color: #818cf8 !important; /* indigo-400 */
+    font-weight: 600;
+    font-size: 1.125rem; /* text-lg */
+    animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
 }
