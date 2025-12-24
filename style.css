@@ -1,16 +1,16 @@
 
 /* AI Agent message box styling */
 .bg-dark-900 {
-    box-shadow: 0 0 15px rgba(168, 139, 255, 0.2);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
     transition: box-shadow 0.3s ease;
 }
 
 .bg-dark-900:hover {
-    box-shadow: 0 0 20px rgba(168, 139, 255, 0.3);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
 }
 
 .text-primary-400 {
-    color: #A88BFF;
+    color: #818cf8; /* Indigo-400 */
 }
 @keyframes float {
 0%, 100% {
@@ -27,10 +27,10 @@
 
 @keyframes pulse-glow {
     0%, 100% {
-        box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.4);
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
     }
     50% {
-        box-shadow: 0 0 20px 10px rgba(138, 43, 226, 0);
+        box-shadow: 0 0 20px 10px rgba(99, 102, 241, 0);
     }
 }
 
@@ -45,16 +45,16 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #1A1A25;
+    background: #1e293b; /* Slate-800 */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #8A2BE2;
+    background: #6366f1; /* Indigo-500 */
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #9D4DFF;
+    background: #818cf8; /* Indigo-400 */
 }
 
 /* Smooth scrolling */
@@ -75,7 +75,7 @@ body {
 
 /* Hover animations for cards */
 .bg-dark-900:hover {
-    box-shadow: 0 10px 25px -5px rgba(110, 69, 226, 0.2);
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2);
     transform: translateY(-5px);
 }
 
@@ -92,7 +92,7 @@ body {
     height: 3px;
     bottom: -5px;
     left: 0;
-    background: linear-gradient(to right, #6E45E2, #88D3CE);
+    background: linear-gradient(to right, #6366f1, #0ea5e9);
     transition: width 0.3s ease;
 }
 
@@ -140,8 +140,8 @@ body {
 }
 
 .ai-chat-container:hover {
-    border-color: rgba(125, 91, 222, 0.6);
-    box-shadow: 0 0 40px rgba(125, 91, 222, 0.4), 0 0 80px rgba(125, 91, 222, 0.2);
+    border-color: rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.4), 0 0 80px rgba(99, 102, 241, 0.2);
     transform: translateY(-2px);
 }
 
@@ -252,8 +252,8 @@ body {
 }
 
 .ai-message-bubble:hover {
-    border-color: rgba(125, 91, 222, 0.5);
-    box-shadow: 0 8px 32px rgba(125, 91, 222, 0.2), inset 0 0 40px rgba(125, 91, 222, 0.05);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2), inset 0 0 40px rgba(99, 102, 241, 0.05);
 }
 
 @keyframes gradient-shift {
@@ -268,11 +268,11 @@ body {
 /* Premium typing dots animation */
 .typing-dots {
     display: inline-block;
-    color: #A88BFF;
+    color: #818cf8; /* Indigo-400 */
     opacity: 0;
     animation: dots-pulse-premium 1.2s infinite;
     font-weight: 600;
-    text-shadow: 0 0 8px rgba(168, 139, 255, 0.5);
+    text-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
 }
 
 @keyframes dots-pulse-premium {
@@ -294,7 +294,7 @@ body {
 
 .typing-text {
     position: relative;
-    text-shadow: 0 0 12px rgba(168, 139, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 12px rgba(99, 102, 241, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
     letter-spacing: 0.01em;
 }
 
@@ -323,7 +323,7 @@ body {
 /* Chat messages styling */
 .chat-messages-container {
     scrollbar-width: thin;
-    scrollbar-color: rgba(125, 91, 222, 0.3) transparent;
+    scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
 }
 
 .chat-messages-container::-webkit-scrollbar {
@@ -335,12 +335,12 @@ body {
 }
 
 .chat-messages-container::-webkit-scrollbar-thumb {
-    background: rgba(125, 91, 222, 0.3);
+    background: rgba(99, 102, 241, 0.3);
     border-radius: 3px;
 }
 
 .chat-messages-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(125, 91, 222, 0.5);
+    background: rgba(99, 102, 241, 0.5);
 }
 
 .chat-message {
@@ -360,7 +360,7 @@ body {
 
 /* Chat input focus styles */
 #chatInput:focus {
-    box-shadow: 0 0 0 3px rgba(125, 91, 222, 0.1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 /* Format markdown-like text in messages */
@@ -374,16 +374,16 @@ body {
     z-index: 50 !important;
     pointer-events: auto !important;
     cursor: pointer !important;
-    background: linear-gradient(to right, rgba(125, 91, 222, 0.2), rgba(136, 211, 206, 0.2)) !important;
-    border: 1px solid rgba(125, 91, 222, 0.4) !important;
-    color: #A88BFF !important;
+    background: linear-gradient(to right, rgba(99, 102, 241, 0.2), rgba(14, 165, 233, 0.2)) !important;
+    border: 1px solid rgba(99, 102, 241, 0.4) !important;
+    color: #818cf8 !important; /* Indigo-400 */
 }
 
 .chat-toggle-btn:hover {
     transform: scale(1.05) !important;
-    box-shadow: 0 4px 15px rgba(125, 91, 222, 0.4) !important;
-    background: linear-gradient(to right, rgba(125, 91, 222, 0.3), rgba(136, 211, 206, 0.3)) !important;
-    border-color: rgba(125, 91, 222, 0.6) !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4) !important;
+    background: linear-gradient(to right, rgba(99, 102, 241, 0.3), rgba(14, 165, 233, 0.3)) !important;
+    border-color: rgba(99, 102, 241, 0.6) !important;
 }
 
 .chat-toggle-btn:active {
@@ -391,6 +391,277 @@ body {
 }
 
 .chat-toggle-btn:focus {
-    outline: 2px solid rgba(125, 91, 222, 0.5);
+    outline: 2px solid rgba(99, 102, 241, 0.5);
     outline-offset: 2px;
+}
+
+/* Staggered Fade-in Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-fade-in-up.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.animate-fade-in-up.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.animate-fade-in-up.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.animate-fade-in-up.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.animate-fade-in-up.delay-500 {
+    animation-delay: 0.5s;
+}
+
+.animate-fade-in-up.delay-600 {
+    animation-delay: 0.6s;
+}
+
+/* ============================================
+   NAVBAR SCROLL EFFECT
+   ============================================ */
+#mainNav {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#mainNav.nav-transparent {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+}
+
+#mainNav.nav-scrolled {
+    background-color: rgba(15, 23, 42, 0.85); /* slate-900/85 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   AGENT TEASER CARD ANIMATIONS
+   ============================================ */
+
+/* Slow pulse for glow effect */
+@keyframes pulse-slow-glow {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.02);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow-glow 4s ease-in-out infinite;
+}
+
+/* Breathing animation for agent card */
+@keyframes agent-breathe {
+    0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    50% {
+        transform: translateY(-4px);
+        box-shadow: 0 30px 60px -12px rgba(99, 102, 241, 0.15);
+    }
+}
+
+.agent-card {
+    animation: agent-breathe 4s ease-in-out infinite;
+    cursor: default; /* Default cursor for the card */
+}
+
+.agent-card:hover {
+    animation-play-state: paused;
+    transform: translateY(-4px) !important;
+}
+
+/* Only the button should be clickable */
+#startChatBtn {
+    cursor: pointer !important;
+}
+
+/* Chat expand animation */
+@keyframes chat-expand {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+#agentChatFull:not(.hidden) {
+    animation: chat-expand 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Chat collapse animation */
+@keyframes chat-collapse {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+}
+
+.chat-collapsing {
+    animation: chat-collapse 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Teaser card appear animation */
+@keyframes teaser-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+#agentTeaser:not(.hidden) {
+    animation: teaser-appear 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Hero section - remove body padding for full-screen hero */
+body {
+    padding-top: 0 !important;
+}
+
+/* ============================================
+   GEMINI-STYLE CHAT MODAL
+   ============================================ */
+
+/* Modal Overlay - Hidden by default */
+.chat-modal-overlay {
+    display: none !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Modal Overlay - Visible when active */
+.chat-modal-overlay.active {
+    display: flex !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Backdrop fade in */
+.chat-modal-overlay #chatBackdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.chat-modal-overlay.active #chatBackdrop {
+    opacity: 1;
+}
+
+/* Modal Content - Scale Up + Fade In */
+.chat-modal-content {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.chat-modal-overlay.active .chat-modal-content {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Suggestion Cards hover effects */
+.suggestion-card {
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.suggestion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.2);
+}
+
+/* Chat messages animation */
+.chat-message-animate {
+    animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typing indicator animation */
+.typing-dot {
+    animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes typingBounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Custom scrollbar for modal chat */
+#modalChatMessages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#modalChatMessages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#modalChatMessages::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 3px;
+}
+
+#modalChatMessages::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.5);
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
 }

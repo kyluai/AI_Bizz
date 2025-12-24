@@ -45,7 +45,7 @@ class CustomNavbar extends HTMLElement {
                     font-size: 1.5rem;
                     font-weight: 700;
                     font-family: 'Space Grotesk', sans-serif;
-                    background: linear-gradient(to right, #6E45E2, #88D3CE);
+                    background: linear-gradient(to right, #6366f1, #0ea5e9);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                     background-clip: text;
@@ -64,7 +64,7 @@ class CustomNavbar extends HTMLElement {
                     transition: color 0.3s ease;
                 }
                 .nav-link:hover {
-                    color: #8A2BE2;
+                    color: #818cf8;
                 }
                 .nav-link:after {
                     content: '';
@@ -106,10 +106,10 @@ class CustomNavbar extends HTMLElement {
                     <a href="/" class="logo-container">
                         <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
-                                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#6E45E2;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#88D3CE;stop-opacity:1" />
-                                </linearGradient>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+                    </linearGradient>
                             </defs>
                             <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" opacity="0.2"/>
                             <path d="M30 50 L45 35 L70 35 L70 50 L45 50 Z" fill="url(#logoGradient)"/>

@@ -89,6 +89,34 @@ document.head.appendChild(style);
 
 document.addEventListener('DOMContentLoaded', function() {
     initAIAgentTyping();
+    
+    // ============================================
+    // NAVBAR SCROLL EFFECT
+    // ============================================
+    const mainNav = document.getElementById('mainNav');
+    if (mainNav) {
+        // Initial state
+        mainNav.classList.add('nav-transparent');
+        
+        const handleNavScroll = () => {
+            if (window.scrollY > 50) {
+                mainNav.classList.remove('nav-transparent');
+                mainNav.classList.add('nav-scrolled');
+            } else {
+                mainNav.classList.remove('nav-scrolled');
+                mainNav.classList.add('nav-transparent');
+            }
+        };
+        
+        window.addEventListener('scroll', handleNavScroll, { passive: true });
+        handleNavScroll(); // Check initial state
+    }
+    
+    // ============================================
+    // GEMINI-STYLE CHAT MODAL
+    // ============================================
+    initChatModal();
+    
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -158,29 +186,79 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
     animateOnScroll();
     
-    // Initialize chatbot
-    initChatbot();
+    // Staggered fade-in for Services and Pricing cards
+    const initStaggeredAnimations = () => {
+        // Services section cards
+        const servicesGrid = document.getElementById('services-grid');
+        if (servicesGrid) {
+            const serviceCards = servicesGrid.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.classList.add('animate-fade-in-up');
+            });
+            
+            const servicesObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = entry.target.querySelectorAll('.service-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                        servicesObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            servicesObserver.observe(servicesGrid);
+        }
+        
+        // Pricing section cards
+        const pricingGrid = document.getElementById('pricing-grid');
+        if (pricingGrid) {
+            const pricingCards = pricingGrid.querySelectorAll('.pricing-card');
+            pricingCards.forEach(card => {
+                card.classList.add('animate-fade-in-up');
+            });
+            
+            const pricingObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = entry.target.querySelectorAll('.pricing-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                        pricingObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            pricingObserver.observe(pricingGrid);
+        }
+    };
+    
+    // Initialize staggered animations
+    initStaggeredAnimations();
 });
 
-// Chatbot functionality
+// OLD Chatbot functionality - DEPRECATED (replaced by initChatModal)
+// This function is kept for backwards compatibility but does nothing
 function initChatbot() {
-    const chatToggleBtn = document.getElementById('chatToggleBtn');
-    const toggleBtnText = document.getElementById('toggleBtnText');
-    const demoMode = document.getElementById('demoMode');
-    const chatMode = document.getElementById('chatMode');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatMessages = document.getElementById('chatMessages');
-    
-    let isChatMode = false;
-    let typingTimeout = null;
-    
-    if (!chatToggleBtn) {
-        console.error('chatToggleBtn not found!');
-        return;
-    }
-    
-    if (!demoMode) {
+    // This function is deprecated - the new modal system uses initChatModal()
+    // Do nothing - all functionality moved to initChatModal()
+    return;
+}
+
+// The rest of the old initChatbot code has been removed - it's no longer needed
+// All chatbot functionality is now handled by initChatModal()
+
+function _oldInitChatbotCodeRemoved() {
+    // This function is a placeholder - old code removed
+    if (false) {
         console.error('demoMode not found!');
         return;
     }
@@ -668,4 +746,337 @@ function handleNewsletterSubmit(event) {
     
     alert('Thank you for subscribing!');
     event.target.reset();
+}
+
+// ============================================
+// GEMINI-STYLE CHAT MODAL FUNCTIONALITY
+// ============================================
+function initChatModal() {
+    // Elements
+    const modal = document.getElementById('chatModal');
+    const backdrop = document.getElementById('chatBackdrop');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const startChatBtn = document.getElementById('startChatBtn');
+    const agentTeaser = document.getElementById('agentTeaser');
+    const chatInput = document.getElementById('modalChatInput');
+    const sendBtn = document.getElementById('modalSendBtn');
+    const welcomeState = document.getElementById('welcomeState');
+    const conversationState = document.getElementById('conversationState');
+    const chatMessages = document.getElementById('modalChatMessages');
+    const suggestionCards = document.querySelectorAll('.suggestion-card');
+    
+    if (!modal) {
+        console.error('Chat modal element not found!');
+        return;
+    }
+    
+    console.log('Chat modal initialized successfully', { modal });
+    
+    let isChatOpen = false;
+    let hasStartedConversation = false;
+    
+    // Pre-written responses
+    const responses = {
+        services: "We offer three main AI-powered services:\n\n**1. AI Voice Agents** — Answer calls 24/7, qualify leads, and book appointments automatically.\n\n**2. Chat Assistants** — Handle website chat, answer questions instantly, and capture leads.\n\n**3. Workflow Automations** — Connect your CRM, email, and tools seamlessly.\n\nAll solutions are custom-built for your business. Would you like details on any specific service?",
+        qualify: "Our AI agents work around the clock to qualify your leads:\n\n✅ **Instant Response** — Engage visitors within seconds, not hours\n✅ **Smart Questions** — Ask qualifying questions to identify hot leads\n✅ **Auto-Booking** — Schedule appointments directly on your calendar\n✅ **CRM Sync** — Push qualified leads to your existing tools\n\nBusinesses using our AI see an average **20% increase in qualified leads**. Want to see it in action?",
+        cost: "Our pricing is transparent and scales with your needs:\n\n• **Starter** — $99/mo + $499 setup (Voice Agent)\n• **Growth** — $199/mo + $999 setup (Voice + Chatbot)\n• **Scale** — $299/mo + $1,499 setup (Full AI Website)\n• **Automations** — $750 one-time per project\n\nAll plans include unlimited conversations. [Book a free demo](book-demo.html) to discuss which plan fits your business!",
+        demo: "I'd love to set you up with a free demo! Here's what to expect:\n\n📅 **30 minutes** — Quick but comprehensive\n🎯 **Personalized** — Tailored to your specific business\n💰 **No obligation** — Just learning and questions\n\n**How to book:**\n1. Click 'Book a Free Demo' in the navigation\n2. Or visit [book-demo.html](book-demo.html)\n3. Pick a time that works for you\n\nWe'll contact you within 1 business day to confirm!"
+    };
+    
+    // Open Modal
+    function openModal() {
+        console.log('Opening chat modal...', modal);
+        if (!modal) {
+            console.error('Modal element not found!');
+            return;
+        }
+        
+        isChatOpen = true;
+        
+        // Remove inline display:none style to allow CSS to take over
+        modal.style.removeProperty('display');
+        if (backdrop) backdrop.style.removeProperty('opacity');
+        
+        // Force a reflow, then add active class
+        void modal.offsetHeight;
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+        
+        // Focus input after a short delay
+        setTimeout(() => {
+            if (chatInput) {
+                chatInput.focus();
+                console.log('Input focused');
+            }
+        }, 100);
+    }
+    
+    // Close Modal
+    function closeModal() {
+        console.log('Closing chat modal...');
+        isChatOpen = false;
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+        
+        // After animation, restore inline styles to ensure it stays hidden
+        setTimeout(() => {
+            modal.style.setProperty('display', 'none', 'important');
+            if (backdrop) backdrop.style.setProperty('opacity', '0', 'important');
+            resetToWelcome();
+        }, 300);
+    }
+    
+    // Expose to global scope for inline onclick and debugging
+    window.openChatModal = openModal;
+    window.closeChatModal = closeModal;
+    
+    // Test function for debugging
+    window.testModal = function() {
+        console.log('Testing modal...');
+        console.log('Modal element:', modal);
+        console.log('Button element:', startChatBtn);
+        console.log('Modal classes:', modal ? modal.className : 'N/A');
+        console.log('Modal display style:', modal ? modal.style.display : 'N/A');
+        openModal();
+    };
+    
+    // Switch to conversation mode
+    function startConversation() {
+        if (hasStartedConversation) return;
+        hasStartedConversation = true;
+        
+        welcomeState.classList.add('hidden');
+        conversationState.classList.remove('hidden');
+        
+        // Add initial AI greeting
+        addAIMessage("Hello! I'm ScaleBuddy's virtual assistant. I can show you how we automate sales, explain our services, or help you book a demo. What would you like to know?");
+    }
+    
+    // Reset to welcome state
+    function resetToWelcome() {
+        hasStartedConversation = false;
+        welcomeState.classList.remove('hidden');
+        conversationState.classList.add('hidden');
+        if (chatMessages) chatMessages.innerHTML = '';
+    }
+    
+    // Add user message
+    function addUserMessage(text) {
+        if (!hasStartedConversation) startConversation();
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-3 justify-end chat-message-animate';
+        messageDiv.innerHTML = `
+            <div class="flex-1 bg-gradient-to-r from-indigo-500 to-sky-500 rounded-2xl rounded-tr-none p-4 max-w-[80%] ml-auto shadow-lg shadow-indigo-500/10">
+                <p class="text-white text-base leading-relaxed font-sans">${escapeHtml(text)}</p>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+            </div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+    
+    // Add AI message
+    function addAIMessage(text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-4 chat-message-animate';
+        messageDiv.innerHTML = `
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <div class="flex-1 bg-slate-800/60 rounded-2xl rounded-tl-none p-5 border border-slate-700/50 max-w-[85%]">
+                <p class="text-gray-100 text-base leading-relaxed font-sans whitespace-pre-line">${formatMessage(text)}</p>
+            </div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+    
+    // Add typing indicator
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'modal-typing-indicator';
+        typingDiv.className = 'flex items-start space-x-4 chat-message-animate';
+        typingDiv.innerHTML = `
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <div class="bg-slate-800/60 rounded-2xl rounded-tl-none px-5 py-4 border border-slate-700/50">
+                <div class="flex space-x-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-400 typing-dot"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-400 typing-dot"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-400 typing-dot"></div>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        scrollToBottom();
+    }
+    
+    // Hide typing indicator
+    function hideTypingIndicator() {
+        const indicator = document.getElementById('modal-typing-indicator');
+        if (indicator) indicator.remove();
+    }
+    
+    // Handle question (from cards or input)
+    function handleQuestion(questionKey) {
+        const questionTexts = {
+            services: "What AI services do you offer?",
+            qualify: "How can you help qualify my leads?",
+            cost: "What are your pricing plans?",
+            demo: "I'd like to book a demo"
+        };
+        
+        const questionText = questionTexts[questionKey] || questionKey;
+        addUserMessage(questionText);
+        
+        showTypingIndicator();
+        
+        setTimeout(() => {
+            hideTypingIndicator();
+            const response = responses[questionKey] || "I'd be happy to help with that! For more specific questions, I'd recommend booking a free demo where our team can give you personalized answers.";
+            addAIMessage(response);
+        }, 1200 + Math.random() * 800);
+    }
+    
+    // Handle send
+    function handleSend() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+        
+        if (!hasStartedConversation) startConversation();
+        
+        addUserMessage(message);
+        chatInput.value = '';
+        
+        showTypingIndicator();
+        
+        setTimeout(() => {
+            hideTypingIndicator();
+            
+            const lowerMessage = message.toLowerCase();
+            let response = "Thanks for your question! I can help with information about our AI services, pricing, or booking a demo. For more specific business questions, our team would love to chat with you during a free demo call.";
+            
+            if (lowerMessage.includes('service') || lowerMessage.includes('offer') || lowerMessage.includes('what do you')) {
+                response = responses.services;
+            } else if (lowerMessage.includes('qualify') || lowerMessage.includes('lead') || lowerMessage.includes('24/7')) {
+                response = responses.qualify;
+            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('how much') || lowerMessage.includes('pricing')) {
+                response = responses.cost;
+            } else if (lowerMessage.includes('demo') || lowerMessage.includes('book') || lowerMessage.includes('schedule') || lowerMessage.includes('meeting')) {
+                response = responses.demo;
+            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                response = "Hello! 👋 Great to meet you. I'm here to help you learn about ScaleBuddy's AI solutions. What would you like to know about?";
+            }
+            
+            addAIMessage(response);
+        }, 1200 + Math.random() * 800);
+    }
+    
+    // Format message with markdown-like syntax
+    function formatMessage(text) {
+        let formatted = escapeHtml(text);
+        // Handle markdown links
+        formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
+            return `<a href="${url}" class="text-indigo-400 hover:text-indigo-300 underline font-medium" ${url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkText}</a>`;
+        });
+        // Handle bold
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+        return formatted;
+    }
+    
+    // Escape HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Scroll to bottom
+    function scrollToBottom() {
+        setTimeout(() => {
+            if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 100);
+    }
+    
+    // Event Listeners
+    
+    // Open modal from hero button ONLY (not the entire card)
+    // Use document delegation or find button at runtime
+    const attachButtonListener = () => {
+        const btn = document.getElementById('startChatBtn');
+        if (btn) {
+            console.log('Button found, attaching click listener...', btn);
+            
+            // Remove any existing listener by using once or removing and re-adding
+            const clickHandler = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Button clicked! Opening modal...');
+                openModal();
+                return false;
+            };
+            
+            btn.addEventListener('click', clickHandler, false);
+            console.log('Button click listener attached');
+        } else {
+            console.warn('startChatBtn not found yet, will retry...');
+        }
+    };
+    
+    // Try attaching immediately
+    attachButtonListener();
+    
+    // Also try after a delay in case DOM isn't fully ready
+    setTimeout(attachButtonListener, 100);
+    setTimeout(attachButtonListener, 500);
+    
+    // Close modal button
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+    
+    // Close on backdrop click
+    if (backdrop) {
+        backdrop.addEventListener('click', closeModal);
+    }
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isChatOpen) {
+            closeModal();
+        }
+    });
+    
+    // Suggestion cards
+    suggestionCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const question = card.getAttribute('data-question');
+            handleQuestion(question);
+        });
+    });
+    
+    // Send button
+    if (sendBtn) {
+        sendBtn.addEventListener('click', handleSend);
+    }
+    
+    // Enter to send
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSend();
+            }
+        });
+    }
+    
 }
