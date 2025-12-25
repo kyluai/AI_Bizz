@@ -716,3 +716,85 @@ body.modal-open {
         opacity: 0;
     }
 }
+
+/* ============================================
+   LOGO CAROUSEL - LEFT TO RIGHT ANIMATION
+   ============================================ */
+
+.logo-carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    height: 60px;
+}
+
+.logo-carousel-wrapper::before,
+.logo-carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.logo-carousel-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(30, 41, 59, 1), transparent);
+}
+
+.logo-carousel-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(30, 41, 59, 1), transparent);
+}
+
+.logo-carousel-track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 4rem;
+    width: max-content;
+    animation: scrollLogosLeftToRight 30s linear infinite;
+    will-change: transform;
+}
+
+.logo-carousel-item {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    height: 100%;
+}
+
+.logo-carousel-item:hover {
+    opacity: 1;
+}
+
+@keyframes scrollLogosLeftToRight {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+/* Animation continues on hover - no pause for smoother visual effect */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .logo-carousel-track {
+        gap: 3rem;
+        animation-duration: 25s;
+    }
+    
+    .logo-carousel-wrapper {
+        height: 50px;
+    }
+}

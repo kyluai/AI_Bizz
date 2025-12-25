@@ -56,7 +56,7 @@
                 <span class="text-xl font-bold font-display bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">ScaleBuddy</span>
             </a>
             <div class="flex items-center gap-8">
-                <a href="#demos" class="text-gray-300 hover:text-indigo-400 transition-colors text-sm font-medium">Demos</a>
+                <a href="#demos" class="text-gray-300 hover:text-indigo-400 transition-colors text-sm font-medium">Demo</a>
                 <a href="#book-demo" class="text-gray-300 hover:text-indigo-400 transition-colors text-sm font-medium">Pricing</a>
                 <a href="book-demo.html" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-sky-500 text-white text-sm font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-[1.02]">Book Demo</a>
             </div>
@@ -292,45 +292,73 @@
     </div>
 
     <!-- Trust Bar / Logo Cloud -->
-    <section class="py-12 bg-dark-800 border-b border-gray-800">
+    <section class="py-12 bg-dark-800 border-b border-gray-800 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-center text-gray-500 text-sm font-sans mb-8">Trusted by businesses integrating with</p>
-            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 hover:opacity-100 transition-opacity">
-                <!-- Zapier -->
-                <div class="flex items-center justify-center">
-                    <svg class="h-8 w-auto" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="10" y="20" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FF4A00">Zapier</text>
-                    </svg>
-                </div>
-                <!-- Stripe -->
-                <div class="flex items-center justify-center">
-                    <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="5" y="15" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#635BFF">Stripe</text>
-                    </svg>
-                </div>
-                <!-- Salesforce -->
-                <div class="flex items-center justify-center">
-                    <svg class="h-6 w-auto" viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#00A1E0">Salesforce</text>
-                    </svg>
-                </div>
-                <!-- HubSpot -->
-                <div class="flex items-center justify-center">
-                    <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FF7A59">HubSpot</text>
-                    </svg>
-                </div>
-                <!-- Make (Integromat) -->
-                <div class="flex items-center justify-center">
-                    <svg class="h-6 w-auto" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Make</text>
-                    </svg>
-                </div>
-                <!-- Pipedrive -->
-                <div class="flex items-center justify-center">
-                    <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#1F93FF">Pipedrive</text>
-                    </svg>
+            <div class="logo-carousel-wrapper">
+                <div class="logo-carousel-track">
+                    <!-- First set of logos -->
+                    <div class="logo-carousel-item">
+                        <svg class="h-8 w-auto" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="20" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FF4A00">Zapier</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#635BFF">Stripe</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#00A1E0">Salesforce</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FF7A59">HubSpot</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Make</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#1F93FF">Pipedrive</text>
+                        </svg>
+                    </div>
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="logo-carousel-item">
+                        <svg class="h-8 w-auto" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="20" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FF4A00">Zapier</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#635BFF">Stripe</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#00A1E0">Salesforce</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FF7A59">HubSpot</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Make</text>
+                        </svg>
+                    </div>
+                    <div class="logo-carousel-item">
+                        <svg class="h-6 w-auto" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="15" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#1F93FF">Pipedrive</text>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>

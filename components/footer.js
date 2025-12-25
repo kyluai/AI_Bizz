@@ -42,11 +42,11 @@ class CustomFooter extends HTMLElement {
                         <div>
                             <h4 class="text-white font-display font-semibold mb-4">Company</h4>
                             <ul class="space-y-3">
-                                <li><a href="#about" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">About Us</a></li>
-                                <li><a href="#faq" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">FAQ</a></li>
+                                <li><a href="about.html" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">About Us</a></li>
+                                <li><a href="faq.html" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">FAQ</a></li>
                                 <li><a href="#contact" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">Contact</a></li>
-                                <li><a href="#privacy" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">Privacy Policy</a></li>
-                                <li><a href="#terms" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">Terms of Service</a></li>
+                                <li><a href="privacy.html" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">Privacy Policy</a></li>
+                                <li><a href="terms.html" class="text-gray-400 hover:text-primary-400 transition-colors font-sans text-sm">Terms of Service</a></li>
                             </ul>
                         </div>
                         
@@ -92,8 +92,8 @@ class CustomFooter extends HTMLElement {
                                 © ${new Date().getFullYear()} ScaleBuddy. All rights reserved.
                             </p>
                             <div class="flex items-center gap-6">
-                                <a href="#privacy" class="text-gray-500 hover:text-primary-400 transition-colors text-sm font-sans">Privacy</a>
-                                <a href="#terms" class="text-gray-500 hover:text-primary-400 transition-colors text-sm font-sans">Terms</a>
+                                <a href="privacy.html" class="text-gray-500 hover:text-primary-400 transition-colors text-sm font-sans">Privacy</a>
+                                <a href="terms.html" class="text-gray-500 hover:text-primary-400 transition-colors text-sm font-sans">Terms</a>
                             </div>
                         </div>
                     </div>
