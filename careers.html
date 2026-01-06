@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | ScaleMako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="components/navbar.js?v=11"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: '#00E0FF', // Electric Cyan
+                            500: '#00C6FF', // Electric Cyan/Blue
+                            600: '#0072FF'  // Deep Blue
+                        },
+                        dark: {
+                            900: '#020617', // Deep Navy/Black
+                            800: '#0B1120'  // Slightly lighter Navy
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-gray-900 font-sans" id="mainBody">
+    <!-- Navbar -->
+    <custom-navbar></custom-navbar>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden pt-32 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight leading-[1.1] mb-6 text-black">
+                    Work With Us
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Listings Section -->
+    <section class="py-8 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900">
+                     <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00E0FF] to-[#0072FF]">Roles</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Job Card 1: Software Engineer -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-display font-semibold text-gray-900 mb-1">Software Engineer</h3>
+                            <p class="text-gray-500 font-sans text-sm">Full-time • Remote</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Responsibilities</h4>
+                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Design and develop scalable AI automation solutions using modern frameworks</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Build and maintain RESTful APIs and microservices architecture</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Collaborate with cross-functional teams to deliver high-quality products</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Write clean, maintainable code and participate in code reviews</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Requirements</h4>
+                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>3+ years of experience in software development (Python, JavaScript, or similar)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Experience with AI/ML frameworks (OpenAI, LangChain, or similar)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Strong understanding of cloud platforms (AWS, GCP, or Azure)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Excellent problem-solving and communication skills</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openApplicationModal('Software Engineer')" class="w-full px-5 py-2.5 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold text-sm rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02] mt-auto">
+                        Apply Now
+                    </button>
+                </div>
+
+                <!-- Job Card 2: Data Engineer -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-display font-semibold text-gray-900 mb-1">Data Engineer</h3>
+                            <p class="text-gray-500 font-sans text-sm">Full-time • Remote</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Responsibilities</h4>
+                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Design and implement robust data pipelines for AI model training and inference</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Optimize data storage and retrieval systems for performance and scalability</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Ensure data quality, integrity, and compliance with security standards</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Collaborate with ML engineers to support model development workflows</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Requirements</h4>
+                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>3+ years of experience in data engineering or related field</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Proficiency in SQL, Python, and data processing frameworks (Spark, Airflow)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Experience with data warehousing solutions (Snowflake, BigQuery, or Redshift)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-primary-500 mr-2">•</span>
+                                <span>Strong understanding of ETL/ELT processes and data modeling</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openApplicationModal('Data Engineer')" class="w-full px-5 py-2.5 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold text-sm rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02] mt-auto">
+                        Apply Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Modal -->
+    <div id="applicationModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md mx-4">
+            <div class="bg-white rounded-2xl shadow-2xl p-8">
+                <button onclick="closeApplicationModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                <div id="modalForm">
+                    <h2 class="text-2xl font-display font-bold text-gray-900 mb-2">Apply for <span id="jobTitle" class="text-primary-600"></span></h2>
+                    <p class="text-gray-600 mb-6 font-sans">Fill out the form below and we'll get back to you soon.</p>
+
+                    <form id="applicationForm" class="space-y-4">
+                        <div>
+                            <label for="applicantName" class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                            <input type="text" id="applicantName" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans">
+                        </div>
+
+                        <div>
+                            <label for="applicantEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                            <input type="email" id="applicantEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans">
+                        </div>
+
+                        <div>
+                            <label for="resumeFile" class="block text-sm font-medium text-gray-700 mb-2">Resume/CV *</label>
+                            <input type="file" id="resumeFile" name="resume" accept=".pdf,.doc,.docx" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-500/10 file:text-primary-600 hover:file:bg-primary-500/20">
+                        </div>
+
+                        <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02]">
+                            Submit Application
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success State -->
+                <div id="modalSuccess" class="hidden text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-display font-bold text-gray-900 mb-2">Application Received</h2>
+                    <p class="text-gray-600 font-sans">Our team will review your profile and reach out shortly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <custom-footer></custom-footer>
+
+    <script src="components/footer.js"></script>
+    <script>
+        // Check for promo banner and adjust body padding
+        (function() {
+            const bannerDismissed = localStorage.getItem('promoBannerDismissed');
+            const mainBody = document.getElementById('mainBody');
+            if (bannerDismissed !== 'true') {
+                mainBody.style.paddingTop = '2.75rem';
+            }
+        })();
+        
+        function openApplicationModal(jobTitle) {
+            document.getElementById('jobTitle').textContent = jobTitle;
+            document.getElementById('applicationModal').classList.remove('hidden');
+            document.getElementById('applicationModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeApplicationModal() {
+            document.getElementById('applicationModal').classList.add('hidden');
+            document.getElementById('applicationModal').classList.remove('flex');
+            document.getElementById('modalForm').classList.remove('hidden');
+            document.getElementById('modalSuccess').classList.add('hidden');
+            document.getElementById('applicationForm').reset();
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Hide form, show success
+            document.getElementById('modalForm').classList.add('hidden');
+            document.getElementById('modalSuccess').classList.remove('hidden');
+            
+            // Auto-close after 3 seconds
+            setTimeout(() => {
+                closeApplicationModal();
+            }, 3000);
+        });
+
+        // Close modal on outside click
+        document.getElementById('applicationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeApplicationModal();
+            }
+        });
+        
+        // Check for promo banner and adjust body padding
+        (function() {
+            const mainBody = document.getElementById('mainBody');
+            // Always show banner padding (for testing - banner always shows)
+            mainBody.style.paddingTop = '2.75rem';
+        })();
+    </script>
+</body>
+</html>
+

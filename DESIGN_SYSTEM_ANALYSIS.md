@@ -1,4 +1,4 @@
-# ScaleBuddy Landing Page - Design System Analysis
+# ScaleMako Landing Page - Design System Analysis
 
 ## 📐 VISUAL HIERARCHY & SECTION FLOW
 
