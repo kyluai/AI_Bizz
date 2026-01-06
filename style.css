@@ -895,20 +895,27 @@ body.modal-open {
     align-items: center !important;
     justify-content: center !important;
     opacity: 1;
+    filter: none;
+    transform: translateY(0) scale(1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, filter;
+    backface-visibility: hidden;
     height: 100%;
-    filter: grayscale(0%);
-    transform: scale(1);
 }
 
 .logo-carousel-item:hover {
-    opacity: 1;
-    filter: grayscale(0%) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
     transform: translateY(-5px) scale(1.05);
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
 }
 
 .logo-carousel-item svg {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    filter: none;
+}
+
+.logo-carousel-item:hover svg {
+    filter: none;
 }
 
 @keyframes scrollLogosLeftToRight {
