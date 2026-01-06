@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | ScaleBuddy</title>
+    <title>About Us | ScaleMako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="components/navbar.js?v=8"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -33,35 +34,12 @@
         }
     </script>
 </head>
-<body class="bg-dark-900 text-gray-100 font-sans min-h-screen">
+<body class="bg-dark-900 text-gray-100 font-sans min-h-screen" id="mainBody">
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-[100] transition-all duration-300 px-4 sm:px-6 lg:px-8 py-4 bg-dark-900/95 backdrop-blur-lg border-b border-gray-800">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3">
-                <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" opacity="0.2"/>
-                    <path d="M30 50 L45 35 L70 35 L70 50 L45 50 Z" fill="url(#logoGradient)"/>
-                    <path d="M30 65 L45 50 L70 50 L70 65 L45 65 Z" fill="url(#logoGradient)"/>
-                    <circle cx="50" cy="50" r="3" fill="white"/>
-                </svg>
-                <span class="text-xl font-bold font-display bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">ScaleBuddy</span>
-            </a>
-            <div class="flex items-center gap-6">
-                <a href="index.html#demos" class="text-gray-300 hover:text-primary-400 transition-colors">Demo</a>
-                <a href="index.html#book-demo" class="text-gray-300 hover:text-primary-400 transition-colors">Pricing</a>
-                <a href="book-demo.html" class="px-4 py-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium hover:opacity-90 transition-all">Book Demo</a>
-            </div>
-        </div>
-    </nav>
+    <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
-    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+    <main class="pt-40 pb-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-12">
@@ -69,7 +47,7 @@
                     <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">About Us</span>
                 </h1>
                 <p class="text-gray-400 text-lg">
-                    Learn more about ScaleBuddy and our mission
+                    Learn more about ScaleMako and our mission
                 </p>
             </div>
 
@@ -79,13 +57,13 @@
                 <section>
                     <h2 class="text-2xl font-display font-semibold text-white mb-4">Our Story</h2>
                     <p class="text-gray-300 leading-relaxed">
-                        ScaleBuddy was born from a simple idea: what if we could help businesses grow while learning and building something meaningful ourselves?
+                        ScaleMako was born from a simple idea: what if we could help businesses grow while learning and building something meaningful ourselves?
                     </p>
                     <p class="text-gray-300 leading-relaxed mt-4">
                         We're two college students who saw a gap in the market. Small businesses need AI automation solutions, but they're often too expensive or too complex. At the same time, we wanted to gain real-world experience building products that actually help people.
                     </p>
                     <p class="text-gray-300 leading-relaxed mt-4">
-                        So we decided to combine both goals: <strong class="text-white">we're building ScaleBuddy to help others grow their businesses while we gain valuable experience and build our own.</strong>
+                        So we decided to combine both goals: <strong class="text-white">we're building ScaleMako to help others grow their businesses while we gain valuable experience and build our own.</strong>
                     </p>
                 </section>
 
@@ -179,7 +157,7 @@
     <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-400">
-                © <span id="footerYear"></span> ScaleBuddy | <a href="mailto:hello@scalebuddy.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalebuddy.ai</a>
+                © <span id="footerYear"></span> ScaleMako | <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalemako.ai</a>
             </p>
         </div>
     </footer>
@@ -187,6 +165,13 @@
     <script>
         // Set footer year
         document.getElementById('footerYear').textContent = new Date().getFullYear();
+        
+        // Check for promo banner and adjust body padding
+        (function() {
+            const mainBody = document.getElementById('mainBody');
+            // Always show banner padding (for testing - banner always shows)
+            mainBody.style.paddingTop = '2.75rem';
+        })();
     </script>
 </body>
 </html>

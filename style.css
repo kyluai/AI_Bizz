@@ -1,17 +1,132 @@
+/* ============================================
+   CSS VARIABLES - Design System
+   ============================================ */
+:root {
+    --primary-cyan: #00C6FF;
+    --primary-blue: #0072FF;
+    --primary-cyan-light: #00E0FF;
+    --text-dark: #1f2937;
+    --text-medium: #4b5563;
+    --bg-white: #ffffff;
+    --bg-off-white: #f9fafb;
+    --bg-light-grey: #f3f4f6;
+    --border-light: #e5e7eb;
+    --border-blue: #00C6FF;
+    --shadow-soft: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
 
 /* AI Agent message box styling */
 .bg-dark-900 {
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 15px rgba(0, 198, 255, 0.2);
     transition: box-shadow 0.3s ease;
 }
 
 .bg-dark-900:hover {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
 }
 
 .text-primary-400 {
-    color: #818cf8; /* Indigo-400 */
+    color: #00E0FF; /* Electric Cyan */
 }
+
+/* ============================================
+   BADGE VARIANTS
+   ============================================ */
+
+/* Variant 1: Announcement Pill - Glassmorphism */
+.announcement-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3b82f6;
+    transition: all 0.3s ease;
+}
+
+.announcement-pill:hover {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.announcement-pill-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* Variant 2: Live Status - Clean with Pulsing Dot */
+.live-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 1rem;
+    background: white;
+    border-radius: 9999px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #1f2937;
+    transition: all 0.3s ease;
+}
+
+.live-status-badge:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+/* Pulsing Green Dot Animation */
+.pulse-dot-container {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+}
+
+.pulse-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border: 2px solid #10b981;
+    border-radius: 50%;
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+
+
 @keyframes float {
 0%, 100% {
         transform: translateY(0);
@@ -45,16 +160,16 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #1e293b; /* Slate-800 */
+    background: #f3f4f6; /* Gray-100 */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #6366f1; /* Indigo-500 */
+    background: #00C6FF; /* Electric Cyan/Blue */
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #818cf8; /* Indigo-400 */
+    background: #0072FF; /* Deep Blue */
 }
 
 /* Smooth scrolling */
@@ -66,6 +181,8 @@ html {
 body {
     padding-top: 80px;
 }
+
+/* Navbar scroll states */
 /* Gradient text */
 .gradient-text {
     background-clip: text;
@@ -443,17 +560,18 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#mainNav.nav-transparent {
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
+#mainNav.nav-transparent,
+#mainNav {
+    background-color: white !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 #mainNav.nav-scrolled {
-    background-color: rgba(15, 23, 42, 0.85); /* slate-900/85 */
+    background-color: white !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ============================================
@@ -554,6 +672,11 @@ body {
 /* Hero section - remove body padding for full-screen hero */
 body {
     padding-top: 0 !important;
+}
+
+/* Account for promo banner when visible */
+body.has-promo-banner {
+    padding-top: 2.75rem !important;
 }
 
 /* ============================================
@@ -702,7 +825,7 @@ body.modal-open {
 .typewriter-cursor {
     display: inline-block;
     margin-left: 4px;
-    color: #818cf8 !important; /* indigo-400 */
+    color: #00C6FF !important; /* Electric Cyan/Blue */
     font-weight: 600;
     font-size: 1.125rem; /* text-lg */
     animation: cursorBlink 1s step-end infinite;
@@ -725,7 +848,11 @@ body.modal-open {
     overflow: hidden;
     width: 100%;
     position: relative;
-    height: 60px;
+    height: 80px;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(249,250,251,0.3) 50%, rgba(255,255,255,0) 100%);
+    border-radius: 16px;
+    padding: 20px 0;
+    backdrop-filter: blur(10px);
 }
 
 .logo-carousel-wrapper::before,
@@ -734,19 +861,19 @@ body.modal-open {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 10%;
+    width: 15%;
     z-index: 2;
     pointer-events: none;
 }
 
 .logo-carousel-wrapper::before {
     left: 0;
-    background: linear-gradient(to right, rgba(30, 41, 59, 1), transparent);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
 }
 
 .logo-carousel-wrapper::after {
     right: 0;
-    background: linear-gradient(to left, rgba(30, 41, 59, 1), transparent);
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
 }
 
 .logo-carousel-track {
@@ -755,7 +882,7 @@ body.modal-open {
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    gap: 4rem;
+    gap: 5rem;
     width: max-content;
     animation: scrollLogosLeftToRight 30s linear infinite;
     will-change: transform;
@@ -767,13 +894,21 @@ body.modal-open {
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
+    opacity: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
+    filter: grayscale(0%);
+    transform: scale(1);
 }
 
 .logo-carousel-item:hover {
     opacity: 1;
+    filter: grayscale(0%) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+    transform: translateY(-5px) scale(1.05);
+}
+
+.logo-carousel-item svg {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes scrollLogosLeftToRight {
@@ -795,6 +930,12 @@ body.modal-open {
     }
     
     .logo-carousel-wrapper {
-        height: 50px;
+        height: 70px;
+        padding: 15px 0;
+    }
+    
+    .logo-carousel-wrapper::before,
+    .logo-carousel-wrapper::after {
+        width: 20%;
     }
 }

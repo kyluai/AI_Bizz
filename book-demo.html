@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Free Demo | ScaleBuddy</title>
+    <title>Book a Free Demo | ScaleMako</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="components/navbar.js?v=8"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            400: '#6E45E2',
-                            500: '#7D5BDE',
-                            600: '#88D3CE'
+                            400: '#00E0FF', // Electric Cyan
+                            500: '#00C6FF', // Electric Cyan/Blue
+                            600: '#0072FF'  // Deep Blue
                         },
                         dark: {
-                            900: '#0F0F15',
-                            800: '#1A1A25'
+                            900: '#020617', // Deep Navy/Black
+                            800: '#0B1120'  // Slightly lighter Navy
                         }
                     },
                     fontFamily: {
@@ -63,8 +64,8 @@
 
         .form-input:focus {
             outline: none;
-            border-color: #7D5BDE;
-            box-shadow: 0 0 0 3px rgba(125, 91, 222, 0.1);
+            border-color: #00C6FF;
+            box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
         }
 
         .form-input.error {
@@ -79,13 +80,13 @@
 
         /* Submit button */
         .submit-btn {
-            background: linear-gradient(to right, #7D5BDE, #88D3CE);
+            background: linear-gradient(to right, #00C6FF, #0072FF);
             transition: all 0.3s ease;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(125, 91, 222, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 198, 255, 0.4);
         }
 
         .submit-btn:active {
@@ -104,13 +105,13 @@
 
         /* Google Meet button */
         .meet-btn {
-            background: linear-gradient(to right, #7D5BDE, #88D3CE);
+            background: linear-gradient(to right, #00C6FF, #0072FF);
             transition: all 0.3s ease;
         }
 
         .meet-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(125, 91, 222, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 198, 255, 0.5);
         }
 
         /* Checkbox styling */
@@ -125,7 +126,7 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
-            accent-color: #7D5BDE;
+            accent-color: #00C6FF;
         }
 
         /* Error message */
@@ -141,32 +142,9 @@
         }
     </style>
 </head>
-<body class="bg-dark-900 text-gray-100 font-sans min-h-screen">
-    <!-- Navbar with Logo -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-dark-800/95 backdrop-blur-lg border-b border-gray-800 px-4 sm:px-6 lg:px-8 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3">
-                <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#6E45E2;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#88D3CE;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="50" r="45" fill="url(#logoGradient)" opacity="0.2"/>
-                    <path d="M30 50 L45 35 L70 35 L70 50 L45 50 Z" fill="url(#logoGradient)"/>
-                    <path d="M30 65 L45 50 L70 50 L70 65 L45 65 Z" fill="url(#logoGradient)"/>
-                    <circle cx="50" cy="50" r="3" fill="white"/>
-                </svg>
-                <span class="text-xl font-bold font-display bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">ScaleBuddy</span>
-            </a>
-            <div class="flex items-center gap-6">
-                <a href="index.html#demos" class="text-gray-300 hover:text-primary-400 transition-colors">Demos</a>
-                <a href="index.html#book-demo" class="text-gray-300 hover:text-primary-400 transition-colors">Pricing</a>
-                <a href="book-demo.html" class="px-4 py-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium hover:opacity-90 transition-all">Book Demo</a>
-            </div>
-        </div>
-    </nav>
+<body class="bg-dark-900 text-gray-100 font-sans min-h-screen" id="mainBody">
+    <!-- Navbar -->
+    <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
     <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -177,7 +155,7 @@
                     <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">Book a Free Demo</span>
                 </h1>
                 <p class="text-xl text-gray-400 max-w-xl mx-auto">
-                    We'll show you how ScaleBuddy can help your business grow smarter with AI automation.
+                    We'll show you how ScaleMako can help your business grow smarter with AI automation.
                 </p>
             </div>
 
@@ -342,7 +320,7 @@
     <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-400">
-                © 2025 ScaleBuddy | <a href="mailto:hello@scalebuddy.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalebuddy.ai</a>
+                © 2025 ScaleMako | <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalemako.ai</a>
             </p>
         </div>
     </footer>
@@ -440,16 +418,16 @@
                 
                 // Check if live demo was requested
                 if (data.liveDemo) {
-                    confirmationMessage.textContent = "Thanks for contacting ScaleBuddy! We'll be in touch shortly. Click below to schedule a live demo meeting and test it out for yourself.";
+                    confirmationMessage.textContent = "Thanks for contacting ScaleMako! We'll be in touch shortly. Click below to schedule a live demo meeting and test it out for yourself.";
                     meetButtonContainer.classList.remove('hidden');
                 } else {
-                    confirmationMessage.textContent = "Thanks for reaching out to ScaleBuddy! We'll contact you soon to schedule your demo.";
+                    confirmationMessage.textContent = "Thanks for reaching out to ScaleMako! We'll contact you soon to schedule your demo.";
                     meetButtonContainer.classList.add('hidden');
                 }
                 
             } catch (error) {
                 console.error('Error submitting form:', error);
-                alert('There was an error submitting your request. Please try again or email us directly at hello@scalebuddy.ai');
+                alert('There was an error submitting your request. Please try again or email us directly at hello@scalemako.ai');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
@@ -463,6 +441,15 @@
                 document.body.style.opacity = '1';
             }, 100);
         });
+        
+        // Check for promo banner and adjust body padding
+        (function() {
+            const bannerDismissed = localStorage.getItem('promoBannerDismissed');
+            const mainBody = document.getElementById('mainBody');
+            if (bannerDismissed !== 'true') {
+                mainBody.style.paddingTop = '2.75rem';
+            }
+        })();
     </script>
 
 </body>

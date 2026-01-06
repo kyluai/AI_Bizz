@@ -536,7 +536,7 @@ function _oldInitChatbotCodeRemoved() {
         
         // Check if question is outside knowledge base
         if (isOutsideKnowledge(message)) {
-            return "I don't have information about that topic. I'm here to help with:\n\n• **Navigation** - Finding pages and sections on our website\n• **Services** - Our AI solutions (websites, chatbots, voice agents, automations)\n• **Pricing** - Our plans and pricing\n• **Booking** - How to schedule a demo\n\nWhat would you like to know about ScaleBuddy?";
+            return "I don't have information about that topic. I'm here to help with:\n\n• **Navigation** - Finding pages and sections on our website\n• **Services** - Our AI solutions (websites, chatbots, voice agents, automations)\n• **Pricing** - Our plans and pricing\n• **Booking** - How to schedule a demo\n\nWhat would you like to know about Mako?";
         }
         
         // Enhanced Pricing Questions - Monthly vs Yearly, Free Trials, Discounts
@@ -618,12 +618,12 @@ function _oldInitChatbotCodeRemoved() {
             
             // Rescheduling
             if (normalizedMessage.includes('reschedule') || normalizedMessage.includes('change') || normalizedMessage.includes('move')) {
-                return "To reschedule your demo:\n\n**Option 1:** Reply to your confirmation email\n**Option 2:** Email us at hello@scalebuddy.ai\n**Option 3:** [Book a new demo](book-demo.html) and mention it's a reschedule\n\nWe're happy to find a time that works better for you!";
+                return "To reschedule your demo:\n\n**Option 1:** Reply to your confirmation email\n**Option 2:** Email us at hello@scalemako.ai\n**Option 3:** [Book a new demo](book-demo.html) and mention it's a reschedule\n\nWe're happy to find a time that works better for you!";
             }
             
             // Canceling
             if (normalizedMessage.includes('cancel')) {
-                return "To cancel your demo:\n\n• Reply to your confirmation email\n• Or email us at hello@scalebuddy.ai\n\nNo problem at all! You can always [book again](book-demo.html) when you're ready.";
+                return "To cancel your demo:\n\n• Reply to your confirmation email\n• Or email us at hello@scalemako.ai\n\nNo problem at all! You can always [book again](book-demo.html) when you're ready.";
             }
             
             // General booking question
@@ -650,7 +650,7 @@ function _oldInitChatbotCodeRemoved() {
         // How to do something - step-by-step guidance
         if (normalizedMessage.includes('how') && (normalizedMessage.includes('do') || normalizedMessage.includes('can') || normalizedMessage.includes('to'))) {
             if (normalizedMessage.includes('contact') || normalizedMessage.includes('reach')) {
-                return "Here's how to contact us:\n\n**Step 1:** Book a demo using the \"Book Demo\" button\n**Step 2:** Or use this chat to ask questions\n**Step 3:** Email us at hello@scalebuddy.ai\n\nWe're here to help! What do you need?";
+                return "Here's how to contact us:\n\n**Step 1:** Book a demo using the \"Book Demo\" button\n**Step 2:** Or use this chat to ask questions\n**Step 3:** Email us at hello@scalemako.ai\n\nWe're here to help! What do you need?";
             }
             if (normalizedMessage.includes('get started') || normalizedMessage.includes('start')) {
                 return "Getting started is simple:\n\n**Step 1:** [Book a free demo](book-demo.html) (30 minutes)\n**Step 2:** We'll discuss your business needs\n**Step 3:** We build your custom AI solution\n**Step 4:** Launch in 1-3 weeks\n\nNo coding required! Ready to start?";
@@ -689,7 +689,7 @@ function _oldInitChatbotCodeRemoved() {
         
         // Contact - concise
         if (normalizedMessage.includes('contact') || normalizedMessage.includes('email') || normalizedMessage.includes('reach')) {
-            return "Contact us:\n\n• **Book Demo:** [book-demo.html](book-demo.html)\n• **Email:** hello@scalebuddy.ai\n• **Chat:** Right here!\n\nWhat can I help you with?";
+            return "Contact us:\n\n• **Book Demo:** [book-demo.html](book-demo.html)\n• **Email:** hello@scalemako.ai\n• **Chat:** Right here!\n\nWhat can I help you with?";
         }
         
         // Time/When - shorter
@@ -704,7 +704,7 @@ function _oldInitChatbotCodeRemoved() {
         
         // Greetings - friendly
         if (normalizedMessage.match(/^(hi|hello|hey|greetings)/)) {
-            return "Hi! 👋 I'm here to help you navigate our website and learn about ScaleBuddy's AI services.\n\nI can help with:\n• Finding pages and sections\n• Service information\n• Pricing details\n• Booking a demo\n\nWhat would you like to know?";
+            return "Hi! 👋 I'm here to help you navigate our website and learn about Mako's AI services.\n\nI can help with:\n• Finding pages and sections\n• Service information\n• Pricing details\n• Booking a demo\n\nWhat would you like to know?";
         }
         
         // Default fallback - helpful
@@ -858,7 +858,7 @@ function initChatModal() {
         conversationState.classList.remove('hidden');
         
         // Add initial AI greeting
-        addAIMessage("Hello! I'm ScaleBuddy's virtual assistant. I can show you how we automate sales, explain our services, or help you book a demo. What would you like to know?");
+        addAIMessage("Hello! I'm Mako, your AI guide. I can show you how we automate sales, explain our services, or help you book a demo. What would you like to know?");
     }
     
     // Reset to welcome state
@@ -874,13 +874,14 @@ function initChatModal() {
         if (!hasStartedConversation) startConversation();
         
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'flex items-start space-x-3 justify-end chat-message-animate';
+        messageDiv.className = 'flex items-end space-x-2 justify-end chat-message-animate';
+        messageDiv.style.marginBottom = '1.25rem';
         messageDiv.innerHTML = `
-            <div class="flex-1 bg-gradient-to-r from-indigo-500 to-sky-500 rounded-2xl rounded-tr-none p-4 max-w-[80%] ml-auto shadow-lg shadow-indigo-500/10">
+            <div class="flex-1 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] rounded-[18px] rounded-tr-none p-4 max-w-[80%] ml-auto" style="box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <p class="text-white text-base leading-relaxed font-sans">${escapeHtml(text)}</p>
             </div>
-            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 mb-1">
+                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
             </div>
@@ -892,15 +893,14 @@ function initChatModal() {
     // Add AI message
     function addAIMessage(text) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'flex items-start space-x-4 chat-message-animate';
+        messageDiv.className = 'flex items-end space-x-2 chat-message-animate';
+        messageDiv.style.marginBottom = '1.25rem';
         messageDiv.innerHTML = `
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
+            <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 mb-1" style="box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <img src="Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
             </div>
-            <div class="flex-1 bg-slate-800/60 rounded-2xl rounded-tl-none p-5 border border-slate-700/50 max-w-[85%]">
-                <p class="text-gray-100 text-base leading-relaxed font-sans whitespace-pre-line">${formatMessage(text)}</p>
+            <div class="flex-1 rounded-[18px] rounded-tl-none p-5 max-w-[85%]" style="background-color: #f3f4f6; color: #1f2937; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <p class="text-base leading-relaxed font-sans whitespace-pre-line" style="color: #1f2937;">${formatMessage(text)}</p>
             </div>
         `;
         chatMessages.appendChild(messageDiv);
@@ -911,18 +911,17 @@ function initChatModal() {
     function showTypingIndicator() {
         const typingDiv = document.createElement('div');
         typingDiv.id = 'modal-typing-indicator';
-        typingDiv.className = 'flex items-start space-x-4 chat-message-animate';
+        typingDiv.className = 'flex items-end space-x-2 chat-message-animate';
+        typingDiv.style.marginBottom = '1.25rem';
         typingDiv.innerHTML = `
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center flex-shrink-0">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
+            <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 mb-1" style="box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <img src="Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
             </div>
-            <div class="bg-slate-800/60 rounded-2xl rounded-tl-none px-5 py-4 border border-slate-700/50">
+            <div class="rounded-[18px] rounded-tl-none px-5 py-4" style="background-color: #f3f4f6; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <div class="flex space-x-2">
-                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-400 typing-dot"></div>
-                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-400 typing-dot"></div>
-                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-400 typing-dot"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-blue-500 typing-dot"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-blue-500 typing-dot"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-blue-500 typing-dot"></div>
                 </div>
             </div>
         `;
@@ -984,7 +983,7 @@ function initChatModal() {
             } else if (lowerMessage.includes('demo') || lowerMessage.includes('book') || lowerMessage.includes('schedule') || lowerMessage.includes('meeting')) {
                 response = responses.demo;
             } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                response = "Hello! 👋 Great to meet you. I'm here to help you learn about ScaleBuddy's AI solutions. What would you like to know about?";
+                response = "Hello! 👋 Great to meet you. I'm here to help you learn about Mako's AI solutions. What would you like to know about?";
             }
             
             addAIMessage(response);
@@ -996,10 +995,10 @@ function initChatModal() {
         let formatted = escapeHtml(text);
         // Handle markdown links
         formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
-            return `<a href="${url}" class="text-indigo-400 hover:text-indigo-300 underline font-medium" ${url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkText}</a>`;
+            return `<a href="${url}" class="text-blue-600 hover:text-blue-700 underline font-medium" ${url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkText}</a>`;
         });
         // Handle bold
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 font-semibold">$1</strong>');
         return formatted;
     }
     
@@ -1012,9 +1011,18 @@ function initChatModal() {
     
     // Scroll to bottom
     function scrollToBottom() {
-        setTimeout(() => {
-            if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 100);
+        if (chatMessages) {
+            // Use requestAnimationFrame for smoother scrolling
+            requestAnimationFrame(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+            // Also ensure it scrolls after a brief delay to account for DOM updates
+            setTimeout(() => {
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 50);
+        }
     }
     
     // Event Listeners
@@ -1157,7 +1165,7 @@ function initTypewriterAnimation() {
     if (cursorElement) {
         cursorElement.style.display = 'inline-block';
         cursorElement.style.opacity = '1';
-        cursorElement.style.color = '#818cf8'; // indigo-400
+        cursorElement.style.color = '#00C6FF'; // Electric Cyan/Blue
         cursorElement.style.fontSize = '1.125rem'; // text-lg
         cursorElement.style.marginLeft = '4px';
         cursorElement.style.fontWeight = '600';
