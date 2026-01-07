@@ -13,11 +13,11 @@ class CustomNavbar extends HTMLElement {
                     position: fixed;
                     top: 0;
                     left: 0;
-                    right: 0;
-                    z-index: 1001;
+                    width: 100%;
+                    z-index: 2000;
                     background: linear-gradient(135deg, #1e3a8a 0%, #7c2d12 100%);
                     color: white;
-                    padding: 0.75rem 1rem;
+                    padding: 0.625rem 1rem;
                     text-align: center;
                     font-size: 0.875rem;
                     font-weight: 500;
@@ -25,7 +25,9 @@ class CustomNavbar extends HTMLElement {
                     align-items: center;
                     justify-content: center;
                     gap: 1rem;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                    box-sizing: border-box;
+                    height: 40px;
                 }
                 
                 .promo-banner.hidden {
@@ -58,8 +60,8 @@ class CustomNavbar extends HTMLElement {
                     position: fixed;
                     top: 0;
                     left: 0;
-                    right: 0;
-                    z-index: 1000;
+                    width: 100%;
+                    z-index: 1999;
                     background-color: white;
                     backdrop-filter: blur(10px);
                     transition: all 0.3s ease;
@@ -67,19 +69,24 @@ class CustomNavbar extends HTMLElement {
                     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
                     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
                     height: auto;
+                    box-sizing: border-box;
                 }
                 
                 .navbar.with-banner {
-                    top: 2.75rem;
+                    top: 40px;
                 }
                 
                 @media (max-width: 768px) {
                     .promo-banner {
-                        font-size: 0.75rem;
+                        font-size: 0.7rem;
                         padding: 0.5rem 0.75rem;
+                        height: 44px;
                     }
                     .promo-banner-content {
-                        line-height: 1.4;
+                        line-height: 1.3;
+                    }
+                    .navbar.with-banner {
+                        top: 44px;
                     }
                 }
                 
@@ -299,7 +306,7 @@ class CustomNavbar extends HTMLElement {
             <nav class="navbar" id="mainNavbar">
                 <div class="navbar-container">
                     <a href="/" class="logo-container">
-                        <img src="image copy 3.png" alt="ScaleMako Logo" class="logo-img">
+                        <img src="assets/images/image copy 3.png" alt="ScaleMako Logo" class="logo-img">
                     </a>
                     <div class="nav-links">
                         <a href="index.html#demos" class="nav-link">Demos</a>

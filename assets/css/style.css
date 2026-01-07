@@ -946,3 +946,411 @@ body.modal-open {
         width: 20%;
     }
 }
+
+/* ============================================
+   CUSTOM QUOTE BUILDER
+   ============================================ */
+.quote-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    padding: 2rem;
+    border: 1px solid var(--border-light);
+}
+
+.quote-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 1.5rem;
+}
+
+.quote-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.quote-activity-toggle {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.quote-activity-pill {
+    border-radius: 9999px;
+    border: 1px solid var(--border-light);
+    background: #fff;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.quote-activity-pill.active {
+    border-color: var(--primary-blue);
+    background: linear-gradient(180deg, rgba(0,198,255,0.06), rgba(0,114,255,0.03));
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.quote-services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+}
+
+.quote-service-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    background: #fff;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    cursor: pointer;
+    user-select: none;
+}
+
+.quote-icon-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 9999px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    background: #f1f5f9;
+}
+
+.quote-service-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.quote-service-card.active {
+    border-color: var(--primary-blue);
+    border-width: 2px;
+    box-shadow: 0 12px 24px rgba(0,114,255,0.2), 0 0 0 4px rgba(0,114,255,0.1);
+    background: linear-gradient(180deg, rgba(0,198,255,0.12), rgba(0,114,255,0.08));
+    transform: translateY(-2px);
+    position: relative;
+}
+
+.quote-service-card.active::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    color: white;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,114,255,0.3);
+}
+
+/* Financial Impact Card - Clean Typographic Design */
+.quote-output {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+}
+
+.financial-impact-section {
+    text-align: center;
+}
+
+.financial-impact-price {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.financial-impact-divider {
+    position: relative;
+    margin: 1.5rem 0;
+}
+
+.financial-impact-hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 0;
+}
+
+.financial-impact-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    padding: 0 0.75rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: #6b7280;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.financial-impact-list {
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    min-height: 120px;
+}
+
+.financial-impact-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.financial-impact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.financial-impact-item:last-of-type {
+    border-bottom: none;
+}
+
+.financial-impact-item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.financial-impact-item-text {
+    flex: 1;
+    font-size: 0.875rem;
+    color: #111827;
+    font-weight: 500;
+}
+
+.financial-impact-item-price {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-decoration: line-through;
+    font-variant-numeric: tabular-nums;
+}
+
+.financial-impact-summary {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #e5e7eb;
+}
+
+.financial-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.financial-summary-row:last-child {
+    margin-top: 0.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.quote-output-row {
+    padding: 0.75rem 0.5rem;
+    border-top: 1px dashed var(--border-light);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.quote-output-row:first-of-type {
+    border-top: none;
+}
+
+.quote-badge {
+    white-space: nowrap;
+}
+
+/* Stacked Savings Visualization Styles */
+.savings-bar-container {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background-color: #f3f4f6;
+    border-radius: 9999px;
+    overflow: visible; /* Allow badge to overflow */
+    margin-bottom: 32px; /* Space for badge */
+}
+
+.savings-bar-stacked {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden; /* Hide bar overflow */
+}
+
+.savings-segment {
+    height: 100%;
+    transition: width 0.5s ease;
+    position: relative;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.savings-segment-investment {
+    background: linear-gradient(to right, #2563eb, #60a5fa); /* from-blue-600 to-blue-400 */
+    min-width: 5%;
+    width: 0%;
+    border-radius: 9999px 0 0 9999px;
+    box-shadow: inset 0 1px 2px rgba(37, 99, 235, 0.2);
+}
+
+.savings-segment-savings {
+    background-color: #d1fae5; /* bg-emerald-100 */
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(16, 185, 129, 0.15) 10px,
+        rgba(16, 185, 129, 0.15) 20px
+    );
+    background-size: 28.28px 28.28px; /* sqrt(2) * 20px for smooth animation */
+    border-radius: 0 9999px 9999px 0;
+    animation: stripeSlide 4s linear infinite;
+    width: 100%;
+    flex-grow: 1;
+}
+
+@keyframes stripeSlide {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 28.28px 28.28px;
+    }
+}
+
+/* Labels Row */
+.savings-labels-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Typography: Tabular Numbers for Price Text */
+#investmentLabel,
+#savingsLabel,
+#quoteSavings,
+#quoteMonthly,
+#quoteSetup {
+    font-variant-numeric: tabular-nums;
+}
+
+.savings-label-left {
+    flex: 1;
+    text-align: left;
+}
+
+.savings-label-right {
+    flex: 1;
+    text-align: right;
+}
+
+/* Zero State Placeholder */
+.savings-zero-state {
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
+}
+
+.savings-zero-state.hidden {
+    opacity: 0;
+    display: none;
+}
+
+.savings-bar-placeholder {
+    width: 100%;
+    height: 16px;
+    background-color: #e5e7eb; /* bg-gray-200 */
+    border-radius: 9999px;
+}
+
+/* Efficiency Badge - Pivot Badge on Dividing Line */
+.efficiency-badge-pivot {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 3px rgba(255, 255, 255, 0.8);
+    animation: fadeInScale 0.5s ease-out;
+    z-index: 10;
+    white-space: nowrap;
+    transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.efficiency-badge-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #059669;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Hide comparison section in zero state */
+#costComparisonSection.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+    .quote-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quote-badge {
+        white-space: normal;
+        text-align: left;
+    }
+}

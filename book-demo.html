@@ -8,21 +8,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="components/navbar.js?v=8"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="components/navbar.js?v=12"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            400: '#00E0FF', // Electric Cyan
-                            500: '#00C6FF', // Electric Cyan/Blue
-                            600: '#0072FF'  // Deep Blue
+                            400: '#00E0FF',
+                            500: '#00C6FF',
+                            600: '#0072FF'
                         },
                         dark: {
-                            900: '#020617', // Deep Navy/Black
-                            800: '#0B1120'  // Slightly lighter Navy
+                            900: '#020617',
+                            800: '#0B1120'
                         }
                     },
                     fontFamily: {
@@ -34,7 +34,7 @@
         }
     </script>
     <style>
-        /* Form animations */
+        /* Page animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -46,51 +46,148 @@
             }
         }
 
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .fade-in-up {
             animation: fadeInUp 0.6s ease-out forwards;
         }
 
-        .fade-in-up-delay {
-            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        .fade-in-left {
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+
+        .fade-in-right {
+            animation: fadeInRight 0.6s ease-out 0.2s forwards;
             opacity: 0;
         }
 
-        /* Form input styling */
-        .form-input {
-            background-color: rgba(26, 26, 37, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .fade-in-delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-4 {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        /* Form input styling - Light Mode */
+        .form-input-light {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
             transition: all 0.3s ease;
+            color: #1f2937;
         }
 
-        .form-input:focus {
+        .form-input-light::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-input-light:focus {
             outline: none;
-            border-color: #00C6FF;
-            box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
+            border-color: #0072FF;
+            box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.15);
         }
 
-        .form-input.error {
+        .form-input-light.error {
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
-        .form-input:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
+        .form-input-light:hover:not(:focus) {
+            border-color: #9ca3af;
         }
 
         /* Submit button */
-        .submit-btn {
-            background: linear-gradient(to right, #00C6FF, #0072FF);
+        .submit-btn-gradient {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
             transition: all 0.3s ease;
         }
 
-        .submit-btn:hover {
+        .submit-btn-gradient:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 198, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 114, 255, 0.35);
         }
 
-        .submit-btn:active {
+        .submit-btn-gradient:active {
             transform: translateY(0);
+        }
+
+        /* Checkbox styling */
+        .checkbox-light {
+            width: 18px;
+            height: 18px;
+            accent-color: #0072FF;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Checklist item styling */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .checklist-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .checklist-icon svg {
+            width: 12px;
+            height: 12px;
+            stroke: white;
+            stroke-width: 3;
+        }
+
+        /* Trust logos - grayscale */
+        .trust-logo {
+            filter: grayscale(100%);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .trust-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
         }
 
         /* Confirmation state */
@@ -103,36 +200,21 @@
             animation: fadeInUp 0.6s ease-out;
         }
 
-        /* Google Meet button */
+        /* Meet button */
         .meet-btn {
-            background: linear-gradient(to right, #00C6FF, #0072FF);
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
             transition: all 0.3s ease;
         }
 
         .meet-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 198, 255, 0.5);
-        }
-
-        /* Checkbox styling */
-        .checkbox-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .checkbox-container input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #00C6FF;
+            box-shadow: 0 15px 35px rgba(0, 114, 255, 0.4);
         }
 
         /* Error message */
         .error-message {
             color: #ef4444;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             margin-top: 0.25rem;
             display: none;
         }
@@ -140,40 +222,126 @@
         .error-message.show {
             display: block;
         }
+
+        /* Subtle background pattern */
+        .bg-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(0, 114, 255, 0.03) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
     </style>
 </head>
-<body class="bg-dark-900 text-gray-100 font-sans min-h-screen" id="mainBody">
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
     <!-- Navbar -->
     <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
-    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-2xl mx-auto">
+    <main class="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-pattern min-h-screen">
+        <div class="max-w-6xl mx-auto">
+            <!-- Split Screen Layout -->
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                
+                <!-- Left Column: Value Proposition -->
+                <div class="fade-in-left lg:sticky lg:top-32">
             <!-- Header -->
-            <div class="text-center mb-12 fade-in-up">
-                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">Book a Free Demo</span>
+                    <div class="mb-8">
+                        <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900 leading-tight mb-4">
+                            Book your personalized demo.
                 </h1>
-                <p class="text-xl text-gray-400 max-w-xl mx-auto">
-                    We'll show you how ScaleMako can help your business grow smarter with AI automation.
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            See how ScaleMako automates your reception and support in 30 minutes.
                 </p>
             </div>
 
-            <!-- Form Container -->
-            <div class="bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 md:p-10 shadow-xl fade-in-up-delay">
+                    <!-- What to Expect Section -->
+                    <div class="mb-10">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                            What to Expect
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="checklist-item fade-in-up fade-in-delay-1">
+                                <div class="checklist-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800 font-medium">Live analysis of your current workflow</p>
+                                    <p class="text-sm text-gray-500">We'll identify automation opportunities specific to your business.</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item fade-in-up fade-in-delay-2">
+                                <div class="checklist-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800 font-medium">Custom ROI calculation</p>
+                                    <p class="text-sm text-gray-500">See exactly how much time and money you'll save.</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item fade-in-up fade-in-delay-3">
+                                <div class="checklist-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800 font-medium">Walkthrough of Voice & Chat agents</p>
+                                    <p class="text-sm text-gray-500">Experience our AI assistants handling real scenarios.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trust Section -->
+                    <div class="pt-8 border-t border-gray-200 fade-in-up fade-in-delay-4">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                            TRUSTED BY BUSINESSES LIKE YOURS
+                        </p>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <!-- Industry Tags -->
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Real Estate</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Home Services</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Healthcare</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Legal</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">E-commerce</span>
+                        </div>
+                        
+                        <!-- Stats -->
+                        <div class="mt-8 grid grid-cols-3 gap-4">
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900">500+</p>
+                                <p class="text-xs text-gray-500">Demos booked</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900">30 min</p>
+                                <p class="text-xs text-gray-500">Average session</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-900">4.9/5</p>
+                                <p class="text-xs text-gray-500">Satisfaction</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Form Card -->
+                <div class="fade-in-right">
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-10">
                 <!-- Form -->
-                <form id="demoForm" action="https://formspree.io/f/xkgpldpo" method="POST" class="space-y-6">
+                        <form id="demoForm" action="https://formspree.io/f/xkgpldpo" method="POST" class="space-y-5">
                     <!-- Full Name -->
                     <div>
-                        <label for="fullName" class="block text-sm font-medium text-gray-300 mb-2">
-                            Full Name <span class="text-red-400">*</span>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Full Name <span class="text-red-500">*</span>
                         </label>
                         <input 
                             type="text" 
                             id="fullName" 
                             name="fullName" 
                             required
-                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
                             placeholder="John Doe"
                         />
                         <span class="error-message" id="fullNameError">Please enter your full name</span>
@@ -181,29 +349,29 @@
 
                     <!-- Business Name -->
                     <div>
-                        <label for="businessName" class="block text-sm font-medium text-gray-300 mb-2">
+                                <label for="businessName" class="block text-sm font-medium text-gray-700 mb-1.5">
                             Business Name
                         </label>
                         <input 
                             type="text" 
                             id="businessName" 
                             name="businessName"
-                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
                             placeholder="Acme Inc."
                         />
                     </div>
 
                     <!-- Email -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
-                            Email Address <span class="text-red-400">*</span>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Email Address <span class="text-red-500">*</span>
                         </label>
                         <input 
                             type="email" 
                             id="email" 
                             name="email" 
                             required
-                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
                             placeholder="john@example.com"
                         />
                         <span class="error-message" id="emailError">Please enter a valid email address</span>
@@ -211,117 +379,148 @@
 
                     <!-- Service Interest -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-3">
-                            What services are you interested in? <span class="text-gray-500 text-xs">(select all that apply)</span>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">
+                                    What services interest you? <span class="text-gray-400 text-xs font-normal">(select all that apply)</span>
                         </label>
-                        <div class="space-y-3">
-                            <div class="checkbox-container">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
                                 <input 
                                     type="checkbox" 
-                                    id="service-ai-websites" 
                                     name="services[]" 
                                     value="AI Websites"
-                                    class="mr-3"
-                                />
-                                <label for="service-ai-websites" class="text-gray-300 cursor-pointer">AI Websites</label>
-                            </div>
-                            <div class="checkbox-container">
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">AI Websites</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
                                 <input 
                                     type="checkbox" 
-                                    id="service-chatbots" 
                                     name="services[]" 
                                     value="Chatbots"
-                                    class="mr-3"
-                                />
-                                <label for="service-chatbots" class="text-gray-300 cursor-pointer">Chatbots</label>
-                            </div>
-                            <div class="checkbox-container">
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Chatbots</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
                                 <input 
                                     type="checkbox" 
-                                    id="service-voice-agents" 
                                     name="services[]" 
                                     value="Voice Agents"
-                                    class="mr-3"
-                                />
-                                <label for="service-voice-agents" class="text-gray-300 cursor-pointer">Voice Agents</label>
-                            </div>
-                            <div class="checkbox-container">
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Voice Agents</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
                                 <input 
                                     type="checkbox" 
-                                    id="service-workflow-automations" 
                                     name="services[]" 
                                     value="Workflow Automations"
-                                    class="mr-3"
-                                />
-                                <label for="service-workflow-automations" class="text-gray-300 cursor-pointer">Workflow Automations</label>
-                            </div>
-                        </div>
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Automations</span>
+                                    </label>
+                                </div>
                     </div>
 
                     <!-- Message -->
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-300 mb-2">
-                            Message <span class="text-gray-500 text-xs">(optional)</span>
+                    <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Message <span class="text-gray-400 text-xs font-normal">(optional)</span>
                         </label>
                         <textarea 
                             id="message" 
                             name="message" 
-                            rows="4"
-                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500 resize-none"
+                                    rows="3"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900 resize-none"
                             placeholder="Tell us about your business needs..."
                         ></textarea>
-                    </div>
-
-                    <!-- Checkbox -->
-                    <div class="checkbox-container pt-2">
-                        <input 
-                            type="checkbox" 
-                            id="liveDemo" 
-                            name="liveDemo"
-                            class="mr-3"
-                        />
-                        <label for="liveDemo" class="text-gray-300 cursor-pointer">
-                            I'd like to book a live demo meeting now
-                        </label>
                     </div>
 
                     <!-- Submit Button -->
                     <button 
                         type="submit" 
-                        class="submit-btn w-full py-4 rounded-lg text-white font-semibold text-lg mt-8"
+                                class="submit-btn-gradient w-full py-4 rounded-xl text-white font-semibold text-base"
                     >
-                        Submit Request
+                                Confirm Booking
                     </button>
+
+                            <!-- Privacy note -->
+                            <p class="text-xs text-gray-400 text-center mt-3">
+                                By submitting, you agree to our <a href="#" class="text-primary-600 hover:underline">Privacy Policy</a>
+                            </p>
                 </form>
 
                 <!-- Confirmation State -->
                 <div id="confirmationState" class="confirmation-state text-center py-8">
                     <div class="mb-6">
-                        <svg class="w-16 h-16 mx-auto text-primary-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
-                        <p id="confirmationMessage" class="text-lg text-gray-300 mb-6"></p>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">You're all set!</h3>
+                                <p id="confirmationMessage" class="text-gray-600"></p>
                     </div>
                     <div id="meetButtonContainer" class="hidden">
                         <a 
                             href="https://calendar.app.google/knec2xu6uySGetXF8" 
                             target="_blank"
-                            class="meet-btn inline-block px-8 py-4 rounded-lg text-white font-semibold text-lg"
-                        >
-                            Schedule a Live Demo
-                        </a>
+                                    class="meet-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-semibold"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    Schedule Your Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security badges -->
+                    <div class="mt-6 flex items-center justify-center gap-6 text-xs text-gray-400">
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <span>SSL Secured</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <span>GDPR Compliant</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Response in 24h</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">
-                © 2025 ScaleMako | <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalemako.ai</a>
-            </p>
+    <!-- Minimal Footer -->
+    <footer class="bg-white border-t border-gray-100 py-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-gray-500">
+                    © 2026 ScaleMako. All rights reserved.
+                </p>
+                <div class="flex items-center gap-6">
+                    <a href="mailto:hello@scalemako.ai" class="text-sm text-gray-500 hover:text-primary-600 transition-colors">
+                        hello@scalemako.ai
+                    </a>
+                    <a href="index.html" class="text-sm text-gray-500 hover:text-primary-600 transition-colors">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -366,6 +565,20 @@
         emailInput.addEventListener('blur', () => {
             validateField(emailInput, document.getElementById('emailError'));
         });
+
+        // Checkbox selection visual feedback
+        document.querySelectorAll('input[name="services[]"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.closest('label');
+                if (this.checked) {
+                    label.classList.add('border-primary-500', 'bg-blue-50/50');
+                    label.classList.remove('border-gray-200');
+                } else {
+                    label.classList.remove('border-primary-500', 'bg-blue-50/50');
+                    label.classList.add('border-gray-200');
+                }
+            });
+        });
         
         // Form submission
         form.addEventListener('submit', async (e) => {
@@ -381,15 +594,13 @@
             
             // Get form data
             const formData = new FormData(form);
-            // Get all selected services
             const selectedServices = formData.getAll('services[]');
             const data = {
                 fullName: formData.get('fullName'),
                 businessName: formData.get('businessName'),
                 email: formData.get('email'),
                 services: selectedServices.length > 0 ? selectedServices.join(', ') : 'None selected',
-                message: formData.get('message'),
-                liveDemo: formData.get('liveDemo') === 'on'
+                message: formData.get('message')
             };
             
             // Show loading state
@@ -397,6 +608,7 @@
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Submitting...';
             submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
             
             try {
                 // Submit to Formspree
@@ -416,42 +628,22 @@
                 form.style.display = 'none';
                 confirmationState.classList.add('show');
                 
-                // Check if live demo was requested
-                if (data.liveDemo) {
-                    confirmationMessage.textContent = "Thanks for contacting ScaleMako! We'll be in touch shortly. Click below to schedule a live demo meeting and test it out for yourself.";
-                    meetButtonContainer.classList.remove('hidden');
-                } else {
-                    confirmationMessage.textContent = "Thanks for reaching out to ScaleMako! We'll contact you soon to schedule your demo.";
-                    meetButtonContainer.classList.add('hidden');
-                }
+                // Show confirmation message and meet button
+                confirmationMessage.textContent = "Thanks for your interest! Click below to schedule your personalized demo session.";
+                meetButtonContainer.classList.remove('hidden');
                 
             } catch (error) {
                 console.error('Error submitting form:', error);
                 alert('There was an error submitting your request. Please try again or email us directly at hello@scalemako.ai');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
             }
         });
         
-        // Fade in animation on load
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease-in';
+        // Page is ready - no fade animation needed
                 document.body.style.opacity = '1';
-            }, 100);
-        });
-        
-        // Check for promo banner and adjust body padding
-        (function() {
-            const bannerDismissed = localStorage.getItem('promoBannerDismissed');
-            const mainBody = document.getElementById('mainBody');
-            if (bannerDismissed !== 'true') {
-                mainBody.style.paddingTop = '2.75rem';
-            }
-        })();
     </script>
 
 </body>
 </html>
-

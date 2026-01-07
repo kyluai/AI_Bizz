@@ -117,6 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     initChatModal();
     
+    // ============================================
+    // CUSTOM QUOTE BUILDER
+    // ============================================
+    initQuoteBuilder();
+    
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -897,7 +902,7 @@ function initChatModal() {
         messageDiv.style.marginBottom = '1.25rem';
         messageDiv.innerHTML = `
             <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 mb-1" style="box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <img src="Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
+                <img src="assets/images/Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
             </div>
             <div class="flex-1 rounded-[18px] rounded-tl-none p-5 max-w-[85%]" style="background-color: #f3f4f6; color: #1f2937; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <p class="text-base leading-relaxed font-sans whitespace-pre-line" style="color: #1f2937;">${formatMessage(text)}</p>
@@ -915,7 +920,7 @@ function initChatModal() {
         typingDiv.style.marginBottom = '1.25rem';
         typingDiv.innerHTML = `
             <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 mb-1" style="box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <img src="Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
+                <img src="assets/images/Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
             </div>
             <div class="rounded-[18px] rounded-tl-none px-5 py-4" style="background-color: #f3f4f6; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <div class="flex space-x-2">
@@ -1215,4 +1220,232 @@ function initTypewriterAnimation() {
     
     // Store timeout ID for cleanup if needed
     window.typewriterTimeout = timeoutId;
+}
+
+// ============================================
+// CUSTOM QUOTE BUILDER LOGIC
+// ============================================
+function initQuoteBuilder() {
+    const serviceCards = document.querySelectorAll('#quoteServices .quote-service-card');
+    const activityButtons = document.querySelectorAll('#quoteActivity .quote-activity-pill');
+    
+    // Financial Impact Card Elements
+    const financialImpactPriceEl = document.getElementById('financialImpactPrice');
+    const emptyStateMessageEl = document.getElementById('emptyStateMessage');
+    const humanEquivalentItemsEl = document.getElementById('humanEquivalentItems');
+    const financialSummaryEl = document.getElementById('financialSummary');
+    const totalMarketValueEl = document.getElementById('totalMarketValue');
+    const annualSavingsEl = document.getElementById('annualSavings');
+    const cta = document.getElementById('quoteCta');
+
+    if (!serviceCards.length || !activityButtons.length || !financialImpactPriceEl || !emptyStateMessageEl || !humanEquivalentItemsEl || !financialSummaryEl || !totalMarketValueEl || !annualSavingsEl || !cta) return;
+
+    const basePricing = {
+        voice:   { setupMin: 497,  setupMax: 797,  monthly: 97  },
+        chat:    { setupMin: 297,  setupMax: 497,  monthly: 49  },
+        website: { setupMin: 997,  setupMax: 1497, monthly: 49  },
+        workflow:{ setupMin: 397,  setupMax: 697,  monthly: 29  }
+    };
+
+    // Human Role Costs Map with display names and icons
+    const humanRoleCosts = {
+        'voice': { 
+            cost: 3200, 
+            role: 'Full-time Receptionist',
+            displayName: 'Full-time Receptionist',
+            icon: 'phone-call'
+        },
+        'chat': { 
+            cost: 2800, 
+            role: 'Support Rep',
+            displayName: 'Support Rep',
+            icon: 'message-circle'
+        },
+        'website': { 
+            cost: 1500, 
+            role: 'Web Dev Retainer',
+            displayName: 'Web Developer Retainer',
+            icon: 'monitor'
+        },
+        'workflow': { 
+            cost: 2500, 
+            role: 'Admin Assistant',
+            displayName: 'Admin Assistant',
+            icon: 'zap'
+        }
+    };
+
+    const levelMultipliers = {
+        low:    { setup: 1.0, monthly: 1.0 },
+        medium: { setup: 1.5, monthly: 1.5 },
+        high:   { setup: 2.5, monthly: 3.0 }
+    };
+
+    let currentLevel = 'low';
+
+    const formatCurrency = (num) => `$${num.toLocaleString()}`;
+    
+    // Animated Number Counter Helper
+    function animateValue(element, start, end, duration, prefix = '', suffix = '') {
+        if (!element) return;
+        
+        const startTime = performance.now();
+        const isNumber = typeof end === 'number';
+        
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function (ease-out)
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            
+            if (isNumber) {
+                const current = Math.round(start + (end - start) * easeOut);
+                element.textContent = `${prefix}${current.toLocaleString()}${suffix}`;
+            } else {
+                // For text, just update at the end
+                if (progress >= 1) {
+                    element.textContent = `${prefix}${end}${suffix}`;
+                }
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                // Ensure final value is set
+                if (isNumber) {
+                    element.textContent = `${prefix}${end.toLocaleString()}${suffix}`;
+                } else {
+                    element.textContent = `${prefix}${end}${suffix}`;
+                }
+            }
+        }
+        
+        requestAnimationFrame(update);
+    }
+
+    const calculate = () => {
+        let setupMinTotal = 0;
+        let setupMaxTotal = 0;
+        let monthlyTotal = 0;
+        let selectedCount = 0;
+
+        serviceCards.forEach(card => {
+            if (card.classList.contains('active')) {
+                const key = card.dataset.service;
+                const cfg = basePricing[key];
+                if (!cfg) return;
+                selectedCount += 1;
+                setupMinTotal += cfg.setupMin;
+                setupMaxTotal += cfg.setupMax;
+                monthlyTotal  += cfg.monthly;
+            }
+        });
+
+        if (selectedCount === 0) {
+            // Empty State
+            financialImpactPriceEl.textContent = '$0/mo';
+            emptyStateMessageEl.style.display = 'block';
+            humanEquivalentItemsEl.style.display = 'none';
+            financialSummaryEl.style.display = 'none';
+            return;
+        }
+
+        const mult = levelMultipliers[currentLevel] || levelMultipliers.low;
+        const setupMin = Math.round(setupMinTotal * mult.setup);
+        const setupMax = Math.round(setupMaxTotal * mult.setup);
+        const aiMonthlyTotal = Math.round(monthlyTotal * mult.monthly);
+
+        // Update Price Display
+        financialImpactPriceEl.textContent = `${formatCurrency(aiMonthlyTotal)}/mo`;
+
+        // Build Human Equivalent List
+        const selectedItems = [];
+        let totalHumanCost = 0;
+
+        serviceCards.forEach(card => {
+            if (card.classList.contains('active')) {
+                const key = card.dataset.service;
+                const humanCfg = humanRoleCosts[key];
+                if (humanCfg) {
+                    selectedItems.push({
+                        key: key,
+                        displayName: humanCfg.displayName,
+                        cost: humanCfg.cost,
+                        icon: humanCfg.icon
+                    });
+                    totalHumanCost += humanCfg.cost;
+                }
+            }
+        });
+
+        // Hide empty state, show list
+        emptyStateMessageEl.style.display = 'none';
+        humanEquivalentItemsEl.style.display = 'block';
+        financialSummaryEl.style.display = 'block';
+
+        // Clear and rebuild list items
+        humanEquivalentItemsEl.innerHTML = '';
+
+        selectedItems.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.className = 'financial-impact-item';
+            
+            // Icon mapping
+            const iconMap = {
+                'phone-call': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>',
+                'message-circle': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>',
+                'monitor': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>',
+                'zap': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>'
+            };
+
+            listItem.innerHTML = `
+                <div class="financial-impact-item-icon">
+                    ${iconMap[item.icon] || ''}
+                </div>
+                <div class="financial-impact-item-text">${item.displayName}</div>
+                <div class="financial-impact-item-price">~${formatCurrency(item.cost)}/mo</div>
+            `;
+            
+            humanEquivalentItemsEl.appendChild(listItem);
+        });
+
+        // Update Summary
+        totalMarketValueEl.textContent = `~${formatCurrency(totalHumanCost)}/mo`;
+        
+        const yearlySavings = Math.round((totalHumanCost - aiMonthlyTotal) * 12);
+        annualSavingsEl.textContent = `${formatCurrency(yearlySavings)}/year`;
+    };
+
+    serviceCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            card.classList.toggle('active');
+            calculate();
+        });
+    });
+
+    activityButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            activityButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentLevel = btn.dataset.level || 'low';
+            calculate();
+        });
+    });
+
+    cta.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById('book-demo');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            window.location.href = 'book-demo.html';
+        }
+    });
+
+    calculate();
 }

@@ -8,7 +8,7 @@ class CustomFooter extends HTMLElement {
                         <!-- Logo & Bio -->
                         <div class="lg:col-span-1">
                             <a href="/" class="flex items-center mb-4">
-                                <img src="image copy 3.png" alt="ScaleMako Logo" class="h-14 w-auto object-contain">
+                                <img src="assets/images/image copy 3.png" alt="ScaleMako Logo" class="h-14 w-auto object-contain">
                             </a>
                             <p class="text-gray-400 text-sm font-sans leading-relaxed mt-4">
                                 Your AI partner for smarter business growth. We build custom automation solutions that save time and boost revenue.
