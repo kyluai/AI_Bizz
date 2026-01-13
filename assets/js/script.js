@@ -150,14 +150,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
     });
 
-    // Chat widget toggle
-    const chatButton = document.querySelector('.fixed.bottom-6.right-6 button');
-    if (chatButton) {
-        chatButton.addEventListener('click', function() {
-            // In a real implementation, this would open a chat widget
-            console.log('Opening chat widget');
-        });
-    }
+    // ============================================
+    // FLOATING CHAT WIDGET
+    // ============================================
+    initFloatingChatWidget();
 
     // Demo form submission
     const demoForms = document.querySelectorAll('[data-demo-form]');
@@ -783,13 +779,145 @@ function initChatModal() {
     let isChatOpen = false;
     let hasStartedConversation = false;
     
-    // Pre-written responses
+    // Storage keys
+    const STORAGE_KEY_HISTORY = 'scaleMako_chatHistory';
+    const STORAGE_KEY_THREAD = 'scaleMako_threadId';
+    
+    // Thread ID storage (persists conversation across messages)
+    let currentThreadId = null;
+    
+    // Raw message history (stores only plain text, no HTML)
+    let rawMessageHistory = [];
+    
+    // Load from localStorage on init
+    function loadFromStorage() {
+        if (typeof Storage === 'undefined') return;
+        
+        try {
+            const savedHistory = localStorage.getItem(STORAGE_KEY_HISTORY);
+            const savedThreadId = localStorage.getItem(STORAGE_KEY_THREAD);
+            
+            if (savedThreadId) {
+                currentThreadId = savedThreadId;
+            }
+            
+            if (savedHistory) {
+                const history = JSON.parse(savedHistory);
+                if (Array.isArray(history) && history.length > 0) {
+                    // Auto-clean legacy HTML data
+                    const cleanedHistory = cleanLegacyHTML(history);
+                    rawMessageHistory = cleanedHistory;
+                    
+                    // Render existing messages (using raw text)
+                    renderHistory(cleanedHistory);
+                    // Switch to conversation state
+                    hasStartedConversation = true;
+                    welcomeState.classList.add('hidden');
+                    conversationState.classList.remove('hidden');
+                }
+            }
+        } catch (error) {
+            console.error('Error loading from localStorage:', error);
+        }
+    }
+    
+    // Clean legacy HTML data from old localStorage entries
+    function cleanLegacyHTML(history) {
+        return history.map(msg => {
+            let text = msg.text || '';
+            // If text contains HTML tags, strip them
+            if (text.includes('<')) {
+                const tmp = document.createElement('div');
+                tmp.innerHTML = text;
+                text = tmp.textContent || tmp.innerText || '';
+            }
+            return {
+                sender: msg.sender,
+                text: text.trim()
+            };
+        }).filter(msg => msg.text.length > 0); // Remove empty messages
+    }
+    
+    // Save to localStorage
+    function saveToStorage() {
+        if (typeof Storage === 'undefined') return;
+        
+        try {
+            const history = getMessageHistory();
+            localStorage.setItem(STORAGE_KEY_HISTORY, JSON.stringify(history));
+            if (currentThreadId) {
+                localStorage.setItem(STORAGE_KEY_THREAD, currentThreadId);
+            }
+        } catch (error) {
+            console.error('Error saving to localStorage:', error);
+        }
+    }
+    
+    // Clear storage
+    function clearStorage() {
+        if (typeof Storage === 'undefined') return;
+        localStorage.removeItem(STORAGE_KEY_HISTORY);
+        localStorage.removeItem(STORAGE_KEY_THREAD);
+        currentThreadId = null;
+        rawMessageHistory = []; // Clear in-memory history too
+    }
+    
+    // Get current message history from raw storage (not DOM)
+    function getMessageHistory() {
+        // Return the raw message history array (plain text only)
+        return rawMessageHistory;
+    }
+    
+    // Add message to raw history (stores only plain text)
+    function addToRawHistory(text, isUser) {
+        rawMessageHistory.push({
+            sender: isUser ? 'user' : 'ai',
+            text: text.trim() // Store only raw text, no HTML
+        });
+        // Keep history limited to last 100 messages
+        if (rawMessageHistory.length > 100) {
+            rawMessageHistory = rawMessageHistory.slice(-100);
+        }
+    }
+    
+    // Render history from storage (raw text only)
+    function renderHistory(history) {
+        chatMessages.innerHTML = '';
+        history.forEach(msg => {
+            // Pass raw text to add functions - they will format it fresh
+            if (msg.sender === 'user') {
+                addUserMessage(msg.text, false); // false = don't save (already in rawMessageHistory)
+            } else {
+                addAIMessage(msg.text, false); // false = don't save (already in rawMessageHistory)
+            }
+        });
+        scrollToBottom();
+    }
+    
+    // Pre-written responses (fallback)
     const responses = {
         services: "We offer three main AI-powered services:\n\n**1. AI Voice Agents** — Answer calls 24/7, qualify leads, and book appointments automatically.\n\n**2. Chat Assistants** — Handle website chat, answer questions instantly, and capture leads.\n\n**3. Workflow Automations** — Connect your CRM, email, and tools seamlessly.\n\nAll solutions are custom-built for your business. Would you like details on any specific service?",
         qualify: "Our AI agents work around the clock to qualify your leads:\n\n✅ **Instant Response** — Engage visitors within seconds, not hours\n✅ **Smart Questions** — Ask qualifying questions to identify hot leads\n✅ **Auto-Booking** — Schedule appointments directly on your calendar\n✅ **CRM Sync** — Push qualified leads to your existing tools\n\nBusinesses using our AI see an average **20% increase in qualified leads**. Want to see it in action?",
         cost: "Our pricing is transparent and scales with your needs:\n\n• **Starter** — $99/mo + $499 setup (Voice Agent)\n• **Growth** — $199/mo + $999 setup (Voice + Chatbot)\n• **Scale** — $299/mo + $1,499 setup (Full AI Website)\n• **Automations** — $750 one-time per project\n\nAll plans include unlimited conversations. [Book a free demo](book-demo.html) to discuss which plan fits your business!",
         demo: "I'd love to set you up with a free demo! Here's what to expect:\n\n📅 **30 minutes** — Quick but comprehensive\n🎯 **Personalized** — Tailored to your specific business\n💰 **No obligation** — Just learning and questions\n\n**How to book:**\n1. Click 'Book a Free Demo' in the navigation\n2. Or visit [book-demo.html](book-demo.html)\n3. Pick a time that works for you\n\nWe'll contact you within 1 business day to confirm!"
     };
+    
+    // Listen for chat refresh events from widget
+    window.addEventListener('chatRefreshed', () => {
+        // Widget was refreshed - reload modal state if open
+        if (isChatOpen) {
+            loadFromStorage();
+            if (rawMessageHistory.length === 0) {
+                chatMessages.innerHTML = '';
+                resetToWelcome();
+            } else {
+                renderHistory(rawMessageHistory);
+                hasStartedConversation = true;
+                welcomeState.classList.add('hidden');
+                conversationState.classList.remove('hidden');
+            }
+        }
+    });
     
     // Open Modal
     function openModal() {
@@ -814,6 +942,14 @@ function initChatModal() {
         document.body.style.overflow = 'hidden';
         document.body.classList.add('modal-open');
         
+        // Load history when opening (always reload to sync with widget)
+        loadFromStorage();
+        
+        // If there's no history, ensure welcome state is shown
+        if (rawMessageHistory.length === 0) {
+            resetToWelcome();
+        }
+        
         // Focus input after a short delay
         const input = document.getElementById('modalChatInput');
         setTimeout(() => {
@@ -822,6 +958,24 @@ function initChatModal() {
                 console.log('Input focused');
             }
         }, 100);
+    }
+    
+    // Refresh Chat (Start New Conversation)
+    const modalRefreshBtn = document.getElementById('modalChatRefresh');
+    if (modalRefreshBtn) {
+        modalRefreshBtn.addEventListener('click', () => {
+            if (confirm('Start a new conversation?')) {
+                clearStorage();
+                chatMessages.innerHTML = '';
+                resetToWelcome();
+                currentThreadId = null;
+                rawMessageHistory = [];
+                hasStartedConversation = false;
+                
+                // Notify widget that chat was refreshed
+                window.dispatchEvent(new CustomEvent('chatRefreshed'));
+            }
+        });
     }
     
     // Close Modal
@@ -837,7 +991,11 @@ function initChatModal() {
             // Unlock body scroll - CRITICAL
             document.body.style.overflow = '';
             document.body.classList.remove('modal-open');
-            resetToWelcome();
+            // Don't reset to welcome if there's conversation history - just hide the modal
+            // Only reset if there's no history
+            if (rawMessageHistory.length === 0) {
+                resetToWelcome();
+            }
         }, 300);
     }
     
@@ -862,8 +1020,10 @@ function initChatModal() {
         welcomeState.classList.add('hidden');
         conversationState.classList.remove('hidden');
         
-        // Add initial AI greeting
-        addAIMessage("Hello! I'm Mako, your AI guide. I can show you how we automate sales, explain our services, or help you book a demo. What would you like to know?");
+        // Only add initial greeting if there's no existing history
+        if (rawMessageHistory.length === 0) {
+            addAIMessage("Hello! I'm Mako, your AI guide. I can show you how we automate sales, explain our services, or help you book a demo. What would you like to know?", true);
+        }
     }
     
     // Reset to welcome state
@@ -875,8 +1035,23 @@ function initChatModal() {
     }
     
     // Add user message
-    function addUserMessage(text) {
-        if (!hasStartedConversation) startConversation();
+    function addUserMessage(text, shouldSave = true) {
+        if (!hasStartedConversation) {
+            // Only start conversation if there's no existing history
+            if (rawMessageHistory.length === 0) {
+                startConversation();
+            } else {
+                // If there's history, just switch to conversation mode without greeting
+                hasStartedConversation = true;
+                welcomeState.classList.add('hidden');
+                conversationState.classList.remove('hidden');
+            }
+        }
+        
+        // Add to raw history BEFORE formatting (store only plain text)
+        if (shouldSave) {
+            addToRawHistory(text, true);
+        }
         
         const messageDiv = document.createElement('div');
         messageDiv.className = 'flex items-end space-x-2 justify-end chat-message-animate';
@@ -893,10 +1068,24 @@ function initChatModal() {
         `;
         chatMessages.appendChild(messageDiv);
         scrollToBottom();
+        
+        // Save to localStorage
+        if (shouldSave) {
+            setTimeout(() => saveToStorage(), 0);
+        }
     }
     
     // Add AI message
-    function addAIMessage(text) {
+    // text: Raw text content (no HTML) - will be formatted with markdown
+    // shouldSave: Whether to save to localStorage
+    function addAIMessage(text, shouldSave = true) {
+        // Add to raw history BEFORE formatting (store only plain text)
+        if (shouldSave) {
+            addToRawHistory(text, false);
+        }
+        
+        // Create message element with HTML styling (applied only when rendering)
+        // formatAIResponse() converts markdown to HTML on the fly
         const messageDiv = document.createElement('div');
         messageDiv.className = 'flex items-end space-x-2 chat-message-animate';
         messageDiv.style.marginBottom = '1.25rem';
@@ -905,11 +1094,16 @@ function initChatModal() {
                 <img src="assets/images/Gemini_Generated_Image_p3gpd8p3gpd8p3gp.png" alt="Mako" class="w-full h-full object-cover rounded-full">
             </div>
             <div class="flex-1 rounded-[18px] rounded-tl-none p-5 max-w-[85%]" style="background-color: #f3f4f6; color: #1f2937; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <p class="text-base leading-relaxed font-sans whitespace-pre-line" style="color: #1f2937;">${formatMessage(text)}</p>
+                <div class="text-base leading-relaxed font-sans" style="color: #1f2937;">${formatAIResponse(text)}</div>
             </div>
         `;
         chatMessages.appendChild(messageDiv);
         scrollToBottom();
+        
+        // Save raw history to localStorage
+        if (shouldSave) {
+            setTimeout(() => saveToStorage(), 0);
+        }
     }
     
     // Add typing indicator
@@ -940,8 +1134,28 @@ function initChatModal() {
         if (indicator) indicator.remove();
     }
     
+    // Simulate user typing (for chips)
+    async function simulateUserTyping(message) {
+        // Add user message
+        addUserMessage(message);
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        try {
+            // Get AI response from backend
+            const response = await getAIResponse(message);
+            hideTypingIndicator();
+            addAIMessage(response);
+        } catch (error) {
+            console.error('Error in simulateUserTyping:', error);
+            hideTypingIndicator();
+            addAIMessage("I'm sorry, I encountered an error. Please try again.");
+        }
+    }
+    
     // Handle question (from cards or input)
-    function handleQuestion(questionKey) {
+    async function handleQuestion(questionKey) {
         const questionTexts = {
             services: "What AI services do you offer?",
             qualify: "How can you help qualify my leads?",
@@ -950,61 +1164,178 @@ function initChatModal() {
         };
         
         const questionText = questionTexts[questionKey] || questionKey;
-        addUserMessage(questionText);
         
-        showTypingIndicator();
+        // Simulate user typing
+        await simulateUserTyping(questionText);
+    }
+    
+    // Get AI Response (Backend API Integration)
+    async function getAIResponse(userMessage) {
+        try {
+            // Call backend API endpoint
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: userMessage,
+                    threadId: currentThreadId // Send existing thread ID to maintain conversation
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            // Update thread ID if we got a new one or if this is the first message
+            if (data.threadId) {
+                currentThreadId = data.threadId;
+                // Store in localStorage to persist across page refreshes
+                if (typeof Storage !== 'undefined') {
+                    localStorage.setItem(STORAGE_KEY_THREAD, currentThreadId);
+                }
+            }
+            
+            return data.response || getFallbackResponse(userMessage);
+            
+        } catch (error) {
+            console.error('Error getting AI response:', error);
+            
+            // If it's a network error, show a helpful message
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                return "I'm having trouble connecting to the server. Please check your internet connection and try again.";
+            }
+            
+            return getFallbackResponse(userMessage);
+        }
+    }
+    
+    // Fallback Response (when API not configured)
+    function getFallbackResponse(userMessage) {
+        const lowerMessage = userMessage.toLowerCase();
         
-        setTimeout(() => {
-            hideTypingIndicator();
-            const response = responses[questionKey] || "I'd be happy to help with that! For more specific questions, I'd recommend booking a free demo where our team can give you personalized answers.";
-            addAIMessage(response);
-        }, 1200 + Math.random() * 800);
+        if (lowerMessage.includes('service') || lowerMessage.includes('offer') || lowerMessage.includes('what do you')) {
+            return responses.services;
+        } else if (lowerMessage.includes('qualify') || lowerMessage.includes('lead') || lowerMessage.includes('24/7')) {
+            return responses.qualify;
+        } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('how much') || lowerMessage.includes('pricing')) {
+            return responses.cost;
+        } else if (lowerMessage.includes('demo') || lowerMessage.includes('book') || lowerMessage.includes('schedule') || lowerMessage.includes('meeting')) {
+            return responses.demo;
+        } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+            return "Hello! 👋 Great to meet you. I'm here to help you learn about Mako's AI solutions. What would you like to know about?";
+        }
+        
+        return "Thanks for your question! I can help with information about our AI services, pricing, or booking a demo. For more specific business questions, our team would love to chat with you during a free demo call.";
+    }
+    
+    // Auto-resize textarea
+    function autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 160) + 'px'; // Max ~10rem (160px)
     }
     
     // Handle send
-    function handleSend() {
+    async function handleSend() {
         const message = chatInput.value.trim();
         if (!message) return;
         
-        if (!hasStartedConversation) startConversation();
+        if (!hasStartedConversation) {
+            // Only start conversation if there's no existing history
+            if (rawMessageHistory.length === 0) {
+                startConversation();
+            } else {
+                // If there's history, just switch to conversation mode without greeting
+                hasStartedConversation = true;
+                welcomeState.classList.add('hidden');
+                conversationState.classList.remove('hidden');
+            }
+        }
         
         addUserMessage(message);
         chatInput.value = '';
+        // Reset textarea height after sending
+        if (chatInput) {
+            chatInput.style.height = 'auto';
+        }
         
         showTypingIndicator();
         
-        setTimeout(() => {
+        try {
+            // Get AI response from backend
+            const response = await getAIResponse(message);
             hideTypingIndicator();
-            
-            const lowerMessage = message.toLowerCase();
-            let response = "Thanks for your question! I can help with information about our AI services, pricing, or booking a demo. For more specific business questions, our team would love to chat with you during a free demo call.";
-            
-            if (lowerMessage.includes('service') || lowerMessage.includes('offer') || lowerMessage.includes('what do you')) {
-                response = responses.services;
-            } else if (lowerMessage.includes('qualify') || lowerMessage.includes('lead') || lowerMessage.includes('24/7')) {
-                response = responses.qualify;
-            } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('how much') || lowerMessage.includes('pricing')) {
-                response = responses.cost;
-            } else if (lowerMessage.includes('demo') || lowerMessage.includes('book') || lowerMessage.includes('schedule') || lowerMessage.includes('meeting')) {
-                response = responses.demo;
-            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                response = "Hello! 👋 Great to meet you. I'm here to help you learn about Mako's AI solutions. What would you like to know about?";
-            }
-            
             addAIMessage(response);
-        }, 1200 + Math.random() * 800);
+            // Save after both messages are added
+            saveToStorage();
+        } catch (error) {
+            console.error('Error in handleSend:', error);
+            hideTypingIndicator();
+            addAIMessage("I'm sorry, I encountered an error. Please try again.");
+            saveToStorage();
+        }
     }
     
-    // Format message with markdown-like syntax
-    function formatMessage(text) {
+    // Format AI Response - Shared function for markdown parsing
+    function formatAIResponse(text) {
+        if (!text) return '';
+        
+        // Check if marked.js is available (if user added the CDN)
+        if (typeof marked !== 'undefined') {
+            try {
+                // Use marked.js for proper markdown parsing
+                let formatted = marked.parse(text);
+                // Strip citations (OpenAI format: 【...†source】 or 【...】)
+                formatted = formatted.replace(/【[^】]*†[^】]*】/g, '').replace(/【[^】]*】/g, '');
+                return formatted;
+            } catch (error) {
+                console.warn('Error using marked.js, falling back to regex:', error);
+            }
+        }
+        
+        // Fallback: Custom regex-based formatting
         let formatted = escapeHtml(text);
-        // Handle markdown links
+        
+        // Strip citations first (OpenAI format: 【...†source】 or 【...】)
+        formatted = formatted.replace(/【[^】]*†[^】]*】/g, '').replace(/【[^】]*】/g, '');
+        
+        // Handle markdown links [text](url)
         formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, linkText, url) => {
-            return `<a href="${url}" class="text-blue-600 hover:text-blue-700 underline font-medium" ${url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkText}</a>`;
+            const isExternal = url.startsWith('http');
+            return `<a href="${url}" class="text-blue-600 hover:text-blue-700 underline font-medium" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}>${linkText}</a>`;
         });
-        // Handle bold
+        
+        // Handle bold **text**
         formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 font-semibold">$1</strong>');
+        
+        // Handle italic *text*
+        formatted = formatted.replace(/\*(.*?)\*/g, '<em class="text-gray-700">$1</em>');
+        
+        // Handle lists (lines starting with - or 1. 2. etc.)
+        formatted = formatted.replace(/^[-•]\s+(.+)$/gm, '<li class="ml-4 mb-1">$1</li>');
+        formatted = formatted.replace(/^\d+\.\s+(.+)$/gm, '<li class="ml-4 mb-1">$1</li>');
+        
+        // Wrap consecutive list items in <ul>
+        formatted = formatted.replace(/(<li[^>]*>.*?<\/li>\n?)+/g, (match) => {
+            return '<ul class="list-disc ml-6 my-2 space-y-1">' + match + '</ul>';
+        });
+        
+        // Handle line breaks
+        formatted = formatted.replace(/\n/g, '<br>');
+        
+        // Auto-link URLs
+        formatted = formatted.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" class="text-blue-600 hover:text-blue-700 underline" target="_blank" rel="noopener noreferrer">$1</a>');
+        
         return formatted;
+    }
+    
+    // Format message with markdown-like syntax (alias for compatibility)
+    function formatMessage(text) {
+        return formatAIResponse(text);
     }
     
     // Escape HTML
@@ -1095,10 +1426,17 @@ function initChatModal() {
         sendBtn.addEventListener('click', handleSend);
     }
     
-    // Enter to send
+    // Auto-resize and Enter key handling for modal input
     if (chatInput) {
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+        // Auto-resize textarea on input
+        chatInput.addEventListener('input', () => {
+            autoResizeTextarea(chatInput);
+        });
+        
+        // Handle Enter key (send on Enter, new line on Shift+Enter)
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
                 handleSend();
             }
         });
@@ -1235,10 +1573,17 @@ function initQuoteBuilder() {
     const humanEquivalentItemsEl = document.getElementById('humanEquivalentItems');
     const financialSummaryEl = document.getElementById('financialSummary');
     const totalMarketValueEl = document.getElementById('totalMarketValue');
-    const annualSavingsEl = document.getElementById('annualSavings');
-    const cta = document.getElementById('quoteCta');
+    const savingsLabelEl = document.getElementById('savingsLabel');
+    const savingsAmountEl = document.getElementById('savingsAmount');
+    const savingsTabs = document.querySelectorAll('.financial-savings-tab');
 
-    if (!serviceCards.length || !activityButtons.length || !financialImpactPriceEl || !emptyStateMessageEl || !humanEquivalentItemsEl || !financialSummaryEl || !totalMarketValueEl || !annualSavingsEl || !cta) return;
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/f82f459d-1454-4ae9-8801-70f3d8c7e00b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:1236',message:'savingsTabs querySelectorAll result',data:{tabsFound:savingsTabs.length,summaryExists:!!financialSummaryEl},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+
+    if (!serviceCards.length || !activityButtons.length || !financialImpactPriceEl || !emptyStateMessageEl || !humanEquivalentItemsEl || !financialSummaryEl || !totalMarketValueEl || !savingsLabelEl || !savingsAmountEl) return;
+
+    let savingsPeriod = 'monthly'; // 'monthly' or 'annual'
 
     const basePricing = {
         voice:   { setupMin: 497,  setupMax: 797,  monthly: 97  },
@@ -1345,8 +1690,12 @@ function initQuoteBuilder() {
         if (selectedCount === 0) {
             // Empty State
             financialImpactPriceEl.textContent = '$0/mo';
-            emptyStateMessageEl.style.display = 'block';
-            humanEquivalentItemsEl.style.display = 'none';
+            emptyStateMessageEl.style.display = 'flex';
+            const itemsContainer = document.getElementById('humanEquivalentItemsContainer');
+            if (itemsContainer) {
+                itemsContainer.style.display = 'none';
+            }
+            humanEquivalentItemsEl.innerHTML = '';
             financialSummaryEl.style.display = 'none';
             return;
         }
@@ -1367,11 +1716,16 @@ function initQuoteBuilder() {
             if (card.classList.contains('active')) {
                 const key = card.dataset.service;
                 const humanCfg = humanRoleCosts[key];
-                if (humanCfg) {
+                const pricingCfg = basePricing[key];
+                if (humanCfg && pricingCfg) {
+                    const aiMonthlyCost = Math.round(pricingCfg.monthly * mult.monthly);
+                    const monthlySavings = humanCfg.cost - aiMonthlyCost;
                     selectedItems.push({
                         key: key,
-                        displayName: humanCfg.displayName,
-                        cost: humanCfg.cost,
+                        displayName: humanCfg.role,
+                        humanCost: humanCfg.cost,
+                        aiCost: aiMonthlyCost,
+                        monthlySavings: monthlySavings,
                         icon: humanCfg.icon
                     });
                     totalHumanCost += humanCfg.cost;
@@ -1379,43 +1733,106 @@ function initQuoteBuilder() {
             }
         });
 
-        // Hide empty state, show list
+        // Get the container elements
+        const itemsContainer = document.getElementById('humanEquivalentItemsContainer');
+        const humanEquivalentListEl = document.getElementById('humanEquivalentList');
+        
+        // Hide empty state, show container and summary
         emptyStateMessageEl.style.display = 'none';
-        humanEquivalentItemsEl.style.display = 'block';
+        if (itemsContainer) {
+            itemsContainer.style.display = 'block';
+        }
         financialSummaryEl.style.display = 'block';
 
-        // Clear and rebuild list items
+        // Clear the container completely first
         humanEquivalentItemsEl.innerHTML = '';
 
-        selectedItems.forEach(item => {
-            const listItem = document.createElement('div');
-            listItem.className = 'financial-impact-item';
-            
-            // Icon mapping
-            const iconMap = {
-                'phone-call': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>',
-                'message-circle': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>',
-                'monitor': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>',
-                'zap': '<svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>'
-            };
+        // If no items selected, show empty state
+        if (selectedItems.length === 0) {
+            emptyStateMessageEl.style.display = 'flex';
+            if (itemsContainer) {
+                itemsContainer.style.display = 'none';
+            }
+            financialSummaryEl.style.display = 'none';
+            return;
+        }
 
-            listItem.innerHTML = `
-                <div class="financial-impact-item-icon">
-                    ${iconMap[item.icon] || ''}
+        // Build HTML string for all items
+        let itemsHTML = '';
+        selectedItems.forEach(item => {
+            const itemHTML = `
+                <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
+                    <span class="text-sm font-medium text-gray-700">
+                        ${item.displayName}
+                    </span>
+                    <div class="flex flex-col items-end">
+                        <span class="text-xs text-gray-400 line-through decoration-gray-400 mb-0.5">
+                            ${formatCurrency(item.humanCost)}/mo
+                        </span>
+                        <span class="text-sm font-bold text-amber-500" style="color: #f59e0b;">
+                            ScaleMako: ${formatCurrency(item.aiCost)}/mo
+                        </span>
+                    </div>
                 </div>
-                <div class="financial-impact-item-text">${item.displayName}</div>
-                <div class="financial-impact-item-price">~${formatCurrency(item.cost)}/mo</div>
             `;
-            
-            humanEquivalentItemsEl.appendChild(listItem);
+            itemsHTML += itemHTML;
         });
 
-        // Update Summary
-        totalMarketValueEl.textContent = `~${formatCurrency(totalHumanCost)}/mo`;
+        // Set the HTML directly
+        humanEquivalentItemsEl.innerHTML = itemsHTML;
+
+        // Update Summary - Show total human cost (traditional salary cost)
+        totalMarketValueEl.textContent = `${formatCurrency(totalHumanCost)}/mo`;
         
-        const yearlySavings = Math.round((totalHumanCost - aiMonthlyTotal) * 12);
-        annualSavingsEl.textContent = `${formatCurrency(yearlySavings)}/year`;
+        // Calculate savings
+        const monthlySavings = totalHumanCost - aiMonthlyTotal;
+        const yearlySavings = Math.round(monthlySavings * 12);
+        
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/f82f459d-1454-4ae9-8801-70f3d8c7e00b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:1437',message:'Before updateSavingsDisplay call',data:{monthlySavings,yearlySavings,savingsPeriod,selectedItemsCount:selectedItems.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+        // #endregion
+        
+        // Update savings display based on selected period
+        updateSavingsDisplay(monthlySavings, yearlySavings);
     };
+
+    // Update savings display based on selected period
+    function updateSavingsDisplay(monthlySavings, yearlySavings) {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/f82f459d-1454-4ae9-8801-70f3d8c7e00b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:1446',message:'updateSavingsDisplay called',data:{savingsPeriod,monthlySavings,yearlySavings,labelElExists:!!savingsLabelEl,amountElExists:!!savingsAmountEl},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+        // #endregion
+        if (savingsPeriod === 'monthly') {
+            savingsLabelEl.textContent = 'Estimated Monthly Savings:';
+            savingsAmountEl.textContent = `${formatCurrency(monthlySavings)}/mo`;
+        } else {
+            savingsLabelEl.textContent = 'Estimated Annual Savings using ScaleMako:';
+            savingsAmountEl.textContent = `${formatCurrency(yearlySavings)}/year`;
+        }
+    }
+
+    // Savings tab toggle
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/f82f459d-1454-4ae9-8801-70f3d8c7e00b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:1456',message:'Setting up tab listeners',data:{tabsCount:savingsTabs.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+    savingsTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/f82f459d-1454-4ae9-8801-70f3d8c7e00b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:1460',message:'Tab clicked',data:{period:tab.getAttribute('data-period')},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+            // #endregion
+            savingsTabs.forEach(t => {
+                t.classList.remove('active');
+                t.classList.remove('bg-white', 'shadow-sm');
+                t.classList.add('bg-transparent');
+            });
+            tab.classList.add('active');
+            tab.classList.remove('bg-transparent');
+            tab.classList.add('bg-white', 'shadow-sm');
+            savingsPeriod = tab.getAttribute('data-period');
+            
+            // Recalculate to update display
+            calculate();
+        });
+    });
 
     serviceCards.forEach(card => {
         card.addEventListener('click', (e) => {
@@ -1437,15 +1854,7 @@ function initQuoteBuilder() {
         });
     });
 
-    cta.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.getElementById('book-demo');
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            window.location.href = 'book-demo.html';
-        }
-    });
+    // CTA is now a link element, no event listener needed
 
     calculate();
 }

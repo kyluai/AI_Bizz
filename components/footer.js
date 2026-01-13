@@ -38,23 +38,14 @@ class CustomFooter extends HTMLElement {
                             </ul>
                         </div>
                         
-                        <!-- Social -->
+                        <!-- Contact -->
                         <div>
-                            <h4 class="text-gray-900 font-display font-semibold mb-4">Connect</h4>
-                            <ul class="space-y-3">
-                                <li><a href="mailto:hello@scalemako.ai" class="text-gray-600 hover:text-[#0072FF] transition-colors font-sans text-sm">hello@scalemako.ai</a></li>
-                                <li class="flex items-center gap-4 mt-6">
-                                    <a href="#" class="text-gray-600 hover:text-[#0072FF] transition-colors" aria-label="LinkedIn">
-                                        <i data-feather="linkedin" class="w-5 h-5"></i>
-                                    </a>
-                                    <a href="#" class="text-gray-600 hover:text-[#0072FF] transition-colors" aria-label="Twitter">
-                                        <i data-feather="twitter" class="w-5 h-5"></i>
-                                    </a>
-                                    <a href="#" class="text-gray-600 hover:text-[#0072FF] transition-colors" aria-label="Facebook">
-                                        <i data-feather="facebook" class="w-5 h-5"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            <h4 class="text-gray-900 font-display font-semibold mb-4">Contact Us</h4>
+                            <div class="space-y-3">
+                                <a href="mailto:hello@scalemako.ai" class="text-gray-600 hover:text-[#0072FF] transition-colors font-sans text-sm inline-block">
+                                    hello@scalemako.ai
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

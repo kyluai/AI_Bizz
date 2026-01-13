@@ -132,12 +132,18 @@ dark: {
                             <span class="text-gray-600 text-xs font-sans">Online</span>
                         </div>
                     </div>
-                    <!-- Close Button -->
-                    <button id="closeModalBtn" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-red-600 transition-all duration-200 group">
-                        <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button id="modalChatRefresh" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-primary-500 transition-all" title="Start New Conversation">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                        </button>
+                        <button id="closeModalBtn" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-red-600 transition-all duration-200 group">
+                            <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 
                 <!-- Chat Area -->
@@ -229,16 +235,16 @@ dark: {
                 <!-- Input Area (Docked to Bottom) -->
                 <div class="border-t border-gray-200 bg-white p-6">
                     <div class="relative max-w-3xl mx-auto">
-                        <div class="relative flex items-center bg-gray-100 border border-gray-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all rounded-full">
-                            <input 
-                                type="text" 
+                        <div class="relative flex items-end bg-gray-100 border border-gray-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all rounded-2xl">
+                            <textarea 
                                 id="modalChatInput" 
                                 placeholder="Ask me anything about Mako..."
-                                class="flex-1 px-6 py-4 bg-transparent text-gray-900 placeholder-gray-500 focus:outline-none font-sans text-base rounded-full"
-                            />
+                                class="flex-1 px-6 py-4 bg-transparent text-gray-900 placeholder-gray-500 focus:outline-none font-sans text-base resize-none overflow-hidden rounded-2xl"
+                                rows="1"
+                            ></textarea>
                             <button 
                                 id="modalSendBtn"
-                                class="mr-2 p-3 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105"
+                                class="mr-2 mb-2 p-3 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 flex-shrink-0"
                             >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
@@ -339,7 +345,7 @@ dark: {
 </div>
             <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="services-grid">
                 <!-- Service Card 1 -->
-                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
                     <div class="w-14 h-14 rounded-xl bg-primary-500/10 flex items-center justify-center">
                         <i data-feather="globe" class="text-primary-500 w-6 h-6"></i>
                     </div>
@@ -348,14 +354,14 @@ dark: {
                         Turn visitors into clients with smart, conversion-driven sites powered by built-in AI chat and automated booking.
  Engage, capture, and schedule — all in one click.
                     </p>
-<a href="#demos" class="mt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
+                    <a href="#demos" class="mt-auto pt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
                         See Demo
                         <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
                     </a>
                 </div>
 
                 <!-- Service Card 2 -->
-                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
                     <div class="w-14 h-14 rounded-xl bg-primary-500/10 flex items-center justify-center">
                         <i data-feather="message-circle" class="text-primary-500 w-6 h-6"></i>
                     </div>
@@ -363,14 +369,14 @@ dark: {
                     <p class="mt-2 text-gray-600">
                         24/7 automated support that answers questions, captures leads, and books calls while you focus on business.
                     </p>
-<a href="#demos" class="mt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
+                    <a href="#demos" class="mt-auto pt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
                         See Demo
                         <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
                     </a>
                 </div>
 
                 <!-- Service Card 3 -->
-                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
                     <div class="w-14 h-14 rounded-xl bg-primary-500/10 flex items-center justify-center">
                         <i data-feather="zap" class="text-primary-500 w-6 h-6"></i>
                     </div>
@@ -379,14 +385,14 @@ dark: {
                         Connect calls, chats, and calendars seamlessly. Every follow up is handled automatically behind the scenes.
  Almost like your business is running itself.
                     </p>
-<a href="#demos" class="mt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
+                    <a href="#demos" class="mt-auto pt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
                         See Demo
                         <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
                     </a>
                 </div>
 
                 <!-- Service Card 4 -->
-                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="service-card bg-white rounded-2xl p-8 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
                     <div class="w-14 h-14 rounded-xl bg-primary-500/10 flex items-center justify-center">
                         <i data-feather="phone-call" class="text-primary-500 w-6 h-6"></i>
                     </div>
@@ -394,7 +400,7 @@ dark: {
                     <p class="mt-2 text-gray-600">
                         Never miss a call again. Our AI picks up, qualifies leads, and schedules appointments automatically.
                     </p>
-<a href="#demos" class="mt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
+                    <a href="#demos" class="mt-auto pt-6 inline-flex items-center text-primary-500 hover:text-primary-400 transition-colors">
                         See Demo
                         <i data-feather="arrow-right" class="ml-2 w-4 h-4"></i>
                     </a>
@@ -693,39 +699,48 @@ dark: {
                         </div>
 
                         <!-- Section 3: Human Equivalent List -->
-                        <div id="humanEquivalentList" class="financial-impact-list">
+                        <div id="humanEquivalentList" class="bg-gray-50 rounded-lg p-4 max-h-[240px] overflow-y-auto">
                             <!-- Empty State -->
-                            <div id="emptyStateMessage" class="financial-impact-empty">
-                                <p class="text-sm text-gray-500 text-center py-8">
-                                    Select tools to calculate your savings.
+                            <div id="emptyStateMessage" class="flex items-center justify-center py-6">
+                                <p class="text-xs text-gray-500 text-center italic">
+                                    Select services to see comparison
                                 </p>
                             </div>
                             
-                            <!-- Dynamic List Items -->
-                            <div id="humanEquivalentItems" style="display: none;">
-                                <!-- Items will be dynamically inserted here -->
-                            </div>
-
-                            <!-- Bottom Summary -->
-                            <div id="financialSummary" class="financial-impact-summary" style="display: none;">
-                                <div class="financial-summary-row">
-                                    <span class="text-sm text-gray-600">Total Market Value:</span>
-                                    <span class="text-sm font-medium text-gray-700 line-through" id="totalMarketValue">~$0/mo</span>
-                                </div>
-                                <div class="financial-summary-row">
-                                    <span class="text-sm font-semibold text-gray-900">Your Annual Savings:</span>
-                                    <span class="text-sm font-bold text-emerald-600" id="annualSavings">$0/year</span>
+                            <!-- Dynamic List Items Container - Scrollable -->
+                            <div id="humanEquivalentItemsContainer" style="display: none;">
+                                <div id="humanEquivalentItems">
+                                    <!-- Items will be dynamically inserted here -->
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Bottom Summary -->
+                        <div id="financialSummary" class="mt-4 pt-4 border-t border-gray-200" style="display: none;">
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-xs text-gray-600">Subtotal:</span>
+                                <span class="text-xs font-medium text-gray-700" id="totalMarketValue">$0/mo</span>
+                            </div>
+                            <!-- Savings Toggle Tabs -->
+                            <div class="flex gap-2 my-3 p-1 bg-gray-100 rounded-lg">
+                                <button class="financial-savings-tab active flex-1 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white rounded-md shadow-sm transition-all" data-period="monthly">Monthly</button>
+                                <button class="financial-savings-tab flex-1 px-3 py-1.5 text-xs font-medium text-gray-600 bg-transparent rounded-md transition-all" data-period="annual">Annual</button>
+                            </div>
+                            <div class="flex flex-col items-center mt-3">
+                                <span class="text-xs font-semibold text-gray-900 mb-2" id="savingsLabel">Estimated Monthly Savings:</span>
+                                <span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-bold mx-auto mt-4 w-fit block" id="savingsAmount">$0/mo</span>
+                            </div>
+                        </div>
+
                         <!-- CTA Button -->
-                        <button id="quoteCta" class="mt-6 w-full inline-flex items-center justify-center px-6 py-4 rounded-xl bg-gray-900 text-white font-semibold hover:bg-black transition-all duration-200">
-                            Request Exact Quote
-                        </button>
-                        <p class="text-xs text-gray-500 mt-3 text-center">
-                            These ranges are based on typical local businesses. We'll confirm exact pricing on a short call.
-                        </p>
+                        <div class="mt-auto">
+                            <a href="request-quote.html" id="quoteCta" class="w-full inline-flex items-center justify-center px-6 py-4 rounded-xl bg-gray-900 text-white font-semibold hover:bg-black transition-all duration-200">
+                                Request Exact Quote
+                            </a>
+                            <p class="text-xs text-gray-500 mt-3 text-center">
+                                These ranges are based on typical local businesses. We'll confirm exact pricing on a short call.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -751,21 +766,21 @@ dark: {
                             <i data-feather="user" class="text-primary-500"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-display font-semibold text-gray-900">Sarah Johnson</h4>
-                            <p class="text-sm text-gray-600">Dental Clinic Owner</p>
+                            <h4 class="font-display font-semibold text-gray-900">Maria Santos</h4>
+                            <p class="text-sm text-gray-600">Aesthetic Clinic Owner</p>
                         </div>
                     </div>
                     <div class="mt-6">
                         <i data-feather="quote" class="text-primary-500/30 w-8 h-8"></i>
                         <p class="mt-4 text-gray-700">
-                            "Our AI receptionist has reduced missed calls by 90% and books 15+ appointments a week while we're closed. Game changer!"
+                            "Our AI voice agent handles all after-hours calls and books consultations automatically. We went from missing 40% of leads after 5pm to capturing every single one. Revenue is up 28% in just 3 months."
                         </p>
                         <div class="mt-4 flex">
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         </div>
                     </div>
                 </div>
@@ -777,21 +792,21 @@ dark: {
                             <i data-feather="user" class="text-primary-500"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-display font-semibold">Michael Rodriguez</h4>
-                            <p class="text-sm text-gray-600">Legal Firm Partner</p>
+                            <h4 class="font-display font-semibold text-gray-900">James Mitchell</h4>
+                            <p class="text-sm text-gray-600">HVAC Business Manager</p>
                         </div>
                     </div>
                     <div class="mt-6">
                         <i data-feather="quote" class="text-primary-500/30 w-8 h-8"></i>
                         <p class="mt-4 text-gray-700">
-                            "The AI chatbot on our website qualifies leads before they even talk to us, saving our team hours of unproductive calls."
+                            "The chatbot on our website answers customer questions 24/7 and pre-qualifies emergency calls. Our team now only gets the hot leads, and response time improved from 2 hours to under 15 minutes. Best investment we've made."
                         </p>
                         <div class="mt-4 flex">
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         </div>
                     </div>
                 </div>
@@ -803,21 +818,21 @@ dark: {
                             <i data-feather="user" class="text-primary-500"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-display font-semibold">Emily Chen</h4>
-                            <p class="text-sm text-gray-400">Marketing Agency CEO</p>
+                            <h4 class="font-display font-semibold text-gray-900">Patricia Williams</h4>
+                            <p class="text-sm text-gray-600">Boutique Law Firm Partner</p>
                         </div>
                     </div>
                     <div class="mt-6">
                         <i data-feather="quote" class="text-primary-500/30 w-8 h-8"></i>
                         <p class="mt-4 text-gray-700">
-                            "The workflow automation connects all our tools seamlessly. What used to take hours now happens automatically in minutes."
+                            "ScaleMako's chatbot handles initial client consultations on our website, filtering out time-wasters and booking qualified consultations directly to our calendar. We've eliminated 12 hours of admin work per week and closed 35% more cases."
                         </p>
                         <div class="mt-4 flex">
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
-                            <i data-feather="star" class="w-5 h-5 text-yellow-400"></i>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         </div>
                     </div>
                 </div>
@@ -847,16 +862,95 @@ dark: {
 
     <custom-footer></custom-footer>
 
-    <!-- Floating Chat Button -->
+    <!-- Floating Chat Widget -->
     <div class="fixed bottom-6 right-6 z-50">
-        <button class="w-14 h-14 rounded-full bg-primary-500 shadow-lg hover:bg-primary-600 transition-all flex items-center justify-center group animate-bounce">
+        <!-- Floating Chat Button -->
+        <button id="floatingChatButton" class="w-14 h-14 rounded-full bg-primary-500 shadow-lg hover:bg-primary-600 transition-all flex items-center justify-center group animate-bounce">
             <i data-feather="message-circle" class="text-white w-6 h-6 group-hover:scale-110 transition-transform"></i>
         </button>
+        
+        <!-- Chat Widget Container -->
+        <div id="chatWidget" class="chat-widget-container hidden">
+            <!-- Widget Header -->
+            <div class="chat-widget-header">
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-900 font-display font-semibold text-sm">Mako</span>
+                    <div class="flex items-center gap-1.5">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-gray-600 text-xs font-sans">Online</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="chatWidgetRefresh" class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-primary-500 transition-all" title="Start New Conversation">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </button>
+                    <button id="chatWidgetFullscreen" class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-primary-500 transition-all" title="Go Full Screen">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                        </svg>
+                    </button>
+                    <button id="chatWidgetClose" class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-red-600 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Widget Messages Area -->
+            <div id="chatWidgetMessages" class="chat-widget-messages">
+                <!-- Welcome State -->
+                <div id="chatWidgetWelcome" class="chat-widget-welcome">
+                    <div class="text-center mb-4">
+                        <h3 class="text-sm font-display font-semibold text-gray-900 mb-1">Hello! I'm Mako</h3>
+                        <p class="text-xs text-gray-600">Your AI guide to automating your business</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-gray-600 font-medium mb-2">I can help you with:</p>
+                        <button class="chat-widget-suggestion" data-query="pricing">
+                            <span>💰 Pricing & Plans</span>
+                        </button>
+                        <button class="chat-widget-suggestion" data-query="how it works">
+                            <span>⚙️ How It Works</span>
+                        </button>
+                        <button class="chat-widget-suggestion" data-query="services">
+                            <span>🚀 Our Services</span>
+                        </button>
+                        <button class="chat-widget-suggestion" data-query="demo">
+                            <span>📅 Book a Demo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Widget Input Area -->
+            <div class="chat-widget-input-area">
+                <div class="relative flex items-end">
+                    <textarea 
+                        id="chatWidgetInput" 
+                        placeholder="Type your message..."
+                        class="chat-widget-input"
+                        rows="1"
+                    ></textarea>
+                    <button id="chatWidgetSend" class="chat-widget-send-btn">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="components/faq.js"></script>
     <script src="components/footer.js"></script>
-    <script src="assets/js/script.js?v=2"></script>
+    <script src="assets/js/chat-widget.js"></script>
+    <script src="assets/js/script.js?v=17"></script>
     <script>
         feather.replace();
         

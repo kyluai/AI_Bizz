@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Quote | ScaleMako</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="components/navbar.js?v=12"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: '#00E0FF',
+                            500: '#00C6FF',
+                            600: '#0072FF'
+                        },
+                        dark: {
+                            900: '#020617',
+                            800: '#0B1120'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Page animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .fade-in-left {
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+
+        .fade-in-right {
+            animation: fadeInRight 0.6s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .fade-in-delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .fade-in-delay-4 {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        /* Form input styling - Light Mode */
+        .form-input-light {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            transition: all 0.3s ease;
+            color: #1f2937;
+        }
+
+        .form-input-light::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-input-light:focus {
+            outline: none;
+            border-color: #0072FF;
+            box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.15);
+        }
+
+        .form-input-light.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-input-light:hover:not(:focus) {
+            border-color: #9ca3af;
+        }
+
+        /* Submit button */
+        .submit-btn-gradient {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 114, 255, 0.35);
+        }
+
+        .submit-btn-gradient:active {
+            transform: translateY(0);
+        }
+
+        /* Checkbox styling */
+        .checkbox-light {
+            width: 18px;
+            height: 18px;
+            accent-color: #0072FF;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Checklist item styling */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .checklist-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .checklist-icon svg {
+            width: 12px;
+            height: 12px;
+            stroke: white;
+            stroke-width: 3;
+        }
+
+        /* Trust logos - grayscale */
+        .trust-logo {
+            filter: grayscale(100%);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .trust-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Confirmation state */
+        .confirmation-state {
+            display: none;
+        }
+
+        .confirmation-state.show {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Subtle background pattern */
+        .bg-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(0, 114, 255, 0.03) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
+    <!-- Navbar -->
+    <custom-navbar></custom-navbar>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-pattern min-h-screen">
+        <div class="max-w-6xl mx-auto">
+            <!-- Split Screen Layout -->
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                
+                <!-- Left Column: Value Proposition -->
+                <div class="fade-in-left lg:sticky lg:top-32">
+                    <!-- Header -->
+                    <div class="mb-8">
+                        <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900 leading-tight mb-4">
+                            Get your custom strategy.
+                        </h1>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Share your business context and we'll create a tailored automation plan with exact pricing.
+                        </p>
+                    </div>
+
+                    <!-- What to Expect Section -->
+                    <div class="mb-10">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                            What You'll Receive
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="checklist-item fade-in-up fade-in-delay-1">
+                                <div class="checklist-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800 font-medium">Custom pricing based on your needs</p>
+                                    <p class="text-sm text-gray-500">Accurate quotes tailored to your business volume and goals.</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item fade-in-up fade-in-delay-2">
+                                <div class="checklist-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800 font-medium">ROI calculation and savings estimate</p>
+                                    <p class="text-sm text-gray-500">See exactly how much you'll save compared to traditional solutions.</p>
+                                </div>
+                            </div>
+                            <div class="checklist-item fade-in-up fade-in-delay-3">
+                                <div class="checklist-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-800 font-medium">Implementation timeline</p>
+                                    <p class="text-sm text-gray-500">Clear roadmap for getting your automation live in under 2 weeks.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trust Section -->
+                    <div class="pt-8 border-t border-gray-200 fade-in-up fade-in-delay-4">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                            TRUSTED BY BUSINESSES LIKE YOURS
+                        </p>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <!-- Industry Tags -->
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Real Estate</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Home Services</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Healthcare</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Legal</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">E-commerce</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Form Card -->
+                <div class="fade-in-right">
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-10">
+                        <!-- Form -->
+                        <form id="quoteForm" action="https://formspree.io/f/xkgpldpo" method="POST" class="space-y-5">
+                            <!-- Full Name -->
+                            <div>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Full Name <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="fullName" 
+                                    name="fullName" 
+                                    required
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="John Doe"
+                                />
+                                <span class="error-message" id="fullNameError">Please enter your full name</span>
+                            </div>
+
+                            <!-- Business Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Business Email <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    required
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="john@example.com"
+                                />
+                                <span class="error-message" id="emailError">Please enter a valid email address</span>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Phone Number <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="tel" 
+                                    id="phone" 
+                                    name="phone" 
+                                    required
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="(555) 123-4567"
+                                />
+                                <span class="error-message" id="phoneError">Please enter a valid phone number</span>
+                            </div>
+
+                            <!-- Service Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">
+                                    Services You're Interested In <span class="text-gray-400 text-xs font-normal">(select all that apply)</span>
+                                </label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Voice Receptionists"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Voice Receptionists</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Chat Assistants"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Chat Assistants</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Custom SEO Website Build"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Custom SEO Website Build</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Workflow Automations"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Workflow Automations</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Current Monthly Lead Volume -->
+                            <div>
+                                <label for="leadVolume" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Current Monthly Lead Volume
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="leadVolume" 
+                                    name="leadVolume"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="e.g., 50-100 leads per month"
+                                />
+                            </div>
+
+                            <!-- Current Number of Support Staff -->
+                            <div>
+                                <label for="supportStaff" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Current Number of Support Staff
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="supportStaff" 
+                                    name="supportStaff"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="e.g., 2 support staff members"
+                                />
+                            </div>
+
+                            <!-- Project Goals -->
+                            <div>
+                                <label for="projectGoals" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Main Bottlenecks You're Trying to Solve <span class="text-red-500">*</span>
+                                </label>
+                                <textarea 
+                                    id="projectGoals" 
+                                    name="projectGoals" 
+                                    required
+                                    rows="4"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900 resize-none"
+                                    placeholder="Tell us about your main challenges: missed calls, slow response times, manual booking processes, etc."
+                                ></textarea>
+                                <span class="error-message" id="projectGoalsError">Please describe your main bottlenecks</span>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button 
+                                type="submit" 
+                                class="submit-btn-gradient w-full py-4 rounded-xl text-white font-semibold text-base"
+                            >
+                                Generate My Custom Strategy
+                            </button>
+
+                            <!-- Privacy note -->
+                            <p class="text-xs text-gray-400 text-center mt-3">
+                                By submitting, you agree to our <a href="privacy.html" class="text-primary-600 hover:underline">Privacy Policy</a>
+                            </p>
+                        </form>
+
+                        <!-- Confirmation State -->
+                        <div id="confirmationState" class="confirmation-state text-center py-8">
+                            <div class="mb-6">
+                                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Thank you!</h3>
+                                <p id="confirmationMessage" class="text-gray-600">
+                                    We've received your information and will send your custom strategy within 24 hours.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security badges -->
+                    <div class="mt-6 flex items-center justify-center gap-6 text-xs text-gray-400">
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <span>SSL Secured</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <span>GDPR Compliant</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Response in 24h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="bg-white border-t border-gray-100 py-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-gray-500">
+                    © 2026 ScaleMako. All rights reserved.
+                </p>
+                <div class="flex items-center gap-6">
+                    <a href="mailto:hello@scalemako.ai" class="text-sm text-gray-500 hover:text-primary-600 transition-colors">
+                        hello@scalemako.ai
+                    </a>
+                    <a href="index.html" class="text-sm text-gray-500 hover:text-primary-600 transition-colors">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Form Handling Script -->
+    <script>
+        // Form validation
+        const form = document.getElementById('quoteForm');
+        const confirmationState = document.getElementById('confirmationState');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+        
+        // Real-time validation
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const projectGoalsInput = document.getElementById('projectGoals');
+        
+        function validateField(field, errorElement) {
+            const value = field.value.trim();
+            let isValid = true;
+            
+            if (field.hasAttribute('required') && !value) {
+                isValid = false;
+            } else if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(value);
+            } else if (field.type === 'tel' && value) {
+                const phoneRegex = /^[\d\s\(\)\-\+]+$/;
+                isValid = phoneRegex.test(value) && value.replace(/\D/g, '').length >= 10;
+            }
+            
+            if (!isValid) {
+                field.classList.add('error');
+                errorElement.classList.add('show');
+            } else {
+                field.classList.remove('error');
+                errorElement.classList.remove('show');
+            }
+            
+            return isValid;
+        }
+        
+        fullNameInput.addEventListener('blur', () => {
+            validateField(fullNameInput, document.getElementById('fullNameError'));
+        });
+        
+        emailInput.addEventListener('blur', () => {
+            validateField(emailInput, document.getElementById('emailError'));
+        });
+        
+        phoneInput.addEventListener('blur', () => {
+            validateField(phoneInput, document.getElementById('phoneError'));
+        });
+        
+        projectGoalsInput.addEventListener('blur', () => {
+            validateField(projectGoalsInput, document.getElementById('projectGoalsError'));
+        });
+
+        // Checkbox selection visual feedback
+        document.querySelectorAll('input[name="services[]"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.closest('label');
+                if (this.checked) {
+                    label.classList.add('border-primary-500', 'bg-blue-50/50');
+                    label.classList.remove('border-gray-200');
+                } else {
+                    label.classList.remove('border-primary-500', 'bg-blue-50/50');
+                    label.classList.add('border-gray-200');
+                }
+            });
+        });
+        
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate required fields
+            const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
+            const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
+            const isPhoneValid = validateField(phoneInput, document.getElementById('phoneError'));
+            const isProjectGoalsValid = validateField(projectGoalsInput, document.getElementById('projectGoalsError'));
+            
+            if (!isFullNameValid || !isEmailValid || !isPhoneValid || !isProjectGoalsValid) {
+                return;
+            }
+            
+            // Get form data
+            const formData = new FormData(form);
+            const selectedServices = formData.getAll('services[]');
+            const data = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                services: selectedServices.length > 0 ? selectedServices.join(', ') : 'None selected',
+                leadVolume: formData.get('leadVolume'),
+                supportStaff: formData.get('supportStaff'),
+                projectGoals: formData.get('projectGoals'),
+                formType: 'Quote Request'
+            };
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Generating Strategy...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+            
+            try {
+                // Submit to Formspree
+                const response = await fetch('https://formspree.io/f/xkgpldpo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Submission failed');
+                }
+                
+                // Hide form and show confirmation
+                form.style.display = 'none';
+                confirmationState.classList.add('show');
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('There was an error submitting your request. Please try again or email us directly at hello@scalemako.ai');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+        });
+        
+        // Page is ready
+        document.body.style.opacity = '1';
+    </script>
+
+</body>
+</html>
