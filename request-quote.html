@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Quote | ScaleMako</title>
+    <meta name="description" content="Request a quote from ScaleMako. Get AI voice agents, chatbots, and automations built to qualify leads, book appointments, and handle support 24/7.">
+    <link rel="canonical" href="https://scalemako.ai/request-quote.html">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <meta property="og:title" content="Request Quote | ScaleMako">
+    <meta property="og:description" content="Tell us what you need and we’ll build an AI automation plan for your business.">
+    <meta property="og:image" content="/assets/images/og-image.png">
+    <meta property="og:url" content="https://scalemako.ai/request-quote.html">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -217,6 +226,15 @@
             background-image: radial-gradient(circle at 1px 1px, rgba(0, 114, 255, 0.03) 1px, transparent 0);
             background-size: 40px 40px;
         }
+
+        /* Multi-step form styles */
+        .form-step {
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .form-step.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
@@ -302,8 +320,26 @@
                 <!-- Right Column: Form Card -->
                 <div class="fade-in-right">
                     <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-10">
+                        <!-- Step Indicator -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white flex items-center justify-center text-sm font-semibold" id="stepIndicator1">1</div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold" id="stepIndicator2">2</div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold" id="stepIndicator3">3</div>
+                                </div>
+                                <span class="text-sm text-gray-500" id="stepCounter">Step 1 of 3</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] transition-all duration-300" id="progressBar" style="width: 33.33%"></div>
+                            </div>
+                        </div>
+
                         <!-- Form -->
-                        <form id="quoteForm" action="https://formspree.io/f/xkgpldpo" method="POST" class="space-y-5">
+                        <form id="quoteForm" action="https://formspree.io/f/xkgpldpo" method="POST">
+                        
+                        <!-- Step 1: Contact Details -->
+                        <div id="step1" class="form-step space-y-5">
                             <!-- Full Name -->
                             <div>
                                 <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1.5">
@@ -425,6 +461,111 @@
                                 />
                             </div>
 
+                            <!-- Next Button -->
+                            <button 
+                                type="button" 
+                                id="nextToStep2"
+                                class="submit-btn-gradient w-full py-4 rounded-xl text-white font-semibold text-base"
+                            >
+                                Next
+                            </button>
+                        </div>
+
+                        <!-- Step 2: Business Details -->
+                        <div id="step2" class="form-step hidden space-y-5">
+                            <!-- Service Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">
+                                    Services You're Interested In <span class="text-gray-400 text-xs font-normal">(select all that apply)</span>
+                                </label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Voice Receptionists"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Voice Receptionists</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Chat Assistants"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Chat Assistants</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Custom SEO Website Build"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Custom SEO Website Build</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input 
+                                            type="checkbox" 
+                                            name="services[]" 
+                                            value="Workflow Automations"
+                                            class="checkbox-light"
+                                        />
+                                        <span class="text-sm text-gray-700">Workflow Automations</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Current Monthly Lead Volume -->
+                            <div>
+                                <label for="leadVolume" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Current Monthly Lead Volume
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="leadVolume" 
+                                    name="leadVolume"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="e.g., 50-100 leads per month"
+                                />
+                            </div>
+
+                            <!-- Current Number of Support Staff -->
+                            <div>
+                                <label for="supportStaff" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                    Current Number of Support Staff
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="supportStaff" 
+                                    name="supportStaff"
+                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    placeholder="e.g., 2 support staff members"
+                                />
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button 
+                                    type="button" 
+                                    id="backToStep1"
+                                    class="flex-1 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
+                                >
+                                    Back
+                                </button>
+                                <button 
+                                    type="button" 
+                                    id="nextToStep3"
+                                    class="flex-1 submit-btn-gradient py-4 rounded-xl text-white font-semibold"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Project Goals & Preferred Consultation -->
+                        <div id="step3" class="form-step hidden space-y-5">
                             <!-- Project Goals -->
                             <div>
                                 <label for="projectGoals" class="block text-sm font-medium text-gray-700 mb-1.5">
@@ -441,18 +582,65 @@
                                 <span class="error-message" id="projectGoalsError">Please describe your main bottlenecks</span>
                             </div>
 
-                            <!-- Submit Button -->
-                            <button 
-                                type="submit" 
-                                class="submit-btn-gradient w-full py-4 rounded-xl text-white font-semibold text-base"
-                            >
-                                Generate My Custom Strategy
-                            </button>
-
+                            <!-- Preferred Consultation Time -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">
+                                    Preferred Consultation Time <span class="text-gray-400 text-xs font-normal">(optional)</span>
+                                </label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="preferredDate" class="block text-xs text-gray-600 mb-1">Date</label>
+                                        <input 
+                                            type="date" 
+                                            id="preferredDate" 
+                                            name="preferredDate"
+                                            min=""
+                                            class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label for="preferredTime" class="block text-xs text-gray-600 mb-1">Time</label>
+                                        <select 
+                                            id="preferredTime" 
+                                            name="preferredTime"
+                                            class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                        >
+                                            <option value="">Select time</option>
+                                            <option value="09:00">9:00 AM</option>
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="15:00">3:00 PM</option>
+                                            <option value="16:00">4:00 PM</option>
+                                            <option value="17:00">5:00 PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button 
+                                    type="button" 
+                                    id="backToStep2"
+                                    class="flex-1 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
+                                >
+                                    Back
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    class="flex-1 submit-btn-gradient py-4 rounded-xl text-white font-semibold"
+                                >
+                                    Generate My Custom Strategy
+                                </button>
+                            </div>
+                            
                             <!-- Privacy note -->
                             <p class="text-xs text-gray-400 text-center mt-3">
                                 By submitting, you agree to our <a href="privacy.html" class="text-primary-600 hover:underline">Privacy Policy</a>
                             </p>
+                        </div>
                         </form>
 
                         <!-- Confirmation State -->
@@ -518,16 +706,138 @@
 
     <!-- Form Handling Script -->
     <script>
+        // Multi-step form state
+        let currentStep = 1;
+        const totalSteps = 3;
+        const formData = {};
+
         // Form validation
         const form = document.getElementById('quoteForm');
         const confirmationState = document.getElementById('confirmationState');
         const confirmationMessage = document.getElementById('confirmationMessage');
+        
+        // Step elements
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const progressBar = document.getElementById('progressBar');
+        const stepCounter = document.getElementById('stepCounter');
+        
+        // Set minimum date to today
+        const preferredDateInput = document.getElementById('preferredDate');
+        if (preferredDateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            preferredDateInput.setAttribute('min', today);
+        }
         
         // Real-time validation
         const fullNameInput = document.getElementById('fullName');
         const emailInput = document.getElementById('email');
         const phoneInput = document.getElementById('phone');
         const projectGoalsInput = document.getElementById('projectGoals');
+        
+        // Step navigation functions
+        function updateStepIndicator(step) {
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.getElementById(`stepIndicator${i}`);
+                if (i < step) {
+                    indicator.classList.add('completed');
+                    indicator.classList.remove('active');
+                } else if (i === step) {
+                    indicator.classList.add('active');
+                    indicator.classList.remove('completed');
+                } else {
+                    indicator.classList.remove('active', 'completed');
+                }
+            }
+            progressBar.style.width = `${(step / totalSteps) * 100}%`;
+            stepCounter.textContent = `Step ${step} of ${totalSteps}`;
+        }
+        
+        function showStep(step) {
+            step1.classList.add('hidden');
+            step2.classList.add('hidden');
+            step3.classList.add('hidden');
+            
+            if (step === 1) step1.classList.remove('hidden');
+            else if (step === 2) step2.classList.remove('hidden');
+            else if (step === 3) step3.classList.remove('hidden');
+            
+            currentStep = step;
+            updateStepIndicator(step);
+        }
+        
+        function saveStepData(step) {
+            if (step === 1) {
+                formData.fullName = fullNameInput.value.trim();
+                formData.email = emailInput.value.trim();
+                formData.phone = phoneInput.value.trim();
+            } else if (step === 2) {
+                const services = Array.from(document.querySelectorAll('input[name="services[]"]:checked')).map(cb => cb.value);
+                formData.services = services;
+                formData.leadVolume = document.getElementById('leadVolume').value.trim();
+                formData.supportStaff = document.getElementById('supportStaff').value.trim();
+            } else if (step === 3) {
+                formData.projectGoals = projectGoalsInput.value.trim();
+                formData.preferredDate = preferredDateInput.value;
+                formData.preferredTime = document.getElementById('preferredTime').value;
+            }
+        }
+        
+        function restoreStepData(step) {
+            if (step === 1) {
+                if (formData.fullName) fullNameInput.value = formData.fullName;
+                if (formData.email) emailInput.value = formData.email;
+                if (formData.phone) phoneInput.value = formData.phone;
+            } else if (step === 2) {
+                if (formData.services) {
+                    formData.services.forEach(service => {
+                        const checkbox = document.querySelector(`input[value="${service}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                }
+                if (formData.leadVolume) document.getElementById('leadVolume').value = formData.leadVolume;
+                if (formData.supportStaff) document.getElementById('supportStaff').value = formData.supportStaff;
+            } else if (step === 3) {
+                if (formData.projectGoals) projectGoalsInput.value = formData.projectGoals;
+                if (formData.preferredDate) preferredDateInput.value = formData.preferredDate;
+                if (formData.preferredTime) document.getElementById('preferredTime').value = formData.preferredTime;
+            }
+        }
+        
+        // Step navigation buttons
+        document.getElementById('nextToStep2').addEventListener('click', () => {
+            if (validateStep1()) {
+                saveStepData(1);
+                showStep(2);
+                restoreStepData(2);
+            }
+        });
+        
+        document.getElementById('backToStep1').addEventListener('click', () => {
+            saveStepData(2);
+            showStep(1);
+            restoreStepData(1);
+        });
+        
+        document.getElementById('nextToStep3').addEventListener('click', () => {
+            saveStepData(2);
+            showStep(3);
+            restoreStepData(3);
+        });
+        
+        document.getElementById('backToStep2').addEventListener('click', () => {
+            saveStepData(3);
+            showStep(2);
+            restoreStepData(2);
+        });
+        
+        function validateStep1() {
+            const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
+            const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
+            const isPhoneValid = validateField(phoneInput, document.getElementById('phoneError'));
+            return isFullNameValid && isEmailValid && isPhoneValid;
+        }
         
         function validateField(field, errorElement) {
             const value = field.value.trim();
@@ -588,29 +898,51 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Validate required fields
-            const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
-            const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
-            const isPhoneValid = validateField(phoneInput, document.getElementById('phoneError'));
+            // Validate step 3
             const isProjectGoalsValid = validateField(projectGoalsInput, document.getElementById('projectGoalsError'));
-            
-            if (!isFullNameValid || !isEmailValid || !isPhoneValid || !isProjectGoalsValid) {
+            if (!isProjectGoalsValid) {
                 return;
             }
             
+            // Save all data
+            saveStepData(1);
+            saveStepData(2);
+            saveStepData(3);
+            
             // Get form data
-            const formData = new FormData(form);
-            const selectedServices = formData.getAll('services[]');
+            const selectedServices = formData.services || [];
             const data = {
-                fullName: formData.get('fullName'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
+                fullName: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
                 services: selectedServices.length > 0 ? selectedServices.join(', ') : 'None selected',
-                leadVolume: formData.get('leadVolume'),
-                supportStaff: formData.get('supportStaff'),
-                projectGoals: formData.get('projectGoals'),
+                leadVolume: formData.leadVolume,
+                supportStaff: formData.supportStaff,
+                projectGoals: formData.projectGoals,
+                preferredDate: formData.preferredDate,
+                preferredTime: formData.preferredTime,
                 formType: 'Quote Request'
             };
+            
+            // Mock API call to send confirmation email
+            try {
+                await fetch('/api/send-confirmation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: data.email,
+                        fullName: data.fullName,
+                        type: 'quote',
+                        preferredDate: data.preferredDate,
+                        preferredTime: data.preferredTime
+                    })
+                }).catch(() => {
+                    // Mock - API endpoint doesn't exist yet
+                    // console.log('Confirmation email would be sent:', { email: data.email, type: 'quote' });
+                });
+            } catch (error) {
+                // console.log('Mock API call completed');
+            }
             
             // Show loading state
             const submitBtn = form.querySelector('button[type="submit"]');

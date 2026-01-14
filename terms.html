@@ -9,20 +9,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="components/navbar.js?v=8"></script>
+    <script src="components/navbar.js?v=12"></script>
+    <script src="components/footer.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            400: '#6366f1',
-                            500: '#6366f1',
-                            600: '#0ea5e9'
+                            400: '#00E0FF',
+                            500: '#00C6FF',
+                            600: '#0072FF'
                         },
                         dark: {
-                            900: '#0f172a',
-                            800: '#1e293b'
+                            900: '#020617',
+                            800: '#0B1120'
                         }
                     },
                     fontFamily: {
@@ -34,39 +35,39 @@
         }
     </script>
 </head>
-<body class="bg-dark-900 text-gray-100 font-sans min-h-screen" id="mainBody">
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
     <!-- Navbar -->
     <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
-    <main class="pt-40 pb-20 px-4 sm:px-6 lg:px-8">
+    <main class="pt-28 pb-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">Terms of Service</span>
+                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4 text-gray-900">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00E0FF] to-[#0072FF]">Terms of Service</span>
                 </h1>
-                <p class="text-gray-400 text-lg">
+                <p class="text-gray-600 text-lg">
                     Last updated: <span id="currentDate"></span>
                 </p>
             </div>
 
             <!-- Terms Content -->
-            <div class="bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 md:p-10 shadow-xl space-y-8">
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 md:p-10 shadow-xl space-y-8">
                 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">1. Agreement to Terms</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">1. Agreement to Terms</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         By accessing or using ScaleMako's services, including but not limited to AI websites, chatbots, voice agents, and workflow automations, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our services.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">2. Services Description</h2>
-                    <p class="text-gray-300 leading-relaxed mb-4">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">2. Services Description</h2>
+                    <p class="text-gray-700 leading-relaxed mb-4">
                         ScaleMako provides AI-powered automation solutions including:
                     </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
                         <li>AI-powered websites with built-in chat functionality</li>
                         <li>24/7 AI chatbots and voice receptionists</li>
                         <li>Workflow automation and CRM integrations</li>
@@ -75,18 +76,18 @@
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">3. Service Agreements</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">3. Service Agreements</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         All services are provided on a subscription or project basis as outlined in your service agreement. Setup fees, monthly subscriptions, and project costs are clearly stated before service begins. You agree to pay all fees associated with your selected plan or project.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">4. User Responsibilities</h2>
-                    <p class="text-gray-300 leading-relaxed mb-4">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">4. User Responsibilities</h2>
+                    <p class="text-gray-700 leading-relaxed mb-4">
                         You are responsible for:
                     </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
                         <li>Providing accurate information during onboarding and setup</li>
                         <li>Maintaining the security of your account credentials</li>
                         <li>Using our services in compliance with applicable laws and regulations</li>
@@ -96,79 +97,79 @@
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">5. Intellectual Property</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">5. Intellectual Property</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         All ScaleMako services, including but not limited to software, designs, AI models, and proprietary technology, remain the intellectual property of ScaleMako. You retain ownership of your business data and content. Custom solutions developed for you may include licensing terms as specified in your service agreement.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">6. Data and Privacy</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">6. Data and Privacy</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         Your use of ScaleMako services is also governed by our Privacy Policy. We implement industry-standard security measures to protect your data. You retain ownership of all data collected through our services, and we will not share your data with third parties except as necessary to provide our services or as required by law.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">7. Service Availability</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">7. Service Availability</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         While we strive for 24/7 availability of our AI services, we do not guarantee uninterrupted or error-free service. We reserve the right to perform maintenance, updates, or modifications that may temporarily affect service availability. We will provide reasonable notice of planned maintenance when possible.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">8. Billing and Cancellation</h2>
-                    <p class="text-gray-300 leading-relaxed mb-4">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">8. Billing and Cancellation</h2>
+                    <p class="text-gray-700 leading-relaxed mb-4">
                         Subscription services are billed monthly in advance. Setup fees are one-time charges billed at project initiation. You may cancel your subscription at any time with 30 days written notice. Cancellation does not entitle you to a refund for the current billing period, but services will continue until the end of the paid period.
                     </p>
-                    <p class="text-gray-300 leading-relaxed">
+                    <p class="text-gray-700 leading-relaxed">
                         Project-based services (such as automation setup) are billed as one-time fees and are non-refundable once work has commenced, unless otherwise specified in your service agreement.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">9. Limitation of Liability</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">9. Limitation of Liability</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         ScaleMako shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use our services. Our total liability shall not exceed the amount you paid to ScaleMako in the 12 months preceding the claim.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">10. Indemnification</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">10. Indemnification</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         You agree to indemnify and hold harmless ScaleMako, its officers, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of our services, violation of these terms, or infringement of any rights of another party.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">11. Modifications to Terms</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">11. Modifications to Terms</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         We reserve the right to modify these Terms of Service at any time. Material changes will be communicated via email or through our service platform. Continued use of our services after changes constitutes acceptance of the modified terms.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">12. Termination</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">12. Termination</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         We may terminate or suspend your access to our services immediately, without prior notice, for breach of these terms, non-payment, or any other reason we deem necessary. Upon termination, your right to use our services will cease immediately.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">13. Governing Law</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">13. Governing Law</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         These Terms of Service shall be governed by and construed in accordance with the laws of the jurisdiction in which ScaleMako operates, without regard to its conflict of law provisions.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">14. Contact Information</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">14. Contact Information</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         If you have any questions about these Terms of Service, please contact us at:
                     </p>
-                    <p class="text-gray-300 leading-relaxed mt-2">
-                        <strong>Email:</strong> <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-300">hello@scalemako.ai</a><br>
-                        <strong>Website:</strong> <a href="index.html" class="text-primary-400 hover:text-primary-300">www.scalemako.ai</a>
+                    <p class="text-gray-700 leading-relaxed mt-2">
+                        <strong>Email:</strong> <a href="mailto:hello@scalemako.ai" class="text-[#0072FF] hover:text-[#00C6FF]">hello@scalemako.ai</a><br>
+                        <strong>Website:</strong> <a href="index.html" class="text-[#0072FF] hover:text-[#00C6FF]">www.scalemako.ai</a>
                     </p>
                 </section>
 
@@ -176,7 +177,7 @@
 
             <!-- Back Button -->
             <div class="text-center mt-8">
-                <a href="index.html" class="inline-block px-6 py-3 bg-dark-800 border border-gray-700 text-gray-300 hover:text-white hover:border-primary-500 transition-all rounded-lg">
+                <a href="index.html" class="inline-block px-6 py-3 bg-white border border-gray-300 text-gray-700 hover:text-gray-900 hover:border-[#0072FF] transition-all rounded-lg">
                     ← Back to Home
                 </a>
             </div>
@@ -184,13 +185,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">
-                © <span id="footerYear"></span> ScaleMako | <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalemako.ai</a>
-            </p>
-        </div>
-    </footer>
+    <custom-footer></custom-footer>
 
     <script>
         // Set current date
@@ -200,8 +195,6 @@
             day: 'numeric' 
         });
         
-        // Set footer year
-        document.getElementById('footerYear').textContent = new Date().getFullYear();
         
         // Check for promo banner and adjust body padding
         (function() {

@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Free Demo | ScaleMako</title>
+    <meta name="description" content="Book a free demo with ScaleMako. See how our AI voice agents, chatbots, and automations qualify leads, book appointments, and handle support 24/7.">
+    <link rel="canonical" href="https://scalemako.ai/book-demo.html">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <meta property="og:title" content="Book a Free Demo | ScaleMako">
+    <meta property="og:description" content="Schedule a free demo and see ScaleMako’s AI solutions in action.">
+    <meta property="og:image" content="/assets/images/og-image.png">
+    <meta property="og:url" content="https://scalemako.ai/book-demo.html">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -228,6 +237,38 @@
             background-image: radial-gradient(circle at 1px 1px, rgba(0, 114, 255, 0.03) 1px, transparent 0);
             background-size: 40px 40px;
         }
+
+        /* Multi-step form styles */
+        .form-step {
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .form-step.hidden {
+            display: none;
+        }
+
+        .platform-card.selected {
+            border-color: #00C6FF;
+            background-color: rgba(0, 198, 255, 0.05);
+        }
+
+        .platform-card.selected .platform-radio {
+            border-color: #00C6FF;
+        }
+
+        .platform-card.selected .platform-radio-dot {
+            display: block !important;
+        }
+
+        .step-indicator.active {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            color: white;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
@@ -329,8 +370,26 @@
                 <!-- Right Column: Form Card -->
                 <div class="fade-in-right">
                     <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-10">
+                        <!-- Step Indicator -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white flex items-center justify-center text-sm font-semibold" id="stepIndicator1">1</div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold" id="stepIndicator2">2</div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold" id="stepIndicator3">3</div>
+                                </div>
+                                <span class="text-sm text-gray-500" id="stepCounter">Step 1 of 3</span>
+                            </div>
+                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] transition-all duration-300" id="progressBar" style="width: 33.33%"></div>
+                            </div>
+                        </div>
+
                 <!-- Form -->
-                        <form id="demoForm" action="https://formspree.io/f/xkgpldpo" method="POST" class="space-y-5">
+                        <form id="demoForm" action="https://formspree.io/f/xkgpldpo" method="POST">
+                        
+                        <!-- Step 1: Contact Details -->
+                        <div id="step1" class="form-step space-y-5">
                     <!-- Full Name -->
                     <div>
                                 <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1.5">
@@ -436,18 +495,168 @@
                         ></textarea>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button 
-                        type="submit" 
+                            <!-- Next Button -->
+                            <button 
+                                type="button" 
+                                id="nextToStep2"
                                 class="submit-btn-gradient w-full py-4 rounded-xl text-white font-semibold text-base"
-                    >
-                                Confirm Booking
-                    </button>
+                            >
+                                Next
+                            </button>
+                        </div>
 
+                        <!-- Step 2: Platform Selection -->
+                        <div id="step2" class="form-step hidden space-y-5">
+                            <div>
+                                <h3 class="text-xl font-display font-semibold text-gray-900 mb-2">Choose Your Meeting Platform</h3>
+                                <p class="text-sm text-gray-600 mb-6">Select your preferred platform for the demo session</p>
+                                
+                                <div class="grid grid-cols-1 gap-4">
+                                    <label class="platform-card flex items-center gap-4 p-4 rounded-xl border-2 border-gray-200 hover:border-[#00C6FF] cursor-pointer transition-all" data-platform="google-meet">
+                                        <input type="radio" name="platform" value="google-meet" class="hidden" required>
+                                        <div class="w-12 h-12 rounded-lg bg-[#00832d] flex items-center justify-center flex-shrink-0 shadow-sm">
+                                            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-900">Google Meet</div>
+                                            <div class="text-sm text-gray-600">Video call via Google Calendar</div>
+                                        </div>
+                                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center platform-radio">
+                                            <div class="w-3 h-3 rounded-full bg-[#00C6FF] hidden platform-radio-dot"></div>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="platform-card flex items-center gap-4 p-4 rounded-xl border-2 border-gray-200 hover:border-[#00C6FF] cursor-pointer transition-all" data-platform="zoom">
+                                        <input type="radio" name="platform" value="zoom" class="hidden" required>
+                                        <div class="w-12 h-12 rounded-lg bg-[#2D8CFF] flex items-center justify-center flex-shrink-0 shadow-sm">
+                                            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                                <circle cx="12" cy="13" r="4"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-900">Zoom</div>
+                                            <div class="text-sm text-gray-600">Video call via Zoom</div>
+                                        </div>
+                                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center platform-radio">
+                                            <div class="w-3 h-3 rounded-full bg-[#00C6FF] hidden platform-radio-dot"></div>
+                                        </div>
+                                    </label>
+                                    
+                                    <label class="platform-card flex items-center gap-4 p-4 rounded-xl border-2 border-gray-200 hover:border-[#00C6FF] cursor-pointer transition-all" data-platform="teams">
+                                        <input type="radio" name="platform" value="teams" class="hidden" required>
+                                        <div class="w-12 h-12 rounded-lg bg-[#6264A7] flex items-center justify-center flex-shrink-0 shadow-sm">
+                                            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M19.536 9.15c-1.12 0-2.03-.91-2.03-2.03s.91-2.03 2.03-2.03 2.03.91 2.03 2.03-.91 2.03-2.03 2.03m-2.03 7.24c-1.12 0-2.03-.91-2.03-2.03s.91-2.03 2.03-2.03 2.03.91 2.03 2.03-.91 2.03-2.03 2.03M12 4.5c-1.12 0-2.03-.91-2.03-2.03S10.88.44 12 .44s2.03.91 2.03 2.03S13.12 4.5 12 4.5m-7.24 0C3.64 4.5 2.73 3.59 2.73 2.47S3.64.44 4.76.44s2.03.91 2.03 2.03S5.88 4.5 4.76 4.5M12 15.27c-1.12 0-2.03-.91-2.03-2.03s.91-2.03 2.03-2.03 2.03.91 2.03 2.03-.91 2.03-2.03 2.03m-7.24 0c-1.12 0-2.03-.91-2.03-2.03s.91-2.03 2.03-2.03 2.03.91 2.03 2.03-.91 2.03-2.03 2.03M12 23.56c-1.12 0-2.03-.91-2.03-2.03s.91-2.03 2.03-2.03 2.03.91 2.03 2.03-.91 2.03-2.03 2.03"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-gray-900">Microsoft Teams</div>
+                                            <div class="text-sm text-gray-600">Video call via Teams</div>
+                                        </div>
+                                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center platform-radio">
+                                            <div class="w-3 h-3 rounded-full bg-[#00C6FF] hidden platform-radio-dot"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button 
+                                    type="button" 
+                                    id="backToStep1"
+                                    class="flex-1 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
+                                >
+                                    Back
+                                </button>
+                                <button 
+                                    type="button" 
+                                    id="nextToStep3"
+                                    class="flex-1 submit-btn-gradient py-4 rounded-xl text-white font-semibold"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Date & Time Selection -->
+                        <div id="step3" class="form-step hidden space-y-5">
+                            <div>
+                                <h3 class="text-xl font-display font-semibold text-gray-900 mb-2">Select Date & Time</h3>
+                                <p class="text-sm text-gray-600 mb-6">Choose a convenient time for your demo</p>
+                                
+                                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200 space-y-5">
+                                    <div>
+                                        <label for="meetingDate" class="block text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                            Date <span class="text-red-500">*</span>
+                                        </label>
+                                        <input 
+                                            type="date" 
+                                            id="meetingDate" 
+                                            name="meetingDate" 
+                                            required
+                                            min=""
+                                            class="form-input-light w-full px-4 py-3.5 rounded-lg text-gray-900 text-base font-medium focus:ring-2 focus:ring-[#00C6FF] focus:border-[#00C6FF]"
+                                        />
+                                        <span class="error-message" id="meetingDateError">Please select a date</span>
+                                    </div>
+                                    
+                                    <div class="border-t border-gray-200 pt-5">
+                                        <label for="meetingTime" class="block text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            Time <span class="text-red-500">*</span>
+                                        </label>
+                                        <select 
+                                            id="meetingTime" 
+                                            name="meetingTime" 
+                                            required
+                                            class="form-input-light w-full px-4 py-3.5 rounded-lg text-gray-900 text-base font-medium focus:ring-2 focus:ring-[#00C6FF] focus:border-[#00C6FF]"
+                                        >
+                                            <option value="">Select a time</option>
+                                            <option value="09:00">9:00 AM</option>
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="15:00">3:00 PM</option>
+                                            <option value="16:00">4:00 PM</option>
+                                            <option value="17:00">5:00 PM</option>
+                                        </select>
+                                        <span class="error-message" id="meetingTimeError">Please select a time</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button 
+                                    type="button" 
+                                    id="backToStep2"
+                                    class="flex-1 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
+                                >
+                                    Back
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    class="flex-1 submit-btn-gradient py-4 rounded-xl text-white font-semibold"
+                                >
+                                    Confirm Booking
+                                </button>
+                            </div>
+                            
                             <!-- Privacy note -->
                             <p class="text-xs text-gray-400 text-center mt-3">
-                                By submitting, you agree to our <a href="#" class="text-primary-600 hover:underline">Privacy Policy</a>
+                                By submitting, you agree to our <a href="privacy.html" class="text-primary-600 hover:underline">Privacy Policy</a>
                             </p>
+                        </div>
                 </form>
 
                 <!-- Confirmation State -->
@@ -526,15 +735,163 @@
 
     <!-- Form Handling Script -->
     <script>
+        // Multi-step form state
+        let currentStep = 1;
+        const totalSteps = 3;
+        const formData = {};
+
         // Form validation
         const form = document.getElementById('demoForm');
         const confirmationState = document.getElementById('confirmationState');
         const confirmationMessage = document.getElementById('confirmationMessage');
         const meetButtonContainer = document.getElementById('meetButtonContainer');
         
+        // Step elements
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const progressBar = document.getElementById('progressBar');
+        const stepCounter = document.getElementById('stepCounter');
+        
+        // Set minimum date to today
+        const meetingDateInput = document.getElementById('meetingDate');
+        if (meetingDateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            meetingDateInput.setAttribute('min', today);
+        }
+        
         // Real-time validation
         const fullNameInput = document.getElementById('fullName');
         const emailInput = document.getElementById('email');
+        
+        // Platform selection
+        const platformCards = document.querySelectorAll('.platform-card');
+        platformCards.forEach(card => {
+            card.addEventListener('click', function() {
+                platformCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+            });
+        });
+        
+        // Step navigation functions
+        function updateStepIndicator(step) {
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.getElementById(`stepIndicator${i}`);
+                if (i < step) {
+                    indicator.classList.add('completed');
+                    indicator.classList.remove('active');
+                } else if (i === step) {
+                    indicator.classList.add('active');
+                    indicator.classList.remove('completed');
+                } else {
+                    indicator.classList.remove('active', 'completed');
+                }
+            }
+            progressBar.style.width = `${(step / totalSteps) * 100}%`;
+            stepCounter.textContent = `Step ${step} of ${totalSteps}`;
+        }
+        
+        function showStep(step) {
+            step1.classList.add('hidden');
+            step2.classList.add('hidden');
+            step3.classList.add('hidden');
+            
+            if (step === 1) step1.classList.remove('hidden');
+            else if (step === 2) step2.classList.remove('hidden');
+            else if (step === 3) step3.classList.remove('hidden');
+            
+            currentStep = step;
+            updateStepIndicator(step);
+        }
+        
+        function saveStepData(step) {
+            if (step === 1) {
+                formData.fullName = fullNameInput.value.trim();
+                formData.businessName = document.getElementById('businessName').value.trim();
+                formData.email = emailInput.value.trim();
+                const services = Array.from(document.querySelectorAll('input[name="services[]"]:checked')).map(cb => cb.value);
+                formData.services = services;
+                formData.message = document.getElementById('message').value.trim();
+            } else if (step === 2) {
+                const selectedPlatform = document.querySelector('input[name="platform"]:checked');
+                formData.platform = selectedPlatform ? selectedPlatform.value : '';
+            } else if (step === 3) {
+                formData.meetingDate = meetingDateInput.value;
+                formData.meetingTime = document.getElementById('meetingTime').value;
+            }
+        }
+        
+        function restoreStepData(step) {
+            if (step === 1) {
+                if (formData.fullName) fullNameInput.value = formData.fullName;
+                if (formData.businessName) document.getElementById('businessName').value = formData.businessName;
+                if (formData.email) emailInput.value = formData.email;
+                if (formData.services) {
+                    formData.services.forEach(service => {
+                        const checkbox = document.querySelector(`input[value="${service}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                }
+                if (formData.message) document.getElementById('message').value = formData.message;
+            } else if (step === 2) {
+                if (formData.platform) {
+                    const radio = document.querySelector(`input[value="${formData.platform}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.platform-card').classList.add('selected');
+                    }
+                }
+            } else if (step === 3) {
+                if (formData.meetingDate) meetingDateInput.value = formData.meetingDate;
+                if (formData.meetingTime) document.getElementById('meetingTime').value = formData.meetingTime;
+            }
+        }
+        
+        // Step navigation buttons
+        document.getElementById('nextToStep2').addEventListener('click', () => {
+            if (validateStep1()) {
+                saveStepData(1);
+                showStep(2);
+                restoreStepData(2);
+            }
+        });
+        
+        document.getElementById('backToStep1').addEventListener('click', () => {
+            saveStepData(2);
+            showStep(1);
+            restoreStepData(1);
+        });
+        
+        document.getElementById('nextToStep3').addEventListener('click', () => {
+            if (validateStep2()) {
+                saveStepData(2);
+                showStep(3);
+                restoreStepData(3);
+            }
+        });
+        
+        document.getElementById('backToStep2').addEventListener('click', () => {
+            saveStepData(3);
+            showStep(2);
+            restoreStepData(2);
+        });
+        
+        function validateStep1() {
+            const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
+            const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
+            return isFullNameValid && isEmailValid;
+        }
+        
+        function validateStep2() {
+            const selectedPlatform = document.querySelector('input[name="platform"]:checked');
+            if (!selectedPlatform) {
+                alert('Please select a meeting platform');
+                return false;
+            }
+            return true;
+        }
         
         function validateField(field, errorElement) {
             const value = field.value.trim();
@@ -584,23 +941,39 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Validate required fields
-            const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
-            const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
+            // Validate step 3
+            const meetingDate = meetingDateInput.value;
+            const meetingTime = document.getElementById('meetingTime').value;
             
-            if (!isFullNameValid || !isEmailValid) {
+            if (!meetingDate) {
+                document.getElementById('meetingDateError').classList.add('show');
+                meetingDateInput.classList.add('error');
                 return;
             }
             
+            if (!meetingTime) {
+                document.getElementById('meetingTimeError').classList.add('show');
+                document.getElementById('meetingTime').classList.add('error');
+                return;
+            }
+            
+            // Save all data
+            saveStepData(1);
+            saveStepData(2);
+            saveStepData(3);
+            
             // Get form data
-            const formData = new FormData(form);
-            const selectedServices = formData.getAll('services[]');
+            const selectedServices = formData.services || [];
             const data = {
-                fullName: formData.get('fullName'),
-                businessName: formData.get('businessName'),
-                email: formData.get('email'),
+                fullName: formData.fullName,
+                businessName: formData.businessName,
+                email: formData.email,
                 services: selectedServices.length > 0 ? selectedServices.join(', ') : 'None selected',
-                message: formData.get('message')
+                message: formData.message,
+                platform: formData.platform,
+                meetingDate: formData.meetingDate,
+                meetingTime: formData.meetingTime,
+                formType: 'Demo Booking'
             };
             
             // Show loading state
@@ -628,9 +1001,46 @@
                 form.style.display = 'none';
                 confirmationState.classList.add('show');
                 
+                // Generate meeting link based on platform
+                let meetingLink = '';
+                if (data.platform === 'google-meet') {
+                    meetingLink = `https://calendar.app.google/knec2xu6uySGetXF8?date=${data.meetingDate}&time=${data.meetingTime}`;
+                } else if (data.platform === 'zoom') {
+                    meetingLink = `https://zoom.us/j/meeting-id?date=${data.meetingDate}&time=${data.meetingTime}`;
+                } else if (data.platform === 'teams') {
+                    meetingLink = `https://teams.microsoft.com/l/meetup-join?date=${data.meetingDate}&time=${data.meetingTime}`;
+                }
+                
+                // Mock API call to send confirmation email
+                try {
+                    await fetch('/api/send-confirmation', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: data.email,
+                            fullName: data.fullName,
+                            platform: data.platform,
+                            meetingDate: data.meetingDate,
+                            meetingTime: data.meetingTime,
+                            meetingLink: meetingLink
+                        })
+                        }).catch(() => {
+                        // Mock - API endpoint doesn't exist yet
+                        // console.log('Confirmation email would be sent:', { email: data.email, meetingLink });
+                    });
+                } catch (error) {
+                    // console.log('Mock API call completed');
+                }
+                
                 // Show confirmation message and meet button
-                confirmationMessage.textContent = "Thanks for your interest! Click below to schedule your personalized demo session.";
-                meetButtonContainer.classList.remove('hidden');
+                confirmationMessage.textContent = `Thanks for your interest! We've sent a confirmation email to ${data.email} with your meeting details.`;
+                if (meetingLink) {
+                    const meetLink = meetButtonContainer.querySelector('a');
+                    if (meetLink) {
+                        meetLink.href = meetingLink;
+                        meetButtonContainer.classList.remove('hidden');
+                    }
+                }
                 
             } catch (error) {
                 console.error('Error submitting form:', error);

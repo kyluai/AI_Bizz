@@ -2,15 +2,32 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 const OpenAI = require('openai');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy (recommended for rate limit + deployments behind reverse proxies)
+app.set('trust proxy', 1);
+
 // Middleware
+app.use(helmet());
+app.use(compression());
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 app.use(express.static(__dirname)); // Serve static files from root directory
+
+// Rate limiting (API only)
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // max requests per IP per window
+    standardHeaders: true,
+    legacyHeaders: false
+});
+app.use('/api', apiLimiter);
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -195,24 +212,99 @@ app.post('/api/chat', async (req, res) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-    res.json({ 
+    res.json({
         status: 'ok',
-        openaiConfigured: !!(process.env.OPENAI_API_KEY && process.env.ASSISTANT_ID),
-        timestamp: new Date().toISOString()
+        uptime: process.uptime()
     });
+});
+
+// Mock email confirmation endpoint (prepare for future Nodemailer integration)
+app.post('/api/send-confirmation', (req, res) => {
+    // Accept form data and respond success (no-op for now)
+    const payload = req.body || {};
+    return res.status(200).json({
+        success: true,
+        message: 'Confirmation request received.',
+        received: {
+            email: payload.email || null,
+            fullName: payload.fullName || null,
+            type: payload.type || null
+        }
+    });
+});
+
+// ============================================
+// CLEAN URL ROUTES FOR MAIN PAGES
+// ============================================
+
+// Home
+app.get('/', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Marketing / content pages
+app.get('/about', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'about.html'));
+});
+
+app.get('/faq', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'faq.html'));
+});
+
+app.get('/privacy', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'terms.html'));
+});
+
+// Funnel / conversion pages
+app.get('/careers', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'careers.html'));
+});
+
+app.get('/book-demo', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'book-demo.html'));
+});
+
+app.get('/request-quote', (req, res) => {
+    return res.sendFile(path.join(__dirname, 'request-quote.html'));
+});
+
+// ============================================
+// 404 HANDLING (API)
+// ============================================
+app.use('/api', (req, res) => {
+    return res.status(404).json({ error: 'Not found' });
+});
+
+// ============================================
+// GLOBAL ERROR HANDLER
+// ============================================
+app.use((err, req, res, next) => {
+    console.error('Unhandled server error:', err);
+    if (res.headersSent) return next(err);
+    return res.status(500).json({ error: 'Internal server error' });
+});
+
+// ============================================
+// 404 HANDLING (SITE) - keep last
+// ============================================
+app.use((req, res) => {
+    return res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
 // Start server
 app.listen(PORT, () => {
-    console.log('\n✅ ScaleMako Server Running');
-    console.log(`📍 URL: http://localhost:${PORT}`);
-    console.log(`📁 Serving static files from: ${__dirname}`);
-    
-    if (process.env.OPENAI_API_KEY && process.env.ASSISTANT_ID) {
-        console.log('🤖 OpenAI Chatbot: Configured ✓');
-    } else {
-        console.log('⚠️  OpenAI Chatbot: Not configured (add OPENAI_API_KEY and ASSISTANT_ID to .env)');
-    }
-    
-    console.log(`\nPress Ctrl+C to stop the server\n`);
+    // Intentionally quiet in production. Uncomment for local debugging.
+    // console.log('\n✅ ScaleMako Server Running');
+    // console.log(`📍 URL: http://localhost:${PORT}`);
+    // console.log(`📁 Serving static files from: ${__dirname}`);
+    // if (process.env.OPENAI_API_KEY && process.env.ASSISTANT_ID) {
+    //     console.log('🤖 OpenAI Chatbot: Configured ✓');
+    // } else {
+    //     console.log('⚠️  OpenAI Chatbot: Not configured (add OPENAI_API_KEY and ASSISTANT_ID to .env)');
+    // }
+    // console.log(`\nPress Ctrl+C to stop the server\n`);
 });

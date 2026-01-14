@@ -423,7 +423,7 @@ function initFloatingChatWidget() {
     // Get AI Response (Backend API Integration)
     async function getAIResponse(userMessage) {
         try {
-            console.log('Sending message to API:', userMessage, 'Thread ID:', currentThreadId);
+            // console.log('Sending message to API:', userMessage, 'Thread ID:', currentThreadId);
             
             // Call backend API endpoint
             const response = await fetch('/api/chat', {
@@ -437,7 +437,7 @@ function initFloatingChatWidget() {
                 })
             });
 
-            console.log('API Response status:', response.status);
+            // console.log('API Response status:', response.status);
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
@@ -446,7 +446,7 @@ function initFloatingChatWidget() {
             }
 
             const data = await response.json();
-            console.log('API Response data:', data);
+            // console.log('API Response data:', data);
             
             // Update thread ID if we got a new one or if this is the first message
             if (data.threadId) {

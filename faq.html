@@ -10,20 +10,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="components/navbar.js?v=8"></script>
+    <script src="components/navbar.js?v=12"></script>
+    <script src="components/footer.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            400: '#6366f1',
-                            500: '#6366f1',
-                            600: '#0ea5e9'
+                            400: '#00E0FF',
+                            500: '#00C6FF',
+                            600: '#0072FF'
                         },
                         dark: {
-                            900: '#0f172a',
-                            800: '#1e293b'
+                            900: '#020617',
+                            800: '#0B1120'
                         }
                     },
                     fontFamily: {
@@ -44,96 +45,113 @@
         .faq-answer {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            transition: max-height 0.3s ease;
         }
         .faq-answer.expanded {
             max-height: 500px;
         }
+        .faq-answer > div {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .faq-answer.expanded > div {
+            opacity: 1;
+        }
     </style>
 </head>
-<body class="bg-dark-900 text-gray-100 font-sans min-h-screen" id="mainBody">
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
     <!-- Navbar -->
     <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
-    <main class="pt-40 pb-20 px-4 sm:px-6 lg:px-8">
+    <main class="pt-28 pb-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">
-                    Frequently Asked <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">Questions</span>
+                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4 text-gray-900">
+                    Frequently Asked <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00E0FF] to-[#0072FF]">Questions</span>
                 </h1>
-                <p class="text-gray-400 text-lg">
+                <p class="text-gray-600 text-lg">
                     Everything you need to know about ScaleMako
                 </p>
             </div>
 
             <!-- FAQ Content -->
             <div class="space-y-4">
-                <div class="faq-item bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-primary-500/30 transition-all duration-300">
+                <div class="faq-item bg-white border border-gray-200 rounded-2xl hover:border-[#00C6FF] transition-all duration-300 shadow-sm">
                     <button class="faq-question w-full text-left px-8 py-6 flex items-center justify-between group" aria-expanded="false">
-                        <span class="text-xl font-display font-semibold text-gray-100 pr-4">How long does setup take?</span>
-                        <i data-feather="chevron-down" class="w-6 h-6 text-primary-400 transform transition-transform duration-300 flex-shrink-0"></i>
+                        <span class="text-xl font-display font-semibold text-gray-900 pr-4">How long does setup take?</span>
+                        <i data-feather="chevron-down" class="w-6 h-6 text-[#0072FF] transform transition-transform duration-300 flex-shrink-0"></i>
                     </button>
-                    <div class="faq-answer px-8 pb-6">
-                        <p class="text-gray-300 font-sans leading-relaxed">
-                            Setup typically takes 7-14 days from your initial demo. This includes configuration, testing, and training your AI agents. For more complex automations or custom integrations, we'll provide a detailed timeline during your discovery call.
-                        </p>
+                    <div class="faq-answer">
+                        <div class="px-8 pb-6">
+                            <p class="text-gray-700 font-sans leading-relaxed">
+                                Setup typically takes 7-14 days from your initial demo. This includes configuration, testing, and training your AI agents. For more complex automations or custom integrations, we'll provide a detailed timeline during your discovery call.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="faq-item bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-primary-500/30 transition-all duration-300">
+                <div class="faq-item bg-white border border-gray-200 rounded-2xl hover:border-[#00C6FF] transition-all duration-300 shadow-sm">
                     <button class="faq-question w-full text-left px-8 py-6 flex items-center justify-between group" aria-expanded="false">
-                        <span class="text-xl font-display font-semibold text-gray-100 pr-4">Is my data secure? Do you comply with GDPR?</span>
-                        <i data-feather="chevron-down" class="w-6 h-6 text-primary-400 transform transition-transform duration-300 flex-shrink-0"></i>
+                        <span class="text-xl font-display font-semibold text-gray-900 pr-4">Is my data secure? Do you comply with GDPR?</span>
+                        <i data-feather="chevron-down" class="w-6 h-6 text-[#0072FF] transform transition-transform duration-300 flex-shrink-0"></i>
                     </button>
-                    <div class="faq-answer px-8 pb-6">
-                        <p class="text-gray-300 font-sans leading-relaxed">
-                            Yes, we take data security seriously. All data is encrypted in transit and at rest. We are GDPR compliant and follow industry best practices for data protection. Your customer data is never shared with third parties, and you maintain full ownership of all information collected through our systems.
-                        </p>
+                    <div class="faq-answer">
+                        <div class="px-8 pb-6">
+                            <p class="text-gray-700 font-sans leading-relaxed">
+                                Yes, we take data security seriously. All data is encrypted in transit and at rest. We are GDPR compliant and follow industry best practices for data protection. Your customer data is never shared with third parties, and you maintain full ownership of all information collected through our systems.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="faq-item bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-primary-500/30 transition-all duration-300">
+                <div class="faq-item bg-white border border-gray-200 rounded-2xl hover:border-[#00C6FF] transition-all duration-300 shadow-sm">
                     <button class="faq-question w-full text-left px-8 py-6 flex items-center justify-between group" aria-expanded="false">
-                        <span class="text-xl font-display font-semibold text-gray-100 pr-4">Which CRM systems do you integrate with?</span>
-                        <i data-feather="chevron-down" class="w-6 h-6 text-primary-400 transform transition-transform duration-300 flex-shrink-0"></i>
+                        <span class="text-xl font-display font-semibold text-gray-900 pr-4">Which CRM systems do you integrate with?</span>
+                        <i data-feather="chevron-down" class="w-6 h-6 text-[#0072FF] transform transition-transform duration-300 flex-shrink-0"></i>
                     </button>
-                    <div class="faq-answer px-8 pb-6">
-                        <p class="text-gray-300 font-sans leading-relaxed">
-                            We integrate with all major CRM platforms through Zapier, Make (Integromat), and direct API connections. This includes HubSpot, Salesforce, Pipedrive, Monday.com, and many others. If you use a custom CRM, we can build a custom integration as part of our Automation package.
-                        </p>
+                    <div class="faq-answer">
+                        <div class="px-8 pb-6">
+                            <p class="text-gray-700 font-sans leading-relaxed">
+                                We integrate with all major CRM platforms through Zapier, Make (Integromat), and direct API connections. This includes HubSpot, Salesforce, Pipedrive, Monday.com, and many others. If you use a custom CRM, we can build a custom integration as part of our Automation package.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="faq-item bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-primary-500/30 transition-all duration-300">
+                <div class="faq-item bg-white border border-gray-200 rounded-2xl hover:border-[#00C6FF] transition-all duration-300 shadow-sm">
                     <button class="faq-question w-full text-left px-8 py-6 flex items-center justify-between group" aria-expanded="false">
-                        <span class="text-xl font-display font-semibold text-gray-100 pr-4">Do I need to know how to code?</span>
-                        <i data-feather="chevron-down" class="w-6 h-6 text-primary-400 transform transition-transform duration-300 flex-shrink-0"></i>
+                        <span class="text-xl font-display font-semibold text-gray-900 pr-4">Do I need to know how to code?</span>
+                        <i data-feather="chevron-down" class="w-6 h-6 text-[#0072FF] transform transition-transform duration-300 flex-shrink-0"></i>
                     </button>
-                    <div class="faq-answer px-8 pb-6">
-                        <p class="text-gray-300 font-sans leading-relaxed">
-                            No coding required! ScaleMako is built for business owners, not developers. We handle all the technical setup, configuration, and maintenance. You simply provide your business requirements, and we build everything for you. Once live, everything runs automatically.
-                        </p>
+                    <div class="faq-answer">
+                        <div class="px-8 pb-6">
+                            <p class="text-gray-700 font-sans leading-relaxed">
+                                No coding required! ScaleMako is built for business owners, not developers. We handle all the technical setup, configuration, and maintenance. You simply provide your business requirements, and we build everything for you. Once live, everything runs automatically.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="faq-item bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl hover:border-primary-500/30 transition-all duration-300">
+                <div class="faq-item bg-white border border-gray-200 rounded-2xl hover:border-[#00C6FF] transition-all duration-300 shadow-sm">
                     <button class="faq-question w-full text-left px-8 py-6 flex items-center justify-between group" aria-expanded="false">
-                        <span class="text-xl font-display font-semibold text-gray-100 pr-4">How does the voice agent sound? Will customers know it's AI?</span>
-                        <i data-feather="chevron-down" class="w-6 h-6 text-primary-400 transform transition-transform duration-300 flex-shrink-0"></i>
+                        <span class="text-xl font-display font-semibold text-gray-900 pr-4">How does the voice agent sound? Will customers know it's AI?</span>
+                        <i data-feather="chevron-down" class="w-6 h-6 text-[#0072FF] transform transition-transform duration-300 flex-shrink-0"></i>
                     </button>
-                    <div class="faq-answer px-8 pb-6">
-                        <p class="text-gray-300 font-sans leading-relaxed">
-                            Our AI voice agents use advanced neural voice technology that sounds natural and human-like. Most customers can't tell the difference. The voice can be customized to match your brand tone, and it handles natural conversation flow, interruptions, and context switching just like a human receptionist would.
-                        </p>
+                    <div class="faq-answer">
+                        <div class="px-8 pb-6">
+                            <p class="text-gray-700 font-sans leading-relaxed">
+                                Our AI voice agents use advanced neural voice technology that sounds natural and human-like. Most customers can't tell the difference. The voice can be customized to match your brand tone, and it handles natural conversation flow, interruptions, and context switching just like a human receptionist would.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Back Button -->
             <div class="text-center mt-12">
-                <a href="index.html" class="inline-block px-6 py-3 bg-dark-800 border border-gray-700 text-gray-300 hover:text-white hover:border-primary-500 transition-all rounded-lg">
+                <a href="index.html" class="inline-block px-6 py-3 bg-white border border-gray-300 text-gray-700 hover:text-gray-900 hover:border-[#0072FF] transition-all rounded-lg">
                     ← Back to Home
                 </a>
             </div>
@@ -141,69 +159,84 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">
-                © <span id="footerYear"></span> ScaleMako | <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalemako.ai</a>
-            </p>
-        </div>
-    </footer>
+    <custom-footer></custom-footer>
 
     <script>
         // Initialize Feather icons
-        feather.replace();
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
         
         // Set footer year
-        document.getElementById('footerYear').textContent = new Date().getFullYear();
+        const footerYearEl = document.getElementById('footerYear');
+        if (footerYearEl) {
+            footerYearEl.textContent = new Date().getFullYear();
+        }
         
         // Check for promo banner and adjust body padding
         (function() {
             const mainBody = document.getElementById('mainBody');
             // Always show banner padding (for testing - banner always shows)
-            mainBody.style.paddingTop = '2.75rem';
+            if (mainBody) {
+                mainBody.style.paddingTop = '2.75rem';
+            }
         })();
         
         // FAQ Accordion functionality
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const button = item.querySelector('.faq-question');
-            const answer = item.querySelector('.faq-answer');
-            const icon = item.querySelector('i[data-feather]');
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
             
-            button.addEventListener('click', () => {
-                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            faqItems.forEach(item => {
+                const button = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('i[data-feather]');
                 
-                // Close all other items
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        const otherButton = otherItem.querySelector('.faq-question');
-                        const otherAnswer = otherItem.querySelector('.faq-answer');
-                        const otherIcon = otherItem.querySelector('i[data-feather]');
-                        
-                        otherButton.setAttribute('aria-expanded', 'false');
-                        otherAnswer.classList.remove('expanded');
-                        if (otherIcon) {
-                            otherIcon.style.transform = 'rotate(0deg)';
+                if (!button || !answer) return;
+                
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            const otherButton = otherItem.querySelector('.faq-question');
+                            const otherAnswer = otherItem.querySelector('.faq-answer');
+                            const otherIcon = otherItem.querySelector('i[data-feather]');
+                            
+                            if (otherButton && otherAnswer) {
+                                otherButton.setAttribute('aria-expanded', 'false');
+                                otherAnswer.classList.remove('expanded');
+                                if (otherIcon) {
+                                    otherIcon.style.transform = 'rotate(0deg)';
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Toggle current item
+                    if (isExpanded) {
+                        button.setAttribute('aria-expanded', 'false');
+                        answer.classList.remove('expanded');
+                        if (icon) {
+                            icon.style.transform = 'rotate(0deg)';
+                        }
+                    } else {
+                        button.setAttribute('aria-expanded', 'true');
+                        answer.classList.add('expanded');
+                        if (icon) {
+                            icon.style.transform = 'rotate(180deg)';
                         }
                     }
                 });
-                
-                // Toggle current item
-                if (isExpanded) {
-                    button.setAttribute('aria-expanded', 'false');
-                    answer.classList.remove('expanded');
-                    if (icon) {
-                        icon.style.transform = 'rotate(0deg)';
-                    }
-                } else {
-                    button.setAttribute('aria-expanded', 'true');
-                    answer.classList.add('expanded');
-                    if (icon) {
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                }
             });
+            
+            // Re-initialize feather icons after DOM is ready
+            if (typeof feather !== 'undefined') {
+                setTimeout(() => {
+                    feather.replace();
+                }, 100);
+            }
         });
     </script>
 </body>

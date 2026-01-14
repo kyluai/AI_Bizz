@@ -146,7 +146,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         button.addEventListener('click', function() {
             const videoId = this.getAttribute('data-video');
             // In a real implementation, you would open a modal with the video embed
-            console.log('Opening video:', videoId);
+            // console.log('Opening video:', videoId);
         });
     });
 
@@ -161,7 +161,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             // In a real implementation, this would submit to your backend
-            console.log('Form submitted');
+            // console.log('Form submitted');
             alert('Thank you! We will contact you shortly to schedule your demo.');
             form.reset();
         });
@@ -743,7 +743,7 @@ function handleNewsletterSubmit(event) {
     const email = event.target.elements.email.value;
     
     // In a real implementation, you would send this to your backend
-    console.log('Submitting email:', email);
+    // console.log('Submitting email:', email);
     
     alert('Thank you for subscribing!');
     event.target.reset();
@@ -774,7 +774,7 @@ function initChatModal() {
         return;
     }
     
-    console.log('Chat modal initialized successfully', { modal });
+    // console.log('Chat modal initialized successfully', { modal });
     
     let isChatOpen = false;
     let hasStartedConversation = false;
@@ -921,7 +921,7 @@ function initChatModal() {
     
     // Open Modal
     function openModal() {
-        console.log('Opening chat modal...', modal);
+        // console.log('Opening chat modal...', modal);
         const m = document.getElementById('chatModal');
         
         if (!m) {
@@ -955,7 +955,7 @@ function initChatModal() {
         setTimeout(() => {
             if (input) {
                 input.focus();
-                console.log('Input focused');
+                // console.log('Input focused');
             }
         }, 100);
     }
@@ -980,7 +980,7 @@ function initChatModal() {
     
     // Close Modal
     function closeModal() {
-        console.log('Closing chat modal...');
+        // console.log('Closing chat modal...');
         isChatOpen = false;
         modal.classList.remove('active');
         document.body.classList.remove('modal-open');
@@ -1000,15 +1000,15 @@ function initChatModal() {
     }
     
     // EXPOSE TO GLOBAL SCOPE - after both functions are defined (will be set again in command bar handlers)
-    console.log('openChatModal exposed to window');
+    // console.log('openChatModal exposed to window');
     
     // Test function for debugging
     window.testModal = function() {
-        console.log('Testing modal...');
-        console.log('Modal element:', modal);
-        console.log('Button element:', startChatBtn);
-        console.log('Modal classes:', modal ? modal.className : 'N/A');
-        console.log('Modal display style:', modal ? modal.style.display : 'N/A');
+        // console.log('Testing modal...');
+        // console.log('Modal element:', modal);
+        // console.log('Button element:', startChatBtn);
+        // console.log('Modal classes:', modal ? modal.className : 'N/A');
+        // console.log('Modal display style:', modal ? modal.style.display : 'N/A');
         openModal();
     };
     
@@ -1368,19 +1368,19 @@ function initChatModal() {
     const attachButtonListener = () => {
         const btn = document.getElementById('startChatBtn');
         if (btn) {
-            console.log('Button found, attaching click listener...', btn);
+            // console.log('Button found, attaching click listener...', btn);
             
             // Remove any existing listener by using once or removing and re-adding
             const clickHandler = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Button clicked! Opening modal...');
+                // console.log('Button clicked! Opening modal...');
                 openModal();
                 return false;
             };
             
             btn.addEventListener('click', clickHandler, false);
-            console.log('Button click listener attached');
+            // console.log('Button click listener attached');
         } else {
             console.warn('startChatBtn not found yet, will retry...');
         }
@@ -1457,7 +1457,7 @@ function initChatModal() {
         const commandBarBtn = document.getElementById('commandBarBtn');
         
         if (commandBar) {
-            console.log('Command bar found, attaching click handler');
+            // console.log('Command bar found, attaching click handler');
             commandBar.addEventListener('click', function(e) {
                 // Don't prevent default if clicking the button
                 if (commandBarBtn && (e.target === commandBarBtn || commandBarBtn.contains(e.target))) {
@@ -1465,7 +1465,7 @@ function initChatModal() {
                 }
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Command bar clicked! Opening modal...');
+                // console.log('Command bar clicked! Opening modal...');
                 openModal();
             });
         } else {
@@ -1473,11 +1473,11 @@ function initChatModal() {
         }
         
         if (commandBarBtn) {
-            console.log('Command bar button found, attaching click handler');
+            // console.log('Command bar button found, attaching click handler');
             commandBarBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Command bar button clicked! Opening modal...');
+                // console.log('Command bar button clicked! Opening modal...');
                 openModal();
             });
         } else {
@@ -1602,20 +1602,20 @@ function initQuoteBuilder() {
         },
         'chat': { 
             cost: 2800, 
-            role: 'Support Rep',
-            displayName: 'Support Rep',
+            role: 'Customer Support Representative',
+            displayName: 'Customer Support Representative',
             icon: 'message-circle'
         },
         'website': { 
             cost: 1500, 
-            role: 'Web Dev Retainer',
-            displayName: 'Web Developer Retainer',
+            role: 'Web Development Retainer',
+            displayName: 'Web Development Retainer',
             icon: 'monitor'
         },
         'workflow': { 
             cost: 2500, 
-            role: 'Admin Assistant',
-            displayName: 'Admin Assistant',
+            role: 'Administrative Assistant',
+            displayName: 'Administrative Assistant',
             icon: 'zap'
         }
     };
@@ -1761,15 +1761,15 @@ function initQuoteBuilder() {
         let itemsHTML = '';
         selectedItems.forEach(item => {
             const itemHTML = `
-                <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0">
-                    <span class="text-sm font-medium text-gray-700">
+                <div class="flex justify-between items-center py-3 border-b border-gray-100 last:border-0 gap-3">
+                    <span class="text-sm font-medium text-gray-700 flex-1 min-w-0 break-words">
                         ${item.displayName}
                     </span>
-                    <div class="flex flex-col items-end">
-                        <span class="text-xs text-gray-400 line-through decoration-gray-400 mb-0.5">
+                    <div class="flex flex-col items-end flex-shrink-0">
+                        <span class="text-xs text-gray-400 line-through decoration-gray-400 mb-0.5 whitespace-nowrap">
                             ${formatCurrency(item.humanCost)}/mo
                         </span>
-                        <span class="text-sm font-bold text-amber-500" style="color: #f59e0b;">
+                        <span class="text-sm font-bold text-amber-500 whitespace-nowrap" style="color: #f59e0b;">
                             ScaleMako: ${formatCurrency(item.aiCost)}/mo
                         </span>
                     </div>

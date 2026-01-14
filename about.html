@@ -9,20 +9,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="components/navbar.js?v=8"></script>
+    <script src="components/navbar.js?v=12"></script>
+    <script src="components/footer.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            400: '#6366f1',
-                            500: '#6366f1',
-                            600: '#0ea5e9'
+                            400: '#00E0FF',
+                            500: '#00C6FF',
+                            600: '#0072FF'
                         },
                         dark: {
-                            900: '#0f172a',
-                            800: '#1e293b'
+                            900: '#020617',
+                            800: '#0B1120'
                         }
                     },
                     fontFamily: {
@@ -34,78 +35,78 @@
         }
     </script>
 </head>
-<body class="bg-dark-900 text-gray-100 font-sans min-h-screen" id="mainBody">
+<body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
     <!-- Navbar -->
     <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
-    <main class="pt-40 pb-20 px-4 sm:px-6 lg:px-8">
+    <main class="pt-28 pb-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600">About Us</span>
+                <h1 class="text-4xl md:text-5xl font-display font-bold mb-4 text-gray-900">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00E0FF] to-[#0072FF]">About Us</span>
                 </h1>
-                <p class="text-gray-400 text-lg">
+                <p class="text-gray-600 text-lg">
                     Learn more about ScaleMako and our mission
                 </p>
             </div>
 
             <!-- About Content -->
-            <div class="bg-dark-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 md:p-10 shadow-xl space-y-8">
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 md:p-10 shadow-xl space-y-8">
                 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">Our Story</h2>
-                    <p class="text-gray-300 leading-relaxed">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">Our Story</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         ScaleMako was born from a simple idea: what if we could help businesses grow while learning and building something meaningful ourselves?
                     </p>
-                    <p class="text-gray-300 leading-relaxed mt-4">
-                        We're two college students who saw a gap in the market. Small businesses need AI automation solutions, but they're often too expensive or too complex. At the same time, we wanted to gain real-world experience building products that actually help people.
+                    <p class="text-gray-700 leading-relaxed mt-4">
+                        We're two college students who saw a gap in the market. Small businesses need AI automation solutions, but they're often too expensive or too complex. At the same time, we wanted to gain real world experience building products that actually help people.
                     </p>
-                    <p class="text-gray-300 leading-relaxed mt-4">
-                        So we decided to combine both goals: <strong class="text-white">we're building ScaleMako to help others grow their businesses while we gain valuable experience and build our own.</strong>
+                    <p class="text-gray-700 leading-relaxed mt-4">
+                        So we decided to combine both goals. We're building ScaleMako to help others grow their businesses while we gain valuable experience and build our own.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">Our Mission</h2>
-                    <p class="text-gray-300 leading-relaxed mb-4">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">Our Mission</h2>
+                    <p class="text-gray-700 leading-relaxed mb-4">
                         Our mission is threefold:
                     </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-3 ml-4">
-                        <li><strong class="text-white">Help Businesses Scale:</strong> We provide affordable, accessible AI automation solutions that help small businesses compete with larger companies.</li>
-                        <li><strong class="text-white">Learn and Grow:</strong> As college students, we're using this project to gain hands-on experience in business, technology, and customer service.</li>
-                        <li><strong class="text-white">Build Something Real:</strong> We're not just doing this for a grade—we're building a real business that solves real problems for real people.</li>
+                    <ul class="list-disc list-inside text-gray-700 space-y-3 ml-4">
+                        <li>Help businesses scale. We provide affordable, accessible AI automation solutions that help small businesses compete with larger companies.</li>
+                        <li>Learn and grow. As college students, we're using this project to gain hands on experience in business, technology, and customer service.</li>
+                        <li>Build something real. We're not doing this for a grade. We're building a real business that solves real problems for real people.</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">Why Choose Us?</h2>
-                    <p class="text-gray-300 leading-relaxed mb-4">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">Why Choose Us?</h2>
+                    <p class="text-gray-700 leading-relaxed mb-4">
                         You might wonder: why work with college students instead of an established agency? Here's why:
                     </p>
                     <div class="space-y-4">
-                        <div class="bg-dark-900/50 rounded-lg p-4 border border-gray-700">
-                            <h3 class="text-lg font-semibold text-white mb-2">💰 Affordable Pricing</h3>
-                            <p class="text-gray-300 text-sm">
-                                Because we're building our portfolio and learning, we can offer competitive pricing that established agencies can't match. You get enterprise-quality solutions at startup-friendly prices.
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">💰 Affordable Pricing</h3>
+                            <p class="text-gray-700 text-sm">
+                                Because we're building our portfolio and learning, we can offer competitive pricing that established agencies can't match. You get enterprise quality solutions at startup friendly prices.
                             </p>
                         </div>
-                        <div class="bg-dark-900/50 rounded-lg p-4 border border-gray-700">
-                            <h3 class="text-lg font-semibold text-white mb-2">🔥 Fresh Perspective</h3>
-                            <p class="text-gray-300 text-sm">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">🔥 Fresh Perspective</h3>
+                            <p class="text-gray-700 text-sm">
                                 We're not stuck in old ways of doing things. We bring the latest AI technologies and modern approaches to every project. We're hungry, motivated, and eager to prove ourselves.
                             </p>
                         </div>
-                        <div class="bg-dark-900/50 rounded-lg p-4 border border-gray-700">
-                            <h3 class="text-lg font-semibold text-white mb-2">🤝 Personal Attention</h3>
-                            <p class="text-gray-300 text-sm">
-                                As a small team, every client gets our full attention. You're not just another account number—you're a partner in our journey, and we're invested in your success.
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">🤝 Personal Attention</h3>
+                            <p class="text-gray-700 text-sm">
+                                As a small team, every client gets our full attention. You're not just another account number. You're a partner in our journey, and we're invested in your success.
                             </p>
                         </div>
-                        <div class="bg-dark-900/50 rounded-lg p-4 border border-gray-700">
-                            <h3 class="text-lg font-semibold text-white mb-2">📚 Continuous Learning</h3>
-                            <p class="text-gray-300 text-sm">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">📚 Continuous Learning</h3>
+                            <p class="text-gray-700 text-sm">
                                 We're constantly learning and improving. Every project teaches us something new, and we apply those lessons to make your solution even better. You benefit from our growth.
                             </p>
                         </div>
@@ -113,31 +114,31 @@
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">What We Offer</h2>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        We specialize in AI-powered automation solutions:
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">What We Offer</h2>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        We specialize in AI powered automation solutions.
                     </p>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-4">
-                        <li><strong class="text-white">AI Websites:</strong> Custom websites with built-in AI chat and automated booking systems</li>
-                        <li><strong class="text-white">Chat Assistants:</strong> 24/7 AI chatbots that handle customer inquiries and qualify leads</li>
-                        <li><strong class="text-white">Voice Receptionists:</strong> AI phone agents that never miss a call</li>
-                        <li><strong class="text-white">Workflow Automations:</strong> Seamless integrations between your tools and systems</li>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
+                        <li>AI websites. Custom websites with built in AI chat and automated booking systems.</li>
+                        <li>Chat assistants. Always on AI chatbots that handle customer inquiries and qualify leads.</li>
+                        <li>Voice receptionists. AI phone agents that never miss a call.</li>
+                        <li>Workflow automations. Seamless integrations between your tools and systems.</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">Our Commitment</h2>
-                    <p class="text-gray-300 leading-relaxed">
-                        We're committed to delivering quality solutions, even as we learn. We're transparent about our journey, responsive to feedback, and dedicated to continuous improvement. When you work with us, you're not just getting a service—you're supporting two students building their future while helping you build yours.
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">Our Commitment</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        We're committed to delivering quality solutions, even as we learn. We're transparent about our journey, responsive to feedback, and dedicated to continuous improvement. When you work with us, you're not just getting a service. You're supporting two students building their future while helping you build yours.
                     </p>
                 </section>
 
-                <section class="bg-gradient-to-r from-primary-500/10 to-primary-600/10 rounded-lg p-6 border border-primary-500/20">
-                    <h2 class="text-2xl font-display font-semibold text-white mb-4">Ready to Grow Together?</h2>
-                    <p class="text-gray-300 leading-relaxed mb-6">
+                <section class="bg-gradient-to-r from-[#00C6FF]/10 to-[#0072FF]/10 rounded-lg p-6 border border-[#00C6FF]/20">
+                    <h2 class="text-2xl font-display font-semibold text-gray-900 mb-4">Ready to Grow Together?</h2>
+                    <p class="text-gray-700 leading-relaxed mb-6">
                         Whether you're a fellow entrepreneur, a small business owner, or someone who believes in supporting students building their dreams, we'd love to work with you. Let's grow together.
                     </p>
-                    <a href="book-demo.html" class="inline-block px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg hover:opacity-90 transition-all">
+                    <a href="book-demo.html" class="inline-block px-6 py-3 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-medium rounded-lg hover:opacity-90 transition-all">
                         Book a Free Demo
                     </a>
                 </section>
@@ -146,7 +147,7 @@
 
             <!-- Back Button -->
             <div class="text-center mt-8">
-                <a href="index.html" class="inline-block px-6 py-3 bg-dark-800 border border-gray-700 text-gray-300 hover:text-white hover:border-primary-500 transition-all rounded-lg">
+                <a href="index.html" class="inline-block px-6 py-3 bg-white border border-gray-300 text-gray-700 hover:text-gray-900 hover:border-[#0072FF] transition-all rounded-lg">
                     ← Back to Home
                 </a>
             </div>
@@ -154,13 +155,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark-800 border-t border-gray-800 py-8 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">
-                © <span id="footerYear"></span> ScaleMako | <a href="mailto:hello@scalemako.ai" class="text-primary-400 hover:text-primary-500 transition-colors">hello@scalemako.ai</a>
-            </p>
-        </div>
-    </footer>
+    <custom-footer></custom-footer>
 
     <script>
         // Set footer year

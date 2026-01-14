@@ -310,7 +310,7 @@ class CustomNavbar extends HTMLElement {
                     </a>
                     <div class="nav-links">
                         <a href="index.html#demos" class="nav-link">Demos</a>
-                        <a href="index.html#book-demo" class="nav-link">Pricing</a>
+                        <a href="index.html#pricing" class="nav-link">Pricing</a>
                         <a href="careers.html" class="nav-link">Careers</a>
                         <div class="phone-container">
                             <button class="phone-icon-btn" id="phoneBtn" aria-label="Test Voice Agent">

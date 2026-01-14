@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScaleMako | Your AI Partner for Smarter Business Growth</title>
+    <meta name="description" content="ScaleMako builds AI voice agents, chatbots, and automations that qualify leads, book appointments, and handle support 24/7 so your business can scale faster.">
+    <link rel="canonical" href="https://scalemako.ai/">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <meta property="og:title" content="ScaleMako | Your AI Partner for Smarter Business Growth">
+    <meta property="og:description" content="AI voice agents, chatbots, and automations that qualify leads, book appointments, and handle support 24/7.">
+    <meta property="og:image" content="/assets/images/og-image.png">
+    <meta property="og:url" content="https://scalemako.ai/">
+    <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="components/navbar.js?v=11"></script>
@@ -235,7 +243,7 @@ dark: {
                 <!-- Input Area (Docked to Bottom) -->
                 <div class="border-t border-gray-200 bg-white p-6">
                     <div class="relative max-w-3xl mx-auto">
-                        <div class="relative flex items-end bg-gray-100 border border-gray-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all rounded-2xl">
+                        <div class="relative flex items-center bg-gray-100 border border-gray-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all rounded-2xl">
                             <textarea 
                                 id="modalChatInput" 
                                 placeholder="Ask me anything about Mako..."
@@ -244,7 +252,7 @@ dark: {
                             ></textarea>
                             <button 
                                 id="modalSendBtn"
-                                class="mr-2 mb-2 p-3 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 flex-shrink-0"
+                                class="mr-3 p-3 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 flex-shrink-0"
                             >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
@@ -468,7 +476,7 @@ dark: {
     </section>
 
     <!-- Demo Section -->
-    <section id="demos" class="py-24 bg-white">
+    <section id="demos" class="py-24 bg-white" style="scroll-margin-top: 100px;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900">
@@ -962,7 +970,7 @@ dark: {
             
             <!-- Widget Input Area -->
             <div class="chat-widget-input-area">
-                <div class="relative flex items-end">
+                <div class="relative flex items-center">
                     <textarea 
                         id="chatWidgetInput" 
                         placeholder="Type your message..."
