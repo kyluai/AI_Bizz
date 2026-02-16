@@ -1581,7 +1581,20 @@ function initQuoteBuilder() {
     fetch('http://127.0.0.1:7242/ingest/f82f459d-1454-4ae9-8801-70f3d8c7e00b',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'script.js:1236',message:'savingsTabs querySelectorAll result',data:{tabsFound:savingsTabs.length,summaryExists:!!financialSummaryEl},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
     // #endregion
 
-    if (!serviceCards.length || !activityButtons.length || !financialImpactPriceEl || !emptyStateMessageEl || !humanEquivalentItemsEl || !financialSummaryEl || !totalMarketValueEl || !savingsLabelEl || !savingsAmountEl) return;
+    // Only require essential elements - allow function to run even if some display elements are missing
+    if (!serviceCards.length || !activityButtons.length) {
+        console.warn('Quote builder: Missing essential elements (serviceCards or activityButtons)');
+        return;
+    }
+    
+    // Log missing optional elements but don't block execution
+    if (!financialImpactPriceEl) console.warn('Missing: financialImpactPriceEl');
+    if (!emptyStateMessageEl) console.warn('Missing: emptyStateMessageEl');
+    if (!humanEquivalentItemsEl) console.warn('Missing: humanEquivalentItemsEl');
+    if (!financialSummaryEl) console.warn('Missing: financialSummaryEl');
+    if (!totalMarketValueEl) console.warn('Missing: totalMarketValueEl');
+    if (!savingsLabelEl) console.warn('Missing: savingsLabelEl');
+    if (!savingsAmountEl) console.warn('Missing: savingsAmountEl');
 
     let savingsPeriod = 'monthly'; // 'monthly' or 'annual'
 
@@ -1689,14 +1702,14 @@ function initQuoteBuilder() {
 
         if (selectedCount === 0) {
             // Empty State
-            financialImpactPriceEl.textContent = '$0/mo';
-            emptyStateMessageEl.style.display = 'flex';
+            if (financialImpactPriceEl) financialImpactPriceEl.textContent = '$0/mo';
+            if (emptyStateMessageEl) emptyStateMessageEl.style.display = 'flex';
             const itemsContainer = document.getElementById('humanEquivalentItemsContainer');
             if (itemsContainer) {
                 itemsContainer.style.display = 'none';
             }
-            humanEquivalentItemsEl.innerHTML = '';
-            financialSummaryEl.style.display = 'none';
+            if (humanEquivalentItemsEl) humanEquivalentItemsEl.innerHTML = '';
+            if (financialSummaryEl) financialSummaryEl.style.display = 'none';
             return;
         }
 
@@ -1706,7 +1719,7 @@ function initQuoteBuilder() {
         const aiMonthlyTotal = Math.round(monthlyTotal * mult.monthly);
 
         // Update Price Display
-        financialImpactPriceEl.textContent = `${formatCurrency(aiMonthlyTotal)}/mo`;
+        if (financialImpactPriceEl) financialImpactPriceEl.textContent = `${formatCurrency(aiMonthlyTotal)}/mo`;
 
         // Build Human Equivalent List
         const selectedItems = [];
@@ -1738,22 +1751,22 @@ function initQuoteBuilder() {
         const humanEquivalentListEl = document.getElementById('humanEquivalentList');
         
         // Hide empty state, show container and summary
-        emptyStateMessageEl.style.display = 'none';
+        if (emptyStateMessageEl) emptyStateMessageEl.style.display = 'none';
         if (itemsContainer) {
             itemsContainer.style.display = 'block';
         }
-        financialSummaryEl.style.display = 'block';
+        if (financialSummaryEl) financialSummaryEl.style.display = 'block';
 
         // Clear the container completely first
-        humanEquivalentItemsEl.innerHTML = '';
+        if (humanEquivalentItemsEl) humanEquivalentItemsEl.innerHTML = '';
 
         // If no items selected, show empty state
         if (selectedItems.length === 0) {
-            emptyStateMessageEl.style.display = 'flex';
+            if (emptyStateMessageEl) emptyStateMessageEl.style.display = 'flex';
             if (itemsContainer) {
                 itemsContainer.style.display = 'none';
             }
-            financialSummaryEl.style.display = 'none';
+            if (financialSummaryEl) financialSummaryEl.style.display = 'none';
             return;
         }
 
@@ -1779,10 +1792,10 @@ function initQuoteBuilder() {
         });
 
         // Set the HTML directly
-        humanEquivalentItemsEl.innerHTML = itemsHTML;
+        if (humanEquivalentItemsEl) humanEquivalentItemsEl.innerHTML = itemsHTML;
 
         // Update Summary - Show total human cost (traditional salary cost)
-        totalMarketValueEl.textContent = `${formatCurrency(totalHumanCost)}/mo`;
+        if (totalMarketValueEl) totalMarketValueEl.textContent = `${formatCurrency(totalHumanCost)}/mo`;
         
         // Calculate savings
         const monthlySavings = totalHumanCost - aiMonthlyTotal;
