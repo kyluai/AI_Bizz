@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <meta property="og:title" content="Request Quote | ScaleMako">
-    <meta property="og:description" content="Tell us what you need and we’ll build an AI automation plan for your business.">
+    <meta property="og:description" content="Tell us what you need and we'll build an AI automation plan for your business.">
     <meta property="og:image" content="/assets/images/og-image.png">
     <meta property="og:url" content="https://scalemako.ai/request-quote.html">
     <meta property="og:type" content="website">
@@ -110,10 +110,10 @@
             opacity: 0;
         }
 
-        /* Form input styling - Light Mode */
+        /* Form input styling - Premium Light Mode */
         .form-input-light {
             background-color: #ffffff;
-            border: 1px solid #d1d5db;
+            border: 1px solid #e5e7eb;
             transition: all 0.3s ease;
             color: #1f2937;
         }
@@ -125,16 +125,16 @@
         .form-input-light:focus {
             outline: none;
             border-color: #0072FF;
-            box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.1);
         }
 
         .form-input-light.error {
             border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
         }
 
         .form-input-light:hover:not(:focus) {
-            border-color: #9ca3af;
+            border-color: #d1d5db;
         }
 
         /* Submit button */
@@ -144,8 +144,8 @@
         }
 
         .submit-btn-gradient:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 114, 255, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 28px rgba(0, 114, 255, 0.25);
         }
 
         .submit-btn-gradient:active {
@@ -165,13 +165,13 @@
         .checklist-item {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
+            gap: 0.875rem;
         }
 
         .checklist-icon {
             flex-shrink: 0;
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
             border-radius: 50%;
             display: flex;
@@ -185,18 +185,6 @@
             height: 12px;
             stroke: white;
             stroke-width: 3;
-        }
-
-        /* Trust logos - grayscale */
-        .trust-logo {
-            filter: grayscale(100%);
-            opacity: 0.5;
-            transition: all 0.3s ease;
-        }
-
-        .trust-logo:hover {
-            filter: grayscale(0%);
-            opacity: 1;
         }
 
         /* Confirmation state */
@@ -221,12 +209,6 @@
             display: block;
         }
 
-        /* Subtle background pattern */
-        .bg-pattern {
-            background-image: radial-gradient(circle at 1px 1px, rgba(0, 114, 255, 0.03) 1px, transparent 0);
-            background-size: 40px 40px;
-        }
-
         /* Multi-step form styles */
         .form-step {
             animation: fadeInUp 0.4s ease-out;
@@ -235,36 +217,46 @@
         .form-step.hidden {
             display: none;
         }
+
+        .step-indicator.active {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            color: white;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans min-h-screen" id="mainBody">
+<body class="bg-white text-gray-900 font-sans min-h-screen" id="mainBody">
     <!-- Navbar -->
     <custom-navbar></custom-navbar>
 
     <!-- Main Content -->
-    <main class="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-pattern min-h-screen">
-        <div class="max-w-6xl mx-auto">
+    <main class="pt-32 pb-40 px-4 sm:px-6 lg:px-8 min-h-screen">
+        <div class="max-w-[1120px] mx-auto">
             <!-- Split Screen Layout -->
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-                
+            <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
                 <!-- Left Column: Value Proposition -->
                 <div class="fade-in-left lg:sticky lg:top-32">
                     <!-- Header -->
-                    <div class="mb-8">
-                        <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900 leading-tight mb-4">
+                    <div class="mb-12">
+                        <h1 class="text-[2.5rem] md:text-[3.5rem] font-display font-bold tracking-[-0.03em] text-gray-900 leading-[1.1] mb-6">
                             Get your custom strategy.
                         </h1>
-                        <p class="text-lg text-gray-600 leading-relaxed">
+                        <p class="text-lg text-gray-400 font-light leading-relaxed">
                             Share your business context and we'll create a tailored automation plan with exact pricing.
                         </p>
                     </div>
 
                     <!-- What to Expect Section -->
-                    <div class="mb-10">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                    <div class="mb-16">
+                        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-6">
                             What You'll Receive
                         </h3>
-                        <div class="space-y-4">
+                        <div class="space-y-6">
                             <div class="checklist-item fade-in-up fade-in-delay-1">
                                 <div class="checklist-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -272,8 +264,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-gray-800 font-medium">Custom pricing based on your needs</p>
-                                    <p class="text-sm text-gray-500">Accurate quotes tailored to your business volume and goals.</p>
+                                    <p class="text-gray-900 font-medium mb-1">Custom pricing based on your needs</p>
+                                    <p class="text-sm text-gray-400 font-light leading-relaxed">Accurate quotes tailored to your business volume and goals.</p>
                                 </div>
                             </div>
                             <div class="checklist-item fade-in-up fade-in-delay-2">
@@ -283,8 +275,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-gray-800 font-medium">ROI calculation and savings estimate</p>
-                                    <p class="text-sm text-gray-500">See exactly how much you'll save compared to traditional solutions.</p>
+                                    <p class="text-gray-900 font-medium mb-1">ROI calculation and savings estimate</p>
+                                    <p class="text-sm text-gray-400 font-light leading-relaxed">See exactly how much you'll save compared to traditional solutions.</p>
                                 </div>
                             </div>
                             <div class="checklist-item fade-in-up fade-in-delay-3">
@@ -294,63 +286,63 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-gray-800 font-medium">Implementation timeline</p>
-                                    <p class="text-sm text-gray-500">Clear roadmap for getting your automation live in under 2 weeks.</p>
+                                    <p class="text-gray-900 font-medium mb-1">Implementation timeline</p>
+                                    <p class="text-sm text-gray-400 font-light leading-relaxed">Clear roadmap for getting your automation live in under 2 weeks.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Trust Section -->
-                    <div class="pt-8 border-t border-gray-200 fade-in-up fade-in-delay-4">
-                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                            TRUSTED BY BUSINESSES LIKE YOURS
+                    <div class="pt-12 border-t border-gray-100 fade-in-up fade-in-delay-4">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-5">
+                            Trusted by businesses like yours
                         </p>
-                        <div class="flex items-center gap-3 flex-wrap">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <!-- Industry Tags -->
-                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Real Estate</span>
-                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Home Services</span>
-                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Healthcare</span>
-                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Legal</span>
-                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">E-commerce</span>
+                            <span class="bg-gray-50 text-gray-600 px-4 py-2 rounded-full text-xs font-medium border border-gray-100">Real Estate</span>
+                            <span class="bg-gray-50 text-gray-600 px-4 py-2 rounded-full text-xs font-medium border border-gray-100">Home Services</span>
+                            <span class="bg-gray-50 text-gray-600 px-4 py-2 rounded-full text-xs font-medium border border-gray-100">Healthcare</span>
+                            <span class="bg-gray-50 text-gray-600 px-4 py-2 rounded-full text-xs font-medium border border-gray-100">Legal</span>
+                            <span class="bg-gray-50 text-gray-600 px-4 py-2 rounded-full text-xs font-medium border border-gray-100">E-commerce</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Column: Form Card -->
                 <div class="fade-in-right">
-                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-10">
+                    <div class="bg-white rounded-[28px] border border-gray-100/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-10">
                         <!-- Step Indicator -->
-                        <div class="mb-8">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white flex items-center justify-center text-sm font-semibold" id="stepIndicator1">1</div>
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold" id="stepIndicator2">2</div>
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold" id="stepIndicator3">3</div>
+                        <div class="mb-10">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-9 h-9 rounded-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white flex items-center justify-center text-sm font-semibold step-indicator" id="stepIndicator1">1</div>
+                                    <div class="w-9 h-9 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center text-sm font-semibold step-indicator" id="stepIndicator2">2</div>
+                                    <div class="w-9 h-9 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center text-sm font-semibold step-indicator" id="stepIndicator3">3</div>
                                 </div>
-                                <span class="text-sm text-gray-500" id="stepCounter">Step 1 of 3</span>
+                                <span class="text-sm text-gray-400 font-light" id="stepCounter">Step 1 of 3</span>
                             </div>
-                            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                                 <div class="h-full bg-gradient-to-r from-[#00C6FF] to-[#0072FF] transition-all duration-300" id="progressBar" style="width: 33.33%"></div>
                             </div>
                         </div>
 
                         <!-- Form -->
                         <form id="quoteForm" action="https://formspree.io/f/xkgpldpo" method="POST">
-                        
+
                         <!-- Step 1: Contact Details -->
-                        <div id="step1" class="form-step space-y-5">
+                        <div id="step1" class="form-step space-y-6">
                             <!-- Full Name -->
                             <div>
-                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">
                                     Full Name <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="fullName" 
-                                    name="fullName" 
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    name="fullName"
                                     required
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="John Doe"
                                 />
                                 <span class="error-message" id="fullNameError">Please enter your full name</span>
@@ -358,15 +350,15 @@
 
                             <!-- Business Email -->
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                                     Business Email <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    name="email" 
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
                                     required
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="john@example.com"
                                 />
                                 <span class="error-message" id="emailError">Please enter a valid email address</span>
@@ -374,15 +366,15 @@
 
                             <!-- Phone Number -->
                             <div>
-                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
                                     Phone Number <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                    type="tel" 
-                                    id="phone" 
-                                    name="phone" 
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
                                     required
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="(555) 123-4567"
                                 />
                                 <span class="error-message" id="phoneError">Please enter a valid phone number</span>
@@ -393,38 +385,38 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-3">
                                     Services You're Interested In <span class="text-gray-400 text-xs font-normal">(select all that apply)</span>
                                 </label>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                <div class="space-y-2.5">
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Voice Receptionists"
                                             class="checkbox-light"
                                         />
                                         <span class="text-sm text-gray-700">Voice Receptionists</span>
                                     </label>
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Chat Assistants"
                                             class="checkbox-light"
                                         />
                                         <span class="text-sm text-gray-700">Chat Assistants</span>
                                     </label>
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Custom SEO Website Build"
                                             class="checkbox-light"
                                         />
                                         <span class="text-sm text-gray-700">Custom SEO Website Build</span>
                                     </label>
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Workflow Automations"
                                             class="checkbox-light"
                                         />
@@ -435,81 +427,81 @@
 
                             <!-- Current Monthly Lead Volume -->
                             <div>
-                                <label for="leadVolume" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="leadVolume" class="block text-sm font-medium text-gray-700 mb-2">
                                     Current Monthly Lead Volume
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="leadVolume" 
+                                <input
+                                    type="text"
+                                    id="leadVolume"
                                     name="leadVolume"
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="e.g., 50-100 leads per month"
                                 />
                             </div>
 
                             <!-- Current Number of Support Staff -->
                             <div>
-                                <label for="supportStaff" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="supportStaff" class="block text-sm font-medium text-gray-700 mb-2">
                                     Current Number of Support Staff
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="supportStaff" 
+                                <input
+                                    type="text"
+                                    id="supportStaff"
                                     name="supportStaff"
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="e.g., 2 support staff members"
                                 />
                             </div>
 
                             <!-- Next Button -->
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 id="nextToStep2"
-                                class="submit-btn-gradient w-full py-4 rounded-xl text-white font-semibold text-base"
+                                class="submit-btn-gradient w-full py-4 rounded-full text-white font-semibold text-base"
                             >
                                 Next
                             </button>
                         </div>
 
                         <!-- Step 2: Business Details -->
-                        <div id="step2" class="form-step hidden space-y-5">
+                        <div id="step2" class="form-step hidden space-y-6">
                             <!-- Service Selection -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-3">
                                     Services You're Interested In <span class="text-gray-400 text-xs font-normal">(select all that apply)</span>
                                 </label>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                <div class="space-y-2.5">
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Voice Receptionists"
                                             class="checkbox-light"
                                         />
                                         <span class="text-sm text-gray-700">Voice Receptionists</span>
                                     </label>
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Chat Assistants"
                                             class="checkbox-light"
                                         />
                                         <span class="text-sm text-gray-700">Chat Assistants</span>
                                     </label>
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Custom SEO Website Build"
                                             class="checkbox-light"
                                         />
                                         <span class="text-sm text-gray-700">Custom SEO Website Build</span>
                                     </label>
-                                    <label class="flex items-center gap-2.5 p-3 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
-                                        <input 
-                                            type="checkbox" 
-                                            name="services[]" 
+                                    <label class="flex items-center gap-2.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-500 hover:bg-blue-50/30 cursor-pointer transition-all">
+                                        <input
+                                            type="checkbox"
+                                            name="services[]"
                                             value="Workflow Automations"
                                             class="checkbox-light"
                                         />
@@ -520,44 +512,44 @@
 
                             <!-- Current Monthly Lead Volume -->
                             <div>
-                                <label for="leadVolume" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="leadVolume" class="block text-sm font-medium text-gray-700 mb-2">
                                     Current Monthly Lead Volume
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="leadVolume" 
+                                <input
+                                    type="text"
+                                    id="leadVolume"
                                     name="leadVolume"
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="e.g., 50-100 leads per month"
                                 />
                             </div>
 
                             <!-- Current Number of Support Staff -->
                             <div>
-                                <label for="supportStaff" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="supportStaff" class="block text-sm font-medium text-gray-700 mb-2">
                                     Current Number of Support Staff
                                 </label>
-                                <input 
-                                    type="text" 
-                                    id="supportStaff" 
+                                <input
+                                    type="text"
+                                    id="supportStaff"
                                     name="supportStaff"
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                     placeholder="e.g., 2 support staff members"
                                 />
                             </div>
-                            
+
                             <div class="flex gap-3">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     id="backToStep1"
-                                    class="flex-1 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
+                                    class="flex-1 py-4 rounded-full border-2 border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
                                 >
                                     Back
                                 </button>
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     id="nextToStep3"
-                                    class="flex-1 submit-btn-gradient py-4 rounded-xl text-white font-semibold"
+                                    class="flex-1 submit-btn-gradient py-4 rounded-full text-white font-semibold"
                                 >
                                     Next
                                 </button>
@@ -565,18 +557,18 @@
                         </div>
 
                         <!-- Step 3: Project Goals & Preferred Consultation -->
-                        <div id="step3" class="form-step hidden space-y-5">
+                        <div id="step3" class="form-step hidden space-y-6">
                             <!-- Project Goals -->
                             <div>
-                                <label for="projectGoals" class="block text-sm font-medium text-gray-700 mb-1.5">
+                                <label for="projectGoals" class="block text-sm font-medium text-gray-700 mb-2">
                                     Main Bottlenecks You're Trying to Solve <span class="text-red-500">*</span>
                                 </label>
-                                <textarea 
-                                    id="projectGoals" 
-                                    name="projectGoals" 
+                                <textarea
+                                    id="projectGoals"
+                                    name="projectGoals"
                                     required
                                     rows="4"
-                                    class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900 resize-none"
+                                    class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900 resize-none"
                                     placeholder="Tell us about your main challenges: missed calls, slow response times, manual booking processes, etc."
                                 ></textarea>
                                 <span class="error-message" id="projectGoalsError">Please describe your main bottlenecks</span>
@@ -589,21 +581,21 @@
                                 </label>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label for="preferredDate" class="block text-xs text-gray-600 mb-1">Date</label>
-                                        <input 
-                                            type="date" 
-                                            id="preferredDate" 
+                                        <label for="preferredDate" class="block text-xs text-gray-500 mb-2 font-light">Date</label>
+                                        <input
+                                            type="date"
+                                            id="preferredDate"
                                             name="preferredDate"
                                             min=""
-                                            class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                            class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                         />
                                     </div>
                                     <div>
-                                        <label for="preferredTime" class="block text-xs text-gray-600 mb-1">Time</label>
-                                        <select 
-                                            id="preferredTime" 
+                                        <label for="preferredTime" class="block text-xs text-gray-500 mb-2 font-light">Time</label>
+                                        <select
+                                            id="preferredTime"
                                             name="preferredTime"
-                                            class="form-input-light w-full px-4 py-3 rounded-lg text-gray-900"
+                                            class="form-input-light w-full px-4 py-3.5 rounded-xl text-gray-900"
                                         >
                                             <option value="">Select time</option>
                                             <option value="09:00">9:00 AM</option>
@@ -619,25 +611,25 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="flex gap-3">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     id="backToStep2"
-                                    class="flex-1 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
+                                    class="flex-1 py-4 rounded-full border-2 border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition-all"
                                 >
                                     Back
                                 </button>
-                                <button 
-                                    type="submit" 
-                                    class="flex-1 submit-btn-gradient py-4 rounded-xl text-white font-semibold"
+                                <button
+                                    type="submit"
+                                    class="flex-1 submit-btn-gradient py-4 rounded-full text-white font-semibold"
                                 >
                                     Generate My Custom Strategy
                                 </button>
                             </div>
-                            
+
                             <!-- Privacy note -->
-                            <p class="text-xs text-gray-400 text-center mt-3">
+                            <p class="text-xs text-gray-400 text-center mt-3 font-light">
                                 By submitting, you agree to our <a href="privacy.html" class="text-primary-600 hover:underline">Privacy Policy</a>
                             </p>
                         </div>
@@ -652,7 +644,7 @@
                                     </svg>
                                 </div>
                                 <h3 class="text-xl font-semibold text-gray-900 mb-2">Thank you!</h3>
-                                <p id="confirmationMessage" class="text-gray-600">
+                                <p id="confirmationMessage" class="text-gray-400 font-light">
                                     We've received your information and will send your custom strategy within 24 hours.
                                 </p>
                             </div>
@@ -660,24 +652,24 @@
                     </div>
 
                     <!-- Security badges -->
-                    <div class="mt-6 flex items-center justify-center gap-6 text-xs text-gray-400">
-                        <div class="flex items-center gap-1.5">
+                    <div class="mt-8 flex items-center justify-center gap-8 text-xs text-gray-400">
+                        <div class="flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                             </svg>
-                            <span>SSL Secured</span>
+                            <span class="font-light">SSL Secured</span>
                         </div>
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
-                            <span>GDPR Compliant</span>
+                            <span class="font-light">GDPR Compliant</span>
                         </div>
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span>Response in 24h</span>
+                            <span class="font-light">Response in 24h</span>
                         </div>
                     </div>
                 </div>
@@ -686,17 +678,17 @@
     </main>
 
     <!-- Minimal Footer -->
-    <footer class="bg-white border-t border-gray-100 py-6">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer class="bg-slate-50 border-t border-gray-100 py-8">
+        <div class="max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-gray-400 font-light">
                     © 2026 ScaleMako. All rights reserved.
                 </p>
                 <div class="flex items-center gap-6">
-                    <a href="mailto:hello@scalemako.ai" class="text-sm text-gray-500 hover:text-primary-600 transition-colors">
+                    <a href="mailto:hello@scalemako.ai" class="text-sm text-gray-400 hover:text-primary-600 transition-colors font-light">
                         hello@scalemako.ai
                     </a>
-                    <a href="index.html" class="text-sm text-gray-500 hover:text-primary-600 transition-colors">
+                    <a href="index.html" class="text-sm text-gray-400 hover:text-primary-600 transition-colors font-light">
                         Back to Home
                     </a>
                 </div>
@@ -715,27 +707,27 @@
         const form = document.getElementById('quoteForm');
         const confirmationState = document.getElementById('confirmationState');
         const confirmationMessage = document.getElementById('confirmationMessage');
-        
+
         // Step elements
         const step1 = document.getElementById('step1');
         const step2 = document.getElementById('step2');
         const step3 = document.getElementById('step3');
         const progressBar = document.getElementById('progressBar');
         const stepCounter = document.getElementById('stepCounter');
-        
+
         // Set minimum date to today
         const preferredDateInput = document.getElementById('preferredDate');
         if (preferredDateInput) {
             const today = new Date().toISOString().split('T')[0];
             preferredDateInput.setAttribute('min', today);
         }
-        
+
         // Real-time validation
         const fullNameInput = document.getElementById('fullName');
         const emailInput = document.getElementById('email');
         const phoneInput = document.getElementById('phone');
         const projectGoalsInput = document.getElementById('projectGoals');
-        
+
         // Step navigation functions
         function updateStepIndicator(step) {
             for (let i = 1; i <= totalSteps; i++) {
@@ -753,20 +745,20 @@
             progressBar.style.width = `${(step / totalSteps) * 100}%`;
             stepCounter.textContent = `Step ${step} of ${totalSteps}`;
         }
-        
+
         function showStep(step) {
             step1.classList.add('hidden');
             step2.classList.add('hidden');
             step3.classList.add('hidden');
-            
+
             if (step === 1) step1.classList.remove('hidden');
             else if (step === 2) step2.classList.remove('hidden');
             else if (step === 3) step3.classList.remove('hidden');
-            
+
             currentStep = step;
             updateStepIndicator(step);
         }
-        
+
         function saveStepData(step) {
             if (step === 1) {
                 formData.fullName = fullNameInput.value.trim();
@@ -783,7 +775,7 @@
                 formData.preferredTime = document.getElementById('preferredTime').value;
             }
         }
-        
+
         function restoreStepData(step) {
             if (step === 1) {
                 if (formData.fullName) fullNameInput.value = formData.fullName;
@@ -804,7 +796,7 @@
                 if (formData.preferredTime) document.getElementById('preferredTime').value = formData.preferredTime;
             }
         }
-        
+
         // Step navigation buttons
         document.getElementById('nextToStep2').addEventListener('click', () => {
             if (validateStep1()) {
@@ -813,36 +805,36 @@
                 restoreStepData(2);
             }
         });
-        
+
         document.getElementById('backToStep1').addEventListener('click', () => {
             saveStepData(2);
             showStep(1);
             restoreStepData(1);
         });
-        
+
         document.getElementById('nextToStep3').addEventListener('click', () => {
             saveStepData(2);
             showStep(3);
             restoreStepData(3);
         });
-        
+
         document.getElementById('backToStep2').addEventListener('click', () => {
             saveStepData(3);
             showStep(2);
             restoreStepData(2);
         });
-        
+
         function validateStep1() {
             const isFullNameValid = validateField(fullNameInput, document.getElementById('fullNameError'));
             const isEmailValid = validateField(emailInput, document.getElementById('emailError'));
             const isPhoneValid = validateField(phoneInput, document.getElementById('phoneError'));
             return isFullNameValid && isEmailValid && isPhoneValid;
         }
-        
+
         function validateField(field, errorElement) {
             const value = field.value.trim();
             let isValid = true;
-            
+
             if (field.hasAttribute('required') && !value) {
                 isValid = false;
             } else if (field.type === 'email' && value) {
@@ -852,7 +844,7 @@
                 const phoneRegex = /^[\d\s\(\)\-\+]+$/;
                 isValid = phoneRegex.test(value) && value.replace(/\D/g, '').length >= 10;
             }
-            
+
             if (!isValid) {
                 field.classList.add('error');
                 errorElement.classList.add('show');
@@ -860,22 +852,22 @@
                 field.classList.remove('error');
                 errorElement.classList.remove('show');
             }
-            
+
             return isValid;
         }
-        
+
         fullNameInput.addEventListener('blur', () => {
             validateField(fullNameInput, document.getElementById('fullNameError'));
         });
-        
+
         emailInput.addEventListener('blur', () => {
             validateField(emailInput, document.getElementById('emailError'));
         });
-        
+
         phoneInput.addEventListener('blur', () => {
             validateField(phoneInput, document.getElementById('phoneError'));
         });
-        
+
         projectGoalsInput.addEventListener('blur', () => {
             validateField(projectGoalsInput, document.getElementById('projectGoalsError'));
         });
@@ -893,22 +885,22 @@
                 }
             });
         });
-        
+
         // Form submission
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             // Validate step 3
             const isProjectGoalsValid = validateField(projectGoalsInput, document.getElementById('projectGoalsError'));
             if (!isProjectGoalsValid) {
                 return;
             }
-            
+
             // Save all data
             saveStepData(1);
             saveStepData(2);
             saveStepData(3);
-            
+
             // Get form data
             const selectedServices = formData.services || [];
             const data = {
@@ -923,7 +915,7 @@
                 preferredTime: formData.preferredTime,
                 formType: 'Quote Request'
             };
-            
+
             // Mock API call to send confirmation email
             try {
                 await fetch('/api/send-confirmation', {
@@ -943,14 +935,14 @@
             } catch (error) {
                 // console.log('Mock API call completed');
             }
-            
+
             // Show loading state
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Generating Strategy...';
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.7';
-            
+
             try {
                 // Submit to Formspree
                 const response = await fetch('https://formspree.io/f/xkgpldpo', {
@@ -960,15 +952,15 @@
                     },
                     body: JSON.stringify(data)
                 });
-                
+
                 if (!response.ok) {
                     throw new Error('Submission failed');
                 }
-                
+
                 // Hide form and show confirmation
                 form.style.display = 'none';
                 confirmationState.classList.add('show');
-                
+
             } catch (error) {
                 console.error('Error submitting form:', error);
                 alert('There was an error submitting your request. Please try again or email us directly at hello@scalemako.ai');
@@ -977,7 +969,7 @@
                 submitBtn.style.opacity = '1';
             }
         });
-        
+
         // Page is ready
         document.body.style.opacity = '1';
     </script>

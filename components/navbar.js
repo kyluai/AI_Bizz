@@ -62,12 +62,13 @@ class CustomNavbar extends HTMLElement {
                     left: 0;
                     width: 100%;
                     z-index: 1999;
-                    background-color: white;
-                    backdrop-filter: blur(10px);
+                    background-color: rgba(255, 255, 255, 0.85);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                     transition: all 0.3s ease;
                     padding: 0.5rem 0;
-                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                    box-shadow: none;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
                     height: auto;
                     box-sizing: border-box;
                 }
@@ -91,8 +92,8 @@ class CustomNavbar extends HTMLElement {
                 }
                 
                 .navbar.scrolled {
-                    background-color: white;
-                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                    background-color: rgba(255, 255, 255, 0.95);
+                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
                 }
                 
                 .navbar-container {
@@ -193,10 +194,11 @@ class CustomNavbar extends HTMLElement {
                     top: calc(100% + 0.75rem);
                     right: 0;
                     background: white;
-                    border-radius: 1rem;
-                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+                    border-radius: 1.25rem;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
                     padding: 1.5rem;
                     min-width: 280px;
+                    border: 1px solid rgba(0, 0, 0, 0.06);
                     opacity: 0;
                     visibility: hidden;
                     transform: translateY(-10px);

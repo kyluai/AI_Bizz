@@ -38,33 +38,41 @@
     <!-- Navbar -->
     <custom-navbar></custom-navbar>
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden pt-32 pb-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight leading-[1.1] mb-6 text-black">
+    <!-- Hero + Roles Combined Section - No gap -->
+    <section class="relative overflow-hidden pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-white">
+        <!-- Ambient orb -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(0,198,255,0.06)_0%,transparent_60%)] rounded-full filter blur-[80px] pointer-events-none"></div>
+        <div class="max-w-[1120px] mx-auto relative z-10">
+            <div class="text-center max-w-4xl mx-auto mb-16 reveal-on-scroll">
+                <div class="mb-6">
+                    <span class="uppercase tracking-[0.15em] text-[#0072FF] text-sm font-semibold">Careers</span>
+                </div>
+                <h1 class="text-[3.5rem] md:text-[5rem] font-display font-bold tracking-[-0.04em] leading-[1.08] text-gray-900">
                     Work With Us
                 </h1>
+                <p class="mt-6 text-lg text-gray-400 leading-relaxed font-light max-w-xl mx-auto">Join our team and help businesses grow with AI automation.</p>
             </div>
         </div>
     </section>
 
-    <!-- Job Listings Section -->
-    <section class="py-8 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900">
-                     <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00E0FF] to-[#0072FF]">Roles</span>
+    <!-- Job Listings Section - Reduced top padding for natural flow -->
+    <section class="pt-8 pb-32 lg:pb-40 bg-gray-50/50 relative overflow-hidden">
+        <!-- Subtle ambient orb -->
+        <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(0,114,255,0.04)_0%,transparent_60%)] rounded-full filter blur-[80px] pointer-events-none"></div>
+        <div class="max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 reveal-on-scroll">
+                <h2 class="text-3xl md:text-4xl font-display font-bold tracking-[-0.03em] text-gray-900">
+                    Open <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00E0FF] to-[#0072FF]">Roles</span>
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                 <!-- Job Card 1: Software Engineer -->
-                <div class="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                <div class="reveal-card reveal-on-scroll bg-white/70 backdrop-blur-xl rounded-[28px] p-8 border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)] hover:border-[#00C6FF]/20 transition-all duration-300 ease-out hover:-translate-y-1 flex flex-col">
                     <div class="flex items-start justify-between mb-4">
                         <div>
                             <h3 class="text-xl font-display font-semibold text-gray-900 mb-1">Software Engineer</h3>
-                            <p class="text-gray-500 font-sans text-sm">Full-time • Remote</p>
+                            <p class="text-gray-400 font-light font-sans text-sm">Full-time • Remote</p>
                         </div>
                         <div class="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
                             <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,10 +80,10 @@
                             </svg>
                         </div>
                     </div>
-                    
+
                     <div class="mb-4">
                         <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Responsibilities</h4>
-                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                        <ul class="space-y-1.5 text-gray-400 font-light font-sans text-sm">
                             <li class="flex items-start">
                                 <span class="text-primary-500 mr-2">•</span>
                                 <span>Design and develop scalable AI automation solutions using modern frameworks</span>
@@ -97,7 +105,7 @@
 
                     <div class="mb-4">
                         <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Requirements</h4>
-                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                        <ul class="space-y-1.5 text-gray-400 font-light font-sans text-sm">
                             <li class="flex items-start">
                                 <span class="text-primary-500 mr-2">•</span>
                                 <span>3+ years of experience in software development (Python, JavaScript, or similar)</span>
@@ -117,17 +125,17 @@
                         </ul>
                     </div>
 
-                    <button onclick="openApplicationModal('Software Engineer')" class="w-full px-5 py-2.5 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold text-sm rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02] mt-auto">
+                    <button onclick="openApplicationModal('Software Engineer')" class="w-full px-5 py-2.5 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold text-sm rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02] mt-auto">
                         Apply Now
                     </button>
                 </div>
 
                 <!-- Job Card 2: Data Engineer -->
-                <div class="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-[#00C6FF] hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                <div class="reveal-card reveal-on-scroll bg-white/70 backdrop-blur-xl rounded-[28px] p-8 border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)] hover:border-[#00C6FF]/20 transition-all duration-300 ease-out hover:-translate-y-1 flex flex-col">
                     <div class="flex items-start justify-between mb-4">
                         <div>
                             <h3 class="text-xl font-display font-semibold text-gray-900 mb-1">Data Engineer</h3>
-                            <p class="text-gray-500 font-sans text-sm">Full-time • Remote</p>
+                            <p class="text-gray-400 font-light font-sans text-sm">Full-time • Remote</p>
                         </div>
                         <div class="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
                             <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,10 +143,10 @@
                             </svg>
                         </div>
                     </div>
-                    
+
                     <div class="mb-4">
                         <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Responsibilities</h4>
-                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                        <ul class="space-y-1.5 text-gray-400 font-light font-sans text-sm">
                             <li class="flex items-start">
                                 <span class="text-primary-500 mr-2">•</span>
                                 <span>Design and implement robust data pipelines for AI model training and inference</span>
@@ -160,7 +168,7 @@
 
                     <div class="mb-4">
                         <h4 class="text-xs font-semibold text-gray-900 mb-2 uppercase tracking-wide">Requirements</h4>
-                        <ul class="space-y-1.5 text-gray-600 font-sans text-sm">
+                        <ul class="space-y-1.5 text-gray-400 font-light font-sans text-sm">
                             <li class="flex items-start">
                                 <span class="text-primary-500 mr-2">•</span>
                                 <span>3+ years of experience in data engineering or related field</span>
@@ -180,7 +188,7 @@
                         </ul>
                     </div>
 
-                    <button onclick="openApplicationModal('Data Engineer')" class="w-full px-5 py-2.5 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold text-sm rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02] mt-auto">
+                    <button onclick="openApplicationModal('Data Engineer')" class="w-full px-5 py-2.5 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold text-sm rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02] mt-auto">
                         Apply Now
                     </button>
                 </div>
@@ -191,7 +199,7 @@
     <!-- Application Modal -->
     <div id="applicationModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm">
         <div class="relative w-full max-w-md mx-4">
-            <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <div class="bg-white/80 backdrop-blur-xl rounded-[28px] border border-white/40 shadow-[0_20px_60px_rgb(0,0,0,0.08)] p-8">
                 <button onclick="closeApplicationModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -200,25 +208,25 @@
 
                 <div id="modalForm">
                     <h2 class="text-2xl font-display font-bold text-gray-900 mb-2">Apply for <span id="jobTitle" class="text-primary-600"></span></h2>
-                    <p class="text-gray-600 mb-6 font-sans">Fill out the form below and we'll get back to you soon.</p>
+                    <p class="text-gray-400 font-light mb-6 font-sans">Fill out the form below and we'll get back to you soon.</p>
 
                     <form id="applicationForm" class="space-y-4">
                         <div>
                             <label for="applicantName" class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                            <input type="text" id="applicantName" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans">
+                            <input type="text" id="applicantName" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-[12px] focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans">
                         </div>
 
                         <div>
                             <label for="applicantEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-                            <input type="email" id="applicantEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans">
+                            <input type="email" id="applicantEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-[12px] focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans">
                         </div>
 
                         <div>
                             <label for="resumeFile" class="block text-sm font-medium text-gray-700 mb-2">Resume/CV *</label>
-                            <input type="file" id="resumeFile" name="resume" accept=".pdf,.doc,.docx" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-500/10 file:text-primary-600 hover:file:bg-primary-500/20">
+                            <input type="file" id="resumeFile" name="resume" accept=".pdf,.doc,.docx" required class="w-full px-4 py-3 border border-gray-300 rounded-[12px] focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all font-sans file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-500/10 file:text-primary-600 hover:file:bg-primary-500/20">
                         </div>
 
-                        <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02]">
+                        <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold rounded-full hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-[1.02]">
                             Submit Application
                         </button>
                     </form>
@@ -232,7 +240,7 @@
                         </svg>
                     </div>
                     <h2 class="text-2xl font-display font-bold text-gray-900 mb-2">Application Received</h2>
-                    <p class="text-gray-600 font-sans">Our team will review your profile and reach out shortly.</p>
+                    <p class="text-gray-400 font-light font-sans">Our team will review your profile and reach out shortly.</p>
                 </div>
             </div>
         </div>
@@ -250,7 +258,7 @@
                 mainBody.style.paddingTop = '2.75rem';
             }
         })();
-        
+
         function openApplicationModal(jobTitle) {
             document.getElementById('jobTitle').textContent = jobTitle;
             document.getElementById('applicationModal').classList.remove('hidden');
@@ -269,11 +277,11 @@
 
         document.getElementById('applicationForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             // Hide form, show success
             document.getElementById('modalForm').classList.add('hidden');
             document.getElementById('modalSuccess').classList.remove('hidden');
-            
+
             // Auto-close after 3 seconds
             setTimeout(() => {
                 closeApplicationModal();
@@ -286,14 +294,30 @@
                 closeApplicationModal();
             }
         });
-        
+
         // Check for promo banner and adjust body padding
         (function() {
             const mainBody = document.getElementById('mainBody');
             // Always show banner padding (for testing - banner always shows)
             mainBody.style.paddingTop = '2.75rem';
         })();
+
+        // Scroll reveal observer for cards and sections
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal-card, .reveal-on-scroll').forEach(el => {
+            revealObserver.observe(el);
+        });
     </script>
 </body>
 </html>
-

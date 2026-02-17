@@ -6,13 +6,14 @@
     --primary-blue: #0072FF;
     --primary-cyan-light: #00E0FF;
     --text-dark: #1f2937;
-    --text-medium: #4b5563;
+    --text-medium: #64748b;
     --bg-white: #ffffff;
-    --bg-off-white: #f9fafb;
-    --bg-light-grey: #f3f4f6;
-    --border-light: #e5e7eb;
+    --bg-off-white: #f8fafc;
+    --bg-light-grey: #f1f5f9;
+    --border-light: #f1f5f9;
     --border-blue: #00C6FF;
-    --shadow-soft: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.04);
+    --shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
 /* AI Agent message box styling */
@@ -38,21 +39,19 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(59, 130, 246, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 0.5rem 1.25rem;
+    background: rgba(0, 114, 255, 0.06);
+    border: 1px solid rgba(0, 114, 255, 0.12);
     border-radius: 9999px;
     font-size: 0.875rem;
     font-weight: 500;
-    color: #3b82f6;
+    color: #0072FF;
     transition: all 0.3s ease;
 }
 
 .announcement-pill:hover {
-    background: rgba(59, 130, 246, 0.15);
-    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(0, 114, 255, 0.1);
+    border-color: rgba(0, 114, 255, 0.2);
 }
 
 .announcement-pill-icon {
@@ -155,21 +154,21 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f3f4f6; /* Gray-100 */
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #00C6FF; /* Electric Cyan/Blue */
-    border-radius: 4px;
+    background: rgba(0, 114, 255, 0.15);
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #0072FF; /* Deep Blue */
+    background: rgba(0, 114, 255, 0.3);
 }
 
 /* Smooth scrolling */
@@ -554,6 +553,60 @@ body {
 }
 
 /* ============================================
+   SCROLL REVEAL - Cards fade in on scroll
+   ============================================ */
+.reveal-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger reveal for grid children */
+.reveal-card:nth-child(2) { transition-delay: 0.1s; }
+.reveal-card:nth-child(3) { transition-delay: 0.2s; }
+.reveal-card:nth-child(4) { transition-delay: 0.3s; }
+
+/* ============================================
+   HERO ENTRANCE ANIMATIONS
+   ============================================ */
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+.animate-fade-in-delay-1 {
+    animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+    animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
+}
+
+.animate-fade-in-delay-3 {
+    animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    opacity: 0;
+}
+
+/* ============================================
    NAVBAR SCROLL EFFECT
    ============================================ */
 #mainNav {
@@ -562,16 +615,18 @@ body {
 
 #mainNav.nav-transparent,
 #mainNav {
-    background-color: white !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
 }
 
 #mainNav.nav-scrolled {
-    background-color: white !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04) !important;
 }
 
 /* ============================================
@@ -952,10 +1007,10 @@ body.modal-open {
    ============================================ */
 .quote-card {
     background: #fff;
-    border-radius: 20px;
-    box-shadow: var(--shadow-soft);
-    padding: 2rem;
-    border: 1px solid var(--border-light);
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    padding: 2.5rem;
+    border: 1px solid #f1f5f9;
 }
 
 .quote-grid {
@@ -1008,11 +1063,11 @@ body.modal-open {
     align-items: center;
     gap: 0.75rem;
     padding: 0.9rem 1rem;
-    border: 1px solid var(--border-light);
-    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
     background: #fff;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     cursor: pointer;
     user-select: none;
 }
@@ -1762,4 +1817,302 @@ body.modal-open {
         right: -0.5rem;
         bottom: 70px;
     }
+}
+
+/* ============================================
+   SCROLL REVEAL ON SCROLL - IntersectionObserver
+   ============================================ */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-on-scroll:nth-child(2) { transition-delay: 0.08s; }
+.reveal-on-scroll:nth-child(3) { transition-delay: 0.16s; }
+.reveal-on-scroll:nth-child(4) { transition-delay: 0.24s; }
+.reveal-on-scroll:nth-child(5) { transition-delay: 0.32s; }
+
+/* ============================================
+   HIDE NATIVE SCROLLBARS - Premium Thin Style
+   ============================================ */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Global thin scrollbar override */
+html::-webkit-scrollbar {
+    width: 5px;
+}
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+}
+html::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.22);
+}
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.12) transparent;
+}
+
+/* ============================================
+   POLYGLASSISM - Shared Glass Card Styles
+   ============================================ */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    border-radius: 28px;
+    transition: all 0.3s ease-out;
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 198, 255, 0.2);
+}
+
+/* ============================================
+   TYPOGRAPHY POLISH - Apple-style
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+}
+
+p {
+    text-wrap: balance;
+}
+
+/* ============================================
+   PREMIUM DAY/TIME PILLS - Book Demo
+   ============================================ */
+.day-pill {
+    flex-shrink: 0;
+    padding: 0.75rem 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(229, 231, 235, 0.6);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    text-align: center;
+    min-width: 80px;
+    user-select: none;
+}
+
+.day-pill:hover {
+    border-color: rgba(0, 198, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 198, 255, 0.1);
+}
+
+.day-pill.selected {
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 114, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.day-pill.selected .day-pill-day,
+.day-pill.selected .day-pill-date {
+    color: white;
+}
+
+.day-pill-day {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    transition: color 0.3s;
+}
+
+.day-pill-date {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: 2px;
+    transition: color 0.3s;
+}
+
+.time-pill {
+    padding: 0.875rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(229, 231, 235, 0.6);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    user-select: none;
+}
+
+.time-pill:hover {
+    border-color: rgba(0, 198, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 198, 255, 0.1);
+}
+
+.time-pill.selected {
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 114, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   PREMIUM FORM INPUTS - Floating Label Style
+   ============================================ */
+.premium-input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(249, 250, 251, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(229, 231, 235, 0.6);
+    border-radius: 16px;
+    font-size: 1rem;
+    color: #1f2937;
+    outline: none;
+    transition: all 0.3s ease-out;
+}
+
+.premium-input::placeholder {
+    color: #9ca3af;
+}
+
+.premium-input:focus {
+    border-color: rgba(0, 198, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.12);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.premium-input:hover:not(:focus) {
+    border-color: rgba(0, 198, 255, 0.25);
+}
+
+/* ============================================
+   LOADING BUTTON STATE
+   ============================================ */
+.btn-loading {
+    opacity: 0.7;
+    cursor: wait !important;
+    pointer-events: none;
+}
+
+.btn-loading .btn-text {
+    opacity: 0;
+}
+
+.btn-loading .btn-spinner {
+    display: flex !important;
+}
+
+.btn-spinner {
+    display: none !important;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   PRICING TOGGLE - Pre-made vs Custom
+   ============================================ */
+.pricing-toggle-container {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 9999px;
+    padding: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.pricing-toggle-btn {
+    padding: 0.625rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-toggle-btn.active {
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 114, 255, 0.3);
+}
+
+.pricing-toggle-btn:not(.active):hover {
+    color: #374151;
+    background: rgba(0, 0, 0, 0.03);
+}
+
+/* Pricing tier card */
+.pricing-tier-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    border-radius: 28px;
+    padding: 2.5rem;
+    transition: all 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-tier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 198, 255, 0.25);
+}
+
+.pricing-tier-card.featured {
+    border-color: rgba(0, 198, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 114, 255, 0.08);
+    position: relative;
+}
+
+.pricing-tier-card.featured::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 28px;
+    padding: 1px;
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
