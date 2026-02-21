@@ -173,11 +173,12 @@ class CustomFooter extends HTMLElement {
         `;
         document.body.appendChild(container);
 
-        // Load widget scripts sequentially, skip any already present
+        // Load widget scripts sequentially; relative paths work on localhost and when deployed to a subpath (e.g. GitHub Pages)
+        const scriptBase = 'assets/js/';
         this._loadWidgetScripts([
-            '/assets/js/booking-schema.js',
-            '/assets/js/booking-flow.js',
-            '/assets/js/chat-widget.js'
+            scriptBase + 'booking-schema.js',
+            scriptBase + 'booking-flow.js',
+            scriptBase + 'chat-widget.js'
         ]);
     }
 

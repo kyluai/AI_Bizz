@@ -977,11 +977,20 @@ function initFloatingChatWidget() {
     function tryInit() {
         if (document.getElementById('floatingChatButton') && !window._chatWidgetInitialized) {
             initFloatingChatWidget();
+            return true;
         }
+        return false;
+    }
+    function scheduleTry() {
+        if (tryInit()) return;
+        var attempts = 0;
+        var t = setInterval(function () {
+            if (tryInit() || ++attempts >= 20) clearInterval(t);
+        }, 150);
     }
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', tryInit);
+        document.addEventListener('DOMContentLoaded', scheduleTry);
     } else {
-        tryInit();
+        scheduleTry();
     }
 })();
