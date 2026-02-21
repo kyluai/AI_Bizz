@@ -562,7 +562,8 @@ body {
                 transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.reveal-card.revealed {
+.reveal-card.revealed,
+.reveal-card.reveal-active {
     opacity: 1;
     transform: translateY(0);
 }
@@ -770,17 +771,17 @@ body.has-promo-banner {
 /* Suggestion Cards hover effects */
 .suggestion-card {
     transform: translateY(0);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .suggestion-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 10px 40px -10px rgba(0, 114, 255, 0.15);
 }
 
 /* Chat messages animation */
 .chat-message-animate {
-    animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: messageSlideIn 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes messageSlideIn {
@@ -808,13 +809,13 @@ body.has-promo-banner {
         transform: translateY(0);
     }
     30% {
-        transform: translateY(-8px);
+        transform: translateY(-7px);
     }
 }
 
 /* Custom scrollbar for modal chat */
 #modalChatMessages::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 #modalChatMessages::-webkit-scrollbar-track {
@@ -822,12 +823,12 @@ body.has-promo-banner {
 }
 
 #modalChatMessages::-webkit-scrollbar-thumb {
-    background: rgba(99, 102, 241, 0.3);
-    border-radius: 3px;
+    background: rgba(0, 114, 255, 0.18);
+    border-radius: 2px;
 }
 
 #modalChatMessages::-webkit-scrollbar-thumb:hover {
-    background: rgba(99, 102, 241, 0.5);
+    background: rgba(0, 114, 255, 0.35);
 }
 
 /* Prevent body scroll when modal is open */
@@ -1599,29 +1600,56 @@ body.modal-open {
 }
 
 /* ============================================
-   FLOATING CHAT WIDGET
+   FLOATING CHAT WIDGET — Premium
    ============================================ */
+
+/* Mako shark icon — mount animation + hover */
+@keyframes makoScaleIn {
+    0%   { transform: scale(0.65) rotate(-8deg); opacity: 0; }
+    70%  { transform: scale(1.06) rotate(1deg);  opacity: 1; }
+    100% { transform: scale(1)    rotate(0deg);  opacity: 1; }
+}
+
+.mako-icon {
+    animation: makoScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: transform 0.2s ease;
+}
+
+.mako-icon:hover {
+    transform: scale(1.08);
+}
+
+/* Floating button mount — pops up from bottom */
+@keyframes floatBtnIn {
+    from { transform: translateY(20px) scale(0.9); opacity: 0; }
+    to   { transform: translateY(0)    scale(1);   opacity: 1; }
+}
+
+#floatingChatButton {
+    animation: floatBtnIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+}
 
 .chat-widget-container {
     position: absolute;
     bottom: 80px;
     right: 0;
-    width: 380px;
+    width: 390px;
     max-width: calc(100vw - 2rem);
     height: 600px;
     max-height: calc(100vh - 120px);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 1.5rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 198, 255, 0.1);
+    background: #ffffff;
+    border: 1px solid rgba(229, 231, 235, 0.7);
+    border-radius: 28px;
+    box-shadow:
+        0 32px 80px rgba(0, 0, 0, 0.12),
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(0, 114, 255, 0.04);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     opacity: 0;
-    transform: translateY(20px) scale(0.95);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(16px) scale(0.97);
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
 }
 
@@ -1635,69 +1663,88 @@ body.modal-open {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.25rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: #ffffff;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.55);
+    flex-shrink: 0;
 }
 
 .chat-widget-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 1rem;
+    padding: 1.375rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
+    scroll-behavior: smooth;
+}
+
+.chat-widget-messages::-webkit-scrollbar {
+    width: 3px;
+}
+
+.chat-widget-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-widget-messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 114, 255, 0.12);
+    border-radius: 2px;
+}
+
+.chat-widget-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 114, 255, 0.25);
 }
 
 .chat-widget-welcome {
-    padding: 1rem;
+    padding: 0.25rem 0;
 }
 
 .chat-widget-suggestion {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 0.625rem 0.875rem;
-    background: rgba(59, 130, 246, 0.05);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    border-radius: 0.5rem;
+    padding: 0.5625rem 1.125rem;
+    background: #ffffff;
+    border: 1px solid rgba(229, 231, 235, 0.85);
+    border-radius: 9999px;
     font-size: 0.75rem;
     color: #374151;
     font-weight: 500;
-    transition: all 0.2s ease;
+    letter-spacing: -0.01em;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .chat-widget-suggestion:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(0, 114, 255, 0.04);
+    border-color: rgba(0, 114, 255, 0.35);
+    color: #0072FF;
     transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 114, 255, 0.08);
 }
 
 .chat-widget-input-area {
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-top: 1px solid rgba(229, 231, 235, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 1.25rem;
+    background: #ffffff;
+    border-top: 1px solid rgba(229, 231, 235, 0.55);
+    flex-shrink: 0;
 }
 
 .chat-widget-input {
     flex: 1;
     width: 100%;
-    padding: 0.75rem 1rem;
-    padding-right: 3rem !important; /* Space for send button */
-    background: rgba(249, 250, 251, 0.8);
-    border: 1px solid rgba(229, 231, 235, 0.5);
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
+    padding: 0.6875rem 3rem 0.6875rem 1.25rem;
+    background: #f8fafc;
+    border: 1.5px solid rgba(229, 231, 235, 0.85);
+    border-radius: 9999px;
+    font-size: 0.8125rem;
     color: #111827;
     outline: none;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     resize: none;
     overflow-y: auto;
-    min-height: 2.5rem;
+    min-height: 2.75rem;
     max-height: 8rem;
     line-height: 1.5;
     font-family: inherit;
@@ -1708,8 +1755,8 @@ body.modal-open {
 
 .chat-widget-input:focus {
     border-color: #0072FF;
-    box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.1);
-    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.08);
+    background: #ffffff;
 }
 
 .chat-widget-input-area .relative {
@@ -1722,30 +1769,31 @@ body.modal-open {
 
 .chat-widget-send-btn {
     position: absolute;
-    right: 1.25rem;
+    right: 0.3125rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 2rem;
-    height: 2rem;
+    width: 2.125rem;
+    height: 2.125rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #00C6FF, #0072FF);
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 9999px;
     color: white;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 114, 255, 0.22);
 }
 
 .chat-widget-send-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 114, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 114, 255, 0.38);
 }
 
 .chat-widget-send-btn:active {
-    transform: scale(0.95);
+    transform: translateY(-50%) scale(0.93);
 }
 
 /* Modal chat input textarea styling */
@@ -1756,52 +1804,65 @@ body.modal-open {
     min-height: 3rem;
     max-height: 10rem;
     line-height: 1.5;
-    padding-right: 4rem !important; /* Space for send button */
+    padding-right: 4rem !important;
 }
 
 .chat-widget-message {
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    max-width: 85%;
-    animation: fadeInUp 0.3s ease-out;
+    padding: 0.75rem 1.125rem;
+    border-radius: 1.375rem;
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    max-width: 80%;
+    animation: widgetFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes widgetFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .chat-widget-message.user {
     align-self: flex-end;
     background: linear-gradient(135deg, #00C6FF, #0072FF);
     color: white;
-    border-bottom-right-radius: 0.25rem;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 114, 255, 0.22);
 }
 
 .chat-widget-message.bot {
     align-self: flex-start;
-    background: rgba(249, 250, 251, 0.8);
+    background: #f8fafc;
     color: #111827;
-    border: 1px solid rgba(229, 231, 235, 0.5);
-    border-bottom-left-radius: 0.25rem;
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .chat-widget-typing {
     display: flex !important;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: rgba(249, 250, 251, 0.95);
-    border: 1px solid rgba(229, 231, 235, 0.5);
-    border-radius: 0.75rem;
-    border-bottom-left-radius: 0.25rem;
+    gap: 0.4rem;
+    padding: 0.75rem 1.125rem;
+    background: #f8fafc;
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    border-radius: 1.375rem;
+    border-bottom-left-radius: 4px;
     width: fit-content;
     align-self: flex-start;
-    margin-bottom: 0.75rem;
-    animation: fadeInUp 0.3s ease-out;
+    animation: widgetFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .chat-widget-typing-dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    background: #6b7280;
+    width: 0.375rem;
+    height: 0.375rem;
+    background: rgba(0, 114, 255, 0.55);
     border-radius: 50%;
     animation: typingBounce 1.4s ease-in-out infinite;
     flex-shrink: 0;
@@ -2115,4 +2176,601 @@ p {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+}}
+
+/* ============================================
+   PRICING — Mobile Improvements
+   ============================================ */
+@media (max-width: 768px) {
+    .pricing-tier-card {
+        padding: 2rem 1.75rem;
+        border-radius: 24px;
+        margin-bottom: 0;
+    }
+
+    .pricing-tier-card .text-5xl {
+        font-size: 3.25rem;
+    }
+
+    #premadePlansView .grid {
+        gap: 1.25rem;
+    }
+
+    .pricing-tier-card.featured {
+        order: -1;
+    }
+
+    /* Activity pills — taller on mobile */
+    .quote-activity-pill {
+        padding: 0.75rem 1rem;
+        border-radius: 16px;
+        min-height: 60px;
+    }
+
+    /* Pricing toggle */
+    .pricing-toggle-container {
+        padding: 4px;
+    }
+
+    .pricing-toggle-btn {
+        padding: 0.5rem 1.125rem;
+        font-size: 0.8125rem;
+    }
+
+    /* Custom builder card spacing */
+    #customBuilderView .rounded-\[28px\] {
+        padding: 1.5rem;
+    }
+
+    #customServices {
+        gap: 0.625rem;
+    }
+
+    .custom-service-toggle {
+        padding: 0.875rem;
+    }
+}
+
+/* ============================================
+   BOOKING FLOW — Conversational UI Components
+   ============================================ */
+
+/* ---- Quick reply pill buttons ---- */
+.booking-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.25rem 0 0.5rem;
+}
+
+.booking-quick-reply-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4375rem 1rem;
+    background: #ffffff;
+    border: 1.5px solid rgba(0, 114, 255, 0.25);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #0072FF;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
+.booking-quick-reply-btn:hover {
+    background: rgba(0, 114, 255, 0.06);
+    border-color: #0072FF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 114, 255, 0.12);
+}
+
+.booking-quick-reply-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Ghost variant (cancel/dismiss) */
+.booking-quick-reply-btn--ghost {
+    background: transparent;
+    border-color: rgba(107, 114, 128, 0.25);
+    color: #6b7280;
+}
+
+.booking-quick-reply-btn--ghost:hover {
+    background: rgba(107, 114, 128, 0.06);
+    border-color: rgba(107, 114, 128, 0.4);
+    box-shadow: none;
+}
+
+/* ---- Booking confirmation card ---- */
+.booking-confirm-card {
+    background: #ffffff;
+    border: 1.5px solid rgba(0, 114, 255, 0.18);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow:
+        0 8px 24px rgba(0, 114, 255, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+    max-width: 86%;
+    align-self: flex-start;
+    animation: widgetFadeIn 0.3s ease-out;
+}
+
+/* Slightly wider in the full modal */
+.booking-confirm-card--modal {
+    max-width: 100%;
+}
+
+.booking-confirm-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0072FF;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+}
+
+.booking-confirm-header svg {
+    flex-shrink: 0;
+    stroke: #0072FF;
+}
+
+.booking-confirm-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.booking-detail-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.3125rem 0;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+    font-size: 0.75rem;
+}
+
+.booking-detail-row:last-child {
+    border-bottom: none;
+}
+
+.booking-detail-label {
+    color: #9ca3af;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.booking-detail-value {
+    color: #111827;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+}
+
+/* ---- Confirm CTA button ---- */
+.booking-confirm-btn {
+    display: block;
+    width: 100%;
+    padding: 0.6875rem 1.5rem;
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    border: none;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 114, 255, 0.3);
+    margin-bottom: 0.625rem;
+}
+
+.booking-confirm-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 114, 255, 0.38);
+}
+
+.booking-confirm-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 114, 255, 0.2);
+}
+
+.booking-confirm-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: none;
+}
+
+/* ---- Cancel link ---- */
+.booking-cancel-link {
+    display: block;
+    width: 100%;
+    padding: 0.375rem;
+    background: none;
+    border: none;
+    font-size: 0.6875rem;
+    color: #9ca3af;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.booking-cancel-link:hover {
+    color: #6b7280;
+}
+
+/* ---- Soft nudge message ---- */
+.booking-nudge {
+    padding: 0.875rem 1rem;
+    background: rgba(0, 114, 255, 0.03);
+    border: 1px dashed rgba(0, 114, 255, 0.2);
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    animation: widgetFadeIn 0.3s ease-out;
+    max-width: 90%;
+    align-self: flex-start;
+}
+
+.booking-nudge-text {
+    display: block;
+    color: #374151;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+/* ---- Chat message rich text (for booking flow bot messages) ---- */
+.chat-widget-message.bot strong,
+.chat-widget-message.bot b {
+    font-weight: 600;
+    color: #111827;
+}
+
+/* ============================================
+   CHAT MULTI-SELECT PICKER (e.g. Services)
+   ============================================ */
+.chat-multiselect-widget {
+    background: #ffffff;
+    border: 1.5px solid rgba(0, 114, 255, 0.14);
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow:
+        0 8px 32px rgba(0, 114, 255, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+    max-width: 88%;
+    align-self: flex-start;
+    animation: widgetFadeIn 0.3s ease-out;
+    font-family: inherit;
+}
+
+.chat-multiselect-widget--modal {
+    max-width: 100%;
+}
+
+.chat-multiselect-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 0.75rem;
+}
+
+.chat-multiselect-option {
+    padding: 0.4375rem 0.875rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(0, 114, 255, 0.2);
+    background: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+    user-select: none;
+}
+
+.chat-multiselect-option:hover:not(.selected) {
+    border-color: rgba(0, 114, 255, 0.4);
+    color: #0072FF;
+    background: rgba(0, 114, 255, 0.04);
+}
+
+.chat-multiselect-option.selected {
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0, 114, 255, 0.28);
+}
+
+.chat-multiselect-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chat-multiselect-skip {
+    padding: 0.4375rem 0.875rem;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(107, 114, 128, 0.25);
+    background: transparent;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.chat-multiselect-skip:hover {
+    border-color: rgba(107, 114, 128, 0.4);
+    color: #374151;
+}
+
+.chat-multiselect-done {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: none;
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 14px rgba(0, 114, 255, 0.3);
+    font-family: inherit;
+}
+
+.chat-multiselect-done:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+}
+
+.chat-multiselect-done:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 114, 255, 0.38);
+}
+
+/* ============================================
+   CHAT INLINE CALENDAR WIDGET
+   ============================================ */
+.chat-calendar-widget {
+    background: #ffffff;
+    border: 1.5px solid rgba(0, 114, 255, 0.14);
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow:
+        0 8px 32px rgba(0, 114, 255, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+    max-width: 88%;
+    align-self: flex-start;
+    animation: widgetFadeIn 0.3s ease-out;
+    user-select: none;
+    font-family: inherit;
+}
+
+.chat-cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.chat-cal-month-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -0.01em;
+}
+
+.chat-cal-nav {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.chat-cal-nav:hover:not(:disabled) {
+    border-color: rgba(0, 114, 255, 0.35);
+    color: #0072FF;
+    background: rgba(0, 114, 255, 0.04);
+}
+
+.chat-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 0.25rem;
+}
+
+.chat-cal-dayname {
+    text-align: center;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9ca3af;
+    padding-bottom: 0.375rem;
+}
+
+.chat-cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+    line-height: 1;
+}
+
+.chat-cal-day:hover:not(.disabled):not(.empty):not(.selected) {
+    background: rgba(0, 114, 255, 0.08);
+    color: #0072FF;
+}
+
+.chat-cal-day.disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.chat-cal-day.empty {
+    cursor: default;
+    pointer-events: none;
+}
+
+.chat-cal-day.today:not(.selected) {
+    font-weight: 700;
+    color: #0072FF;
+    background: rgba(0, 114, 255, 0.06);
+}
+
+.chat-cal-day.selected {
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(0, 114, 255, 0.35);
+}
+
+.chat-cal-divider {
+    height: 1px;
+    background: rgba(229, 231, 235, 0.6);
+    margin: 0.625rem 0;
+}
+
+.chat-cal-section-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+    margin-bottom: 0.5rem;
+}
+
+.chat-cal-times {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.3125rem;
+    margin-bottom: 0.75rem;
+}
+
+.chat-cal-time {
+    padding: 0.4375rem 0.25rem;
+    text-align: center;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(229, 231, 235, 0.8);
+    background: white;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.chat-cal-time:hover:not(.selected) {
+    border-color: rgba(0, 114, 255, 0.35);
+    color: #0072FF;
+    background: rgba(0, 114, 255, 0.04);
+}
+
+.chat-cal-time.selected {
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0, 114, 255, 0.28);
+}
+
+.chat-cal-confirm-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5625rem 1rem;
+    background: linear-gradient(135deg, #00C6FF, #0072FF);
+    border: none;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 114, 255, 0.3);
+    font-family: inherit;
+    letter-spacing: -0.01em;
+}
+
+.chat-cal-confirm-btn:disabled {
+    opacity: 0.32;
+    cursor: default;
+    pointer-events: none;
+}
+
+.chat-cal-confirm-btn:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 114, 255, 0.38);
+}
+
+/* Modal variant — slightly wider */
+.chat-calendar-widget--modal {
+    max-width: 100%;
+}
+
+/* ============================================
+   GLOBAL UI POLISH
+   ============================================ */
+
+/* Pill button hover refinement */
+a[class*="rounded-full"]:hover,
+button[class*="rounded-full"]:hover {
+    outline: none;
+}
+
+/* Reveal card animation is handled by .revealed and .reveal-active classes */
+
+/* Section spacing consistency on mobile */
+@media (max-width: 768px) {
+    section.py-32 {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+    section.lg\:py-40 {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+}
+
+/* Typography hierarchy polish */
+.font-display {
+    letter-spacing: -0.02em;
+}
+
+/* Button active states */
+a[href]:active,
+button:active {
+    transform: scale(0.98) !important;
+    transition: transform 0.1s ease !important;
 }

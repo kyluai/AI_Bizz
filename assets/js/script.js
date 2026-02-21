@@ -153,7 +153,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     // ============================================
     // FLOATING CHAT WIDGET
     // ============================================
-    initFloatingChatWidget();
+    if (typeof initFloatingChatWidget === 'function') initFloatingChatWidget();
 
     // Demo form submission
     const demoForms = document.querySelectorAll('[data-demo-form]');
@@ -244,6 +244,22 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     
     // Initialize staggered animations
     initStaggeredAnimations();
+
+    // ============================================
+    // REVEAL ON SCROLL - IntersectionObserver
+    // ============================================
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal-on-scroll, .reveal-card').forEach(el => {
+        revealObserver.observe(el);
+    });
 });
 
 // OLD Chatbot functionality - DEPRECATED (replaced by initChatModal)
@@ -778,7 +794,11 @@ function initChatModal() {
     
     let isChatOpen = false;
     let hasStartedConversation = false;
-    
+
+    // ---- Booking flow state ----
+    let modalBooking  = null;  // BookingFlow instance (created after init)
+    let modalNudged   = false; // Only nudge once per session
+
     // Storage keys
     const STORAGE_KEY_HISTORY = 'scaleMako_chatHistory';
     const STORAGE_KEY_THREAD = 'scaleMako_threadId';
@@ -1106,6 +1126,429 @@ function initChatModal() {
         }
     }
     
+    // ============================================
+    // BOOKING UI HELPERS — MODAL
+    // ============================================
+
+    // Append quick-reply pill buttons (indented to align with bot messages)
+    function appendModalQuickReplies(labels) {
+        const row = document.createElement('div');
+        row.className = 'booking-quick-replies';
+        row.style.marginLeft  = '2.5rem'; // clear avatar column
+        row.style.marginBottom = '1.25rem';
+        labels.forEach(label => {
+            const btn = document.createElement('button');
+            btn.className   = 'booking-quick-reply-btn';
+            btn.textContent = label;
+            btn.addEventListener('click', () => {
+                row.remove();
+                addUserMessage(label);
+                handleModalUserInput(label, /* skipAddUser */ true);
+            });
+            row.appendChild(btn);
+        });
+        chatMessages.appendChild(row);
+        scrollToBottom();
+    }
+
+    // ============================================
+    // MODAL MULTI-SELECT PICKER
+    // ============================================
+    function appendModalMultiSelectPicker(options, skipLabel, onSelected) {
+        const wrapper = document.createElement('div');
+        wrapper.style.marginLeft   = '2.5rem';
+        wrapper.style.marginBottom = '1.25rem';
+
+        const container = document.createElement('div');
+        container.className = 'chat-multiselect-widget chat-multiselect-widget--modal';
+        wrapper.appendChild(container);
+
+        const selected = new Set();
+
+        function render() {
+            let html = '<div class="chat-multiselect-options">';
+            options.forEach(opt => {
+                const isSel = selected.has(opt);
+                html += `<button class="chat-multiselect-option${isSel ? ' selected' : ''}" data-value="${escapeHtml(opt)}">${escapeHtml(opt)}</button>`;
+            });
+            html += '</div><div class="chat-multiselect-footer">';
+            if (skipLabel) {
+                html += `<button class="chat-multiselect-skip">${escapeHtml(skipLabel)}</button>`;
+            }
+            const count = selected.size;
+            html += `<button class="chat-multiselect-done" ${count === 0 ? 'disabled' : ''}>
+                ${count > 0 ? `Done (${count} selected)` : 'Done'}
+            </button>`;
+            html += '</div>';
+            container.innerHTML = html;
+            attachMSEvents();
+        }
+
+        function attachMSEvents() {
+            container.querySelectorAll('.chat-multiselect-option[data-value]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const v = btn.dataset.value;
+                    selected.has(v) ? selected.delete(v) : selected.add(v);
+                    render(); scrollToBottom();
+                });
+            });
+            container.querySelector('.chat-multiselect-skip')?.addEventListener('click', () => {
+                wrapper.remove();
+                onSelected([]);
+            });
+            container.querySelector('.chat-multiselect-done')?.addEventListener('click', () => {
+                if (selected.size === 0) return;
+                wrapper.remove();
+                onSelected(Array.from(selected));
+            });
+        }
+
+        render();
+        chatMessages.appendChild(wrapper);
+        scrollToBottom();
+    }
+
+    // ============================================
+    // BOOKING CONFIRMATION CARD — modal (schema-driven)
+    // ============================================
+    function buildModalCardRows(data) {
+        const fields = (window.BookingSchema && Array.isArray(window.BookingSchema.fields))
+            ? window.BookingSchema.fields : [];
+        let rows = '';
+        fields.forEach(field => {
+            if (field.type === 'calendar') {
+                const dv = data.dateDisplay || data[field.id] || '';
+                const tv = data.meetingTimeDisplay || data.meetingTime || '';
+                if (dv) rows += `<div class="booking-detail-row"><span class="booking-detail-label">Date</span><span class="booking-detail-value">${escapeHtml(dv)}</span></div>`;
+                if (tv) rows += `<div class="booking-detail-row"><span class="booking-detail-label">Time</span><span class="booking-detail-value">${escapeHtml(tv)}</span></div>`;
+            } else {
+                let val = data[field.id];
+                if (val === undefined || val === null || val === '') return;
+                if (Array.isArray(val)) {
+                    if (val.length === 0) return;
+                    val = val.join(', ');
+                }
+                if (field.type === 'select' && field.options) {
+                    const opt = field.options.find(o =>
+                        (typeof o === 'string' ? o : o.value) === val
+                    );
+                    if (opt) val = typeof opt === 'string' ? opt : opt.label;
+                }
+                rows += `<div class="booking-detail-row"><span class="booking-detail-label">${escapeHtml(field.label)}</span><span class="booking-detail-value">${escapeHtml(String(val))}</span></div>`;
+            }
+        });
+        return rows;
+    }
+
+    function addModalBookingCard(data) {
+        const wrapper = document.createElement('div');
+        wrapper.style.marginLeft   = '2.5rem';
+        wrapper.style.marginBottom = '1.25rem';
+
+        const card = document.createElement('div');
+        card.className = 'booking-confirm-card booking-confirm-card--modal';
+        card.innerHTML = `
+            <div class="booking-confirm-header">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                Booking Summary
+            </div>
+            <div class="booking-confirm-details">${buildModalCardRows(data)}</div>
+            <button class="booking-confirm-btn" id="modalConfirmBtn">Confirm Booking</button>
+            <button class="booking-cancel-link" id="modalCancelBtn">Cancel</button>
+        `;
+        wrapper.appendChild(card);
+        chatMessages.appendChild(wrapper);
+        scrollToBottom();
+
+        card.querySelector('#modalConfirmBtn')?.addEventListener('click', async () => {
+            const btn       = card.querySelector('#modalConfirmBtn');
+            const cancelBtn = card.querySelector('#modalCancelBtn');
+            btn.disabled    = true;
+            btn.textContent = 'Booking...';
+            if (cancelBtn) cancelBtn.style.display = 'none';
+
+            try {
+                if (window.BookingSchema?.submit) {
+                    await window.BookingSchema.submit(data);
+                }
+
+                try {
+                    const key = window.BookingSchema?.prefillKey || 'scaleMako_bookingPrefill';
+                    localStorage.setItem(key, JSON.stringify(
+                        Object.assign({}, data, { chatSubmitted: true })
+                    ));
+                } catch (e) { /* storage unavailable */ }
+
+                btn.textContent = 'Confirmed ✓';
+                modalBooking.confirm();
+                saveToStorage();
+
+                addAIMessage(
+                    `You're all set, **${data.fullName || data.name}**! 🎉\n\nWe'll send a confirmation to **${data.email}**.\n\nTaking you to your booking page...`,
+                    true
+                );
+                setTimeout(() => { window.location.href = '/book-demo'; }, 2200);
+
+            } catch (err) {
+                console.error('Modal booking submission error:', err);
+                btn.disabled    = false;
+                btn.textContent = 'Confirm Booking';
+                if (cancelBtn) cancelBtn.style.display = 'block';
+                addAIMessage(
+                    "Something went wrong. Please try again or email hello@scalemako.ai",
+                    false
+                );
+            }
+        });
+
+        card.querySelector('#modalCancelBtn')?.addEventListener('click', () => {
+            wrapper.remove();
+            modalBooking.cancel();
+        });
+    }
+
+    // Soft nudge after answering a general question
+    function maybeModalNudge() {
+        if (modalNudged || (modalBooking && modalBooking.isActive())) return;
+        modalNudged = true;
+        setTimeout(() => {
+            if (modalBooking && modalBooking.isActive()) return;
+            const nudge = document.createElement('div');
+            nudge.className = 'booking-nudge';
+            nudge.style.marginLeft   = '2.5rem';
+            nudge.style.marginBottom = '1.25rem';
+            nudge.innerHTML = `
+                <span class="booking-nudge-text">Would you like to schedule a free consultation?</span>
+                <div class="booking-quick-replies" style="margin-top:0.625rem;">
+                    <button class="booking-quick-reply-btn" id="mNudgeYes">Book a time</button>
+                    <button class="booking-quick-reply-btn booking-quick-reply-btn--ghost" id="mNudgeNo">Not now</button>
+                </div>
+            `;
+            chatMessages.appendChild(nudge);
+            scrollToBottom();
+
+            nudge.querySelector('#mNudgeYes')?.addEventListener('click', () => {
+                nudge.remove();
+                modalBooking.start('nudge');
+            });
+            nudge.querySelector('#mNudgeNo')?.addEventListener('click', () => {
+                nudge.remove();
+            });
+        }, 1400);
+    }
+
+    // Core input handler shared by handleSend + quick-reply callbacks
+    async function handleModalUserInput(message, skipAddUser = false) {
+        if (!message) return;
+
+        // Remove any open quick-reply rows
+        chatMessages.querySelectorAll('.booking-quick-replies').forEach(el => el.remove());
+
+        // ---- Booking flow: intercept if active ----
+        if (modalBooking && modalBooking.isActive()) {
+            modalBooking.process(message);
+            return;
+        }
+
+        // ---- Booking intent: auto-start flow ----
+        if (window.BookingFlow && window.BookingFlow.detectIntent(message)) {
+            showTypingIndicator();
+            await new Promise(r => setTimeout(r, 650));
+            hideTypingIndicator();
+            modalBooking.start('intent');
+            return;
+        }
+
+        // ---- Normal AI flow ----
+        showTypingIndicator();
+        try {
+            const response = await getAIResponse(message);
+            hideTypingIndicator();
+            addAIMessage(response);
+            saveToStorage();
+            maybeModalNudge();
+        } catch (error) {
+            console.error('Error in handleModalUserInput:', error);
+            hideTypingIndicator();
+            addAIMessage("I'm sorry, I encountered an error. Please try again.");
+            saveToStorage();
+        }
+    }
+
+    // ============================================
+    // MODAL CHAT CALENDAR PICKER
+    // ============================================
+    function appendModalCalendarPicker(onDateTimeSelected) {
+        const TIMES = [
+            { value: '09:00', label: '9:00 AM'  },
+            { value: '10:00', label: '10:00 AM' },
+            { value: '11:00', label: '11:00 AM' },
+            { value: '13:00', label: '1:00 PM'  },
+            { value: '14:00', label: '2:00 PM'  },
+            { value: '15:00', label: '3:00 PM'  },
+            { value: '16:00', label: '4:00 PM'  }
+        ];
+        const MONTH_NAMES = ['January','February','March','April','May','June',
+                             'July','August','September','October','November','December'];
+        const DAY_NAMES = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+        let selDate = null;
+        let selTime = null;
+        let viewYear, viewMonth;
+        const now = new Date();
+        viewYear  = now.getFullYear();
+        viewMonth = now.getMonth();
+
+        const wrapper = document.createElement('div');
+        wrapper.style.marginLeft   = '2.5rem';
+        wrapper.style.marginBottom = '1.25rem';
+
+        const container = document.createElement('div');
+        container.className = 'chat-calendar-widget chat-calendar-widget--modal';
+        wrapper.appendChild(container);
+
+        function toISO(d) {
+            return d.getFullYear() + '-' +
+                   String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                   String(d.getDate()).padStart(2, '0');
+        }
+
+        function isPast(iso) {
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const parts = iso.split('-');
+            const d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+            return d <= today;
+        }
+
+        function formatDisplay(iso) {
+            const parts = iso.split('-');
+            const d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+            const dn = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            const mn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            return dn[d.getDay()] + ', ' + mn[d.getMonth()] + ' ' + d.getDate();
+        }
+
+        function render() {
+            const firstDay    = new Date(viewYear, viewMonth, 1);
+            const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+            const startDow    = firstDay.getDay();
+            const todayISO    = toISO(new Date());
+            const isPrevDisabled = viewYear === now.getFullYear() && viewMonth <= now.getMonth();
+
+            let html = `<div class="chat-cal-header">
+                <button class="chat-cal-nav chat-cal-prev" ${isPrevDisabled ? 'disabled' : ''}>
+                    <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <span class="chat-cal-month-label">${MONTH_NAMES[viewMonth]} ${viewYear}</span>
+                <button class="chat-cal-nav chat-cal-next">
+                    <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>`;
+
+            html += '<div class="chat-cal-grid">';
+            DAY_NAMES.forEach(d => { html += `<div class="chat-cal-dayname">${d}</div>`; });
+            for (let i = 0; i < startDow; i++) {
+                html += '<div class="chat-cal-day empty"></div>';
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                const iso      = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                const past     = isPast(iso);
+                const isToday  = iso === todayISO;
+                const isSel    = iso === selDate;
+                let cls = 'chat-cal-day';
+                if (past)   cls += ' disabled';
+                if (isToday && !past) cls += ' today';
+                if (isSel)  cls += ' selected';
+                html += `<div class="${cls}" data-date="${iso}">${day}</div>`;
+            }
+            html += '</div>';
+
+            if (selDate) {
+                html += '<div class="chat-cal-divider"></div>';
+                html += '<div class="chat-cal-section-label">Available Times</div>';
+                html += '<div class="chat-cal-times">';
+                TIMES.forEach(t => {
+                    const isSel = selTime && selTime.value === t.value;
+                    html += `<div class="chat-cal-time${isSel ? ' selected' : ''}" data-value="${t.value}" data-label="${t.label}">${t.label}</div>`;
+                });
+                html += '</div>';
+            }
+
+            const isReady  = selDate && selTime;
+            const btnLabel = isReady
+                ? `Continue — ${formatDisplay(selDate)} at ${selTime.label}`
+                : 'Select a date & time';
+            html += `<button class="chat-cal-confirm-btn" id="modalCalConfirmBtn" ${isReady ? '' : 'disabled'}>${btnLabel}</button>`;
+
+            container.innerHTML = html;
+            attachCalEvents();
+        }
+
+        function attachCalEvents() {
+            container.querySelector('.chat-cal-prev')?.addEventListener('click', () => {
+                viewMonth--;
+                if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+                render(); scrollToBottom();
+            });
+            container.querySelector('.chat-cal-next')?.addEventListener('click', () => {
+                viewMonth++;
+                if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+                render(); scrollToBottom();
+            });
+            container.querySelectorAll('.chat-cal-day[data-date]').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    if (cell.classList.contains('disabled')) return;
+                    selDate = cell.dataset.date;
+                    selTime = null;
+                    render(); scrollToBottom();
+                });
+            });
+            container.querySelectorAll('.chat-cal-time[data-value]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selTime = { value: btn.dataset.value, label: btn.dataset.label };
+                    render(); scrollToBottom();
+                });
+            });
+            container.querySelector('#modalCalConfirmBtn')?.addEventListener('click', () => {
+                if (!selDate || !selTime) return;
+                wrapper.remove();
+                onDateTimeSelected(selDate, selTime.label, selTime.value);
+            });
+        }
+
+        render();
+        chatMessages.appendChild(wrapper);
+        scrollToBottom();
+    }
+
+    // Initialize booking flow instance for the modal
+    function initModalBookingFlow() {
+        if (!window.BookingFlow) return;
+        modalBooking = window.BookingFlow.create({
+            addBotMessage: (text, extras) => {
+                addAIMessage(text, true);
+                if (extras && extras.quickReplies) {
+                    setTimeout(() => appendModalQuickReplies(extras.quickReplies), 80);
+                }
+            },
+            addCalendarPicker: (onDateTimeSelected) => {
+                setTimeout(() => appendModalCalendarPicker(onDateTimeSelected), 80);
+            },
+            addMultiSelectPicker: (options, skipLabel, onSelected) => {
+                setTimeout(() => appendModalMultiSelectPicker(options, skipLabel, onSelected), 80);
+            },
+            addConfirmCard: (data) => {
+                setTimeout(() => addModalBookingCard(data), 150);
+            },
+            onConfirmed: () => {
+                // Submission + redirect handled by the confirm button in addModalBookingCard.
+            }
+        });
+    }
+
     // Add typing indicator
     function showTypingIndicator() {
         const typingDiv = document.createElement('div');
@@ -1134,38 +1577,32 @@ function initChatModal() {
         if (indicator) indicator.remove();
     }
     
-    // Simulate user typing (for chips)
+    // Simulate user typing (for suggestion cards and quick replies)
     async function simulateUserTyping(message) {
-        // Add user message
         addUserMessage(message);
-        
-        // Show typing indicator
-        showTypingIndicator();
-        
-        try {
-            // Get AI response from backend
-            const response = await getAIResponse(message);
-            hideTypingIndicator();
-            addAIMessage(response);
-        } catch (error) {
-            console.error('Error in simulateUserTyping:', error);
-            hideTypingIndicator();
-            addAIMessage("I'm sorry, I encountered an error. Please try again.");
-        }
+        await handleModalUserInput(message, true);
     }
-    
-    // Handle question (from cards or input)
+
+    // Handle question (from welcome suggestion cards)
     async function handleQuestion(questionKey) {
+        // "demo" and booking-related cards start the booking flow directly
+        if ((questionKey === 'demo' || questionKey === 'book') && modalBooking) {
+            startConversation();
+            addUserMessage("I'd like to book a free consultation");
+            await new Promise(r => setTimeout(r, 650));
+            modalBooking.start('direct');
+            return;
+        }
+
         const questionTexts = {
             services: "What AI services do you offer?",
-            qualify: "How can you help qualify my leads?",
-            cost: "What are your pricing plans?",
-            demo: "I'd like to book a demo"
+            help:     "How can AI help my business?",
+            pricing:  "What are your pricing plans?",
+            qualify:  "How can you help qualify my leads?",
+            cost:     "What are your pricing plans?"
         };
-        
+
         const questionText = questionTexts[questionKey] || questionKey;
-        
-        // Simulate user typing
         await simulateUserTyping(questionText);
     }
     
@@ -1243,41 +1680,22 @@ function initChatModal() {
     async function handleSend() {
         const message = chatInput.value.trim();
         if (!message) return;
-        
+
         if (!hasStartedConversation) {
-            // Only start conversation if there's no existing history
             if (rawMessageHistory.length === 0) {
                 startConversation();
             } else {
-                // If there's history, just switch to conversation mode without greeting
                 hasStartedConversation = true;
                 welcomeState.classList.add('hidden');
                 conversationState.classList.remove('hidden');
             }
         }
-        
+
         addUserMessage(message);
         chatInput.value = '';
-        // Reset textarea height after sending
-        if (chatInput) {
-            chatInput.style.height = 'auto';
-        }
-        
-        showTypingIndicator();
-        
-        try {
-            // Get AI response from backend
-            const response = await getAIResponse(message);
-            hideTypingIndicator();
-            addAIMessage(response);
-            // Save after both messages are added
-            saveToStorage();
-        } catch (error) {
-            console.error('Error in handleSend:', error);
-            hideTypingIndicator();
-            addAIMessage("I'm sorry, I encountered an error. Please try again.");
-            saveToStorage();
-        }
+        if (chatInput) chatInput.style.height = 'auto';
+
+        await handleModalUserInput(message, true);
     }
     
     // Format AI Response - Shared function for markdown parsing
@@ -1442,6 +1860,11 @@ function initChatModal() {
         });
     }
     
+    // ============================================
+    // INIT BOOKING FLOW FOR MODAL
+    // ============================================
+    initModalBookingFlow();
+
     // ============================================
     // HERO COMMAND BAR - Typewriter Animation & Click Handler
     // ============================================

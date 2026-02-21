@@ -749,12 +749,15 @@
                 // Skip weekends
                 if (d.getDay() === 0 || d.getDay() === 6) continue;
                 const dateStr = d.toISOString().split('T')[0];
-                html += `<div class="day-pill" data-date="${dateStr}" onclick="selectDayPill(this)">
+                html += `<div class="day-pill" data-date="${dateStr}">
                     <div class="day-pill-day">${dayNames[d.getDay()]}</div>
                     <div class="day-pill-date">${monthNames[d.getMonth()]} ${d.getDate()}</div>
                 </div>`;
             }
             container.innerHTML = html;
+            container.querySelectorAll('.day-pill').forEach(pill => {
+                pill.addEventListener('click', function () { selectDayPill(this); });
+            });
         })();
 
         // ===== RENDER TIME PILLS =====
@@ -776,9 +779,12 @@
             ];
             let html = '';
             times.forEach(t => {
-                html += `<div class="time-pill" data-time="${t.value}" onclick="selectTimePill(this)">${t.label}</div>`;
+                html += `<div class="time-pill" data-time="${t.value}">${t.label}</div>`;
             });
             container.innerHTML = html;
+            container.querySelectorAll('.time-pill').forEach(pill => {
+                pill.addEventListener('click', function () { selectTimePill(this); });
+            });
         })();
 
         function selectDayPill(el) {
@@ -1041,6 +1047,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept':       'application/json'
                     },
                     body: JSON.stringify(data)
                 });
@@ -1106,6 +1113,195 @@
                 submitBtn.disabled = false;
             }
         });
+
+        // ============================================
+        // CHAT BOOKING PRE-FILL
+        // After the chatbot collects and submits all booking data,
+        // it saves a snapshot to localStorage and redirects here.
+        // This IIFE reads that snapshot and either:
+        //   a) Shows the confirmation state directly (if chatSubmitted === true)
+        //   b) Pre-fills the form and jumps to the appropriate step
+        // ============================================
+        (function applyChatPrefill() {
+            try {
+                const PREFILL_KEY = 'scaleMako_bookingPrefill';
+                const raw = localStorage.getItem(PREFILL_KEY);
+                if (!raw) return;
+                const prefill = JSON.parse(raw);
+                localStorage.removeItem(PREFILL_KEY);
+
+                // -------------------------------------------------------
+                // a) Chat already submitted — show confirmation directly
+                // -------------------------------------------------------
+                if (prefill.chatSubmitted) {
+                    form.style.display = 'none';
+
+                    // Build confirmation message
+                    let meetingLink = '';
+                    if (prefill.platform === 'google-meet') {
+                        meetingLink = 'https://calendar.app.google/knec2xu6uySGetXF8';
+                    } else if (prefill.platform === 'zoom') {
+                        meetingLink = 'https://zoom.us/start/videomeeting';
+                    } else if (prefill.platform === 'teams') {
+                        meetingLink = 'https://teams.microsoft.com/';
+                    }
+
+                    if (meetingLink) {
+                        const meetLink = meetButtonContainer.querySelector('a');
+                        if (meetLink) {
+                            meetLink.href = meetingLink;
+                            meetButtonContainer.classList.remove('hidden');
+                        }
+                    }
+
+                    const name  = prefill.fullName || prefill.name || 'there';
+                    const email = prefill.email || '';
+                    confirmationMessage.textContent = email
+                        ? `Thanks, ${name}! Your demo request has been submitted. We'll send a confirmation to ${email} — see you soon!`
+                        : `Thanks, ${name}! Your demo request has been submitted. Our team will be in touch soon.`;
+
+                    confirmationState.classList.add('show');
+
+                    // Smooth scroll to confirmation
+                    setTimeout(() => {
+                        document.querySelector('.fade-in-right')?.scrollIntoView({
+                            behavior: 'smooth', block: 'start'
+                        });
+                    }, 150);
+                    return;
+                }
+
+                // -------------------------------------------------------
+                // b) Pre-fill the form fields for review
+                // -------------------------------------------------------
+
+                // Step 1: contact details
+                if (prefill.fullName || prefill.name) {
+                    fullNameInput.value = prefill.fullName || prefill.name;
+                    fullNameInput.classList.remove('error');
+                    document.getElementById('fullNameError').classList.remove('show');
+                    formData.fullName = fullNameInput.value;
+                }
+                if (prefill.businessName) {
+                    const bi = document.getElementById('businessName');
+                    if (bi) { bi.value = prefill.businessName; formData.businessName = prefill.businessName; }
+                }
+                if (prefill.email) {
+                    emailInput.value = prefill.email;
+                    emailInput.classList.remove('error');
+                    document.getElementById('emailError').classList.remove('show');
+                    formData.email = prefill.email;
+                }
+                if (prefill.message) {
+                    const mi = document.getElementById('message');
+                    if (mi) { mi.value = prefill.message; formData.message = prefill.message; }
+                }
+
+                // Services: prefill.services is an array (new schema) or a string (legacy)
+                const servicesList = Array.isArray(prefill.services)
+                    ? prefill.services
+                    : (prefill.service ? [prefill.service] : []);
+
+                // Map chat labels → form checkbox values
+                const serviceMap = {
+                    'AI Voice Agent':       'Voice Agents',
+                    'Chat Assistant':       'Chatbots',
+                    'Workflow Automation':  'Workflow Automations',
+                    'Full AI Website':      'AI Websites',
+                    // New schema labels already match form values:
+                    'AI Websites':          'AI Websites',
+                    'Chatbots':             'Chatbots',
+                    'Voice Agents':         'Voice Agents',
+                    'Workflow Automations': 'Workflow Automations'
+                };
+                const checkedServices = [];
+                servicesList.forEach(svc => {
+                    const mapped = serviceMap[svc] || svc;
+                    const cb = document.querySelector(`input[name="services[]"][value="${mapped}"]`);
+                    if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change')); checkedServices.push(mapped); }
+                });
+                if (checkedServices.length > 0) formData.services = checkedServices;
+
+                // Step 2: platform
+                if (prefill.platform) {
+                    const radio = document.querySelector(`input[name="platform"][value="${prefill.platform}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest?.('.platform-card')?.classList.add('selected');
+                        formData.platform = prefill.platform;
+                    }
+                }
+
+                // Step 3: date & time
+                const isoDate   = prefill.meetingDate || prefill.date || '';
+                const timeValue = prefill.meetingTime  || prefill.timeValue || '';
+
+                if (isoDate) {
+                    meetingDateInput.value = isoDate;
+                    formData.meetingDate   = isoDate;
+                    const dayPill = document.querySelector(`.day-pill[data-date="${isoDate}"]`);
+                    if (dayPill) {
+                        document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('selected'));
+                        dayPill.classList.add('selected');
+                        document.getElementById('meetingDateError').classList.remove('show');
+                    }
+                }
+                if (timeValue) {
+                    meetingTimeInput.value = timeValue;
+                    formData.meetingTime   = timeValue;
+                    const timePill = document.querySelector(`.time-pill[data-time="${timeValue}"]`);
+                    if (timePill) {
+                        document.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected'));
+                        timePill.classList.add('selected');
+                        document.getElementById('meetingTimeError').classList.remove('show');
+                    }
+                }
+
+                // Pick the best step to land on:
+                // If platform was collected in chat → jump to step 3 (date confirmation)
+                // Otherwise → jump to step 2 (platform selection)
+                const landStep = prefill.platform ? 3 : 2;
+                showStep(landStep);
+
+                // Info banner
+                const banner = document.createElement('div');
+                banner.style.cssText = [
+                    'padding:0.625rem 1rem',
+                    'margin-bottom:1.25rem',
+                    'border-radius:12px',
+                    'background:rgba(0,198,255,0.06)',
+                    'border:1px solid rgba(0,198,255,0.2)',
+                    'font-size:0.8125rem',
+                    'color:#0072FF',
+                    'font-weight:500',
+                    'display:flex',
+                    'align-items:center',
+                    'gap:0.5rem',
+                    'animation:fadeInUp 0.4s ease-out'
+                ].join(';');
+                const stepLabel = landStep === 3
+                    ? 'Confirm your date & time below.'
+                    : 'Just select a meeting platform to continue.';
+                banner.innerHTML = `
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Details pre-filled from your chat session — ${stepLabel}
+                `;
+                const formCard = document.querySelector('.fade-in-right .bg-white\\/70');
+                if (formCard) formCard.insertBefore(banner, formCard.firstChild);
+
+                // Smooth scroll
+                setTimeout(() => {
+                    document.querySelector('.fade-in-right')?.scrollIntoView({
+                        behavior: 'smooth', block: 'start'
+                    });
+                }, 200);
+
+            } catch (e) {
+                // Pre-fill is optional — fail silently
+            }
+        })();
 
         // Page is ready - no fade animation needed
         document.body.style.opacity = '1';
