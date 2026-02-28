@@ -14,11 +14,60 @@ const PORT = process.env.PORT || 3000;
 app.set('trust proxy', 1);
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'", // Needed for Tailwind config inline script
+                "'unsafe-eval'", // Needed for Tailwind CDN to work
+                "https://cdn.tailwindcss.com",
+                "https://unpkg.com"
+            ],
+            styleSrc: [
+                "'self'",
+                "'unsafe-inline'", // Needed for inline styles
+                "https://fonts.googleapis.com"
+            ],
+            fontSrc: [
+                "'self'",
+                "https://fonts.gstatic.com"
+            ],
+            imgSrc: [
+                "'self'",
+                "data:",
+                "https:"
+            ],
+            connectSrc: [
+                "'self'",
+                "https://api.openai.com",
+                "https://formspree.io"
+            ]
+        }
+    }
+}));
 app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
-app.use(express.static(__dirname)); // Serve static files from root directory
+
+// Serve static files from root directory (must be before route handlers)
+app.use(express.static(__dirname, {
+    dotfiles: 'ignore',
+    etag: true,
+    extensions: ['html', 'css', 'js', 'json', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico'],
+    index: false, // Don't serve index.html automatically, let routes handle it
+    maxAge: '1d',
+    redirect: false,
+    setHeaders: (res, path) => {
+        // Set proper MIME types
+        if (path.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        } else if (path.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        }
+    }
+}));
 
 // Rate limiting (API only)
 const apiLimiter = rateLimit({
@@ -215,6 +264,17 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'ok',
         uptime: process.uptime()
+    });
+});
+
+// Brand config endpoint — source of truth for logo and brand assets
+app.get('/api/config', (req, res) => {
+    res.json({
+        brand: {
+            name: 'ScaleMako',
+            logoUrl: '/assets/images/logo.png',
+            email: 'hello@scalemako.ai'
+        }
     });
 });
 

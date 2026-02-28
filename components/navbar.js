@@ -279,23 +279,44 @@ class CustomNavbar extends HTMLElement {
                 }
                 
                 @media (max-width: 768px) {
+                    .navbar-container {
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    .logo-container {
+                        margin-left: 0.75rem;
+                        flex-shrink: 0;
+                    }
                     .logo-img {
-                        height: 40px;
-                        width: 240px;
+                        height: 38px;
+                        width: 200px;
                     }
                     .nav-links {
-                        gap: 1rem;
+                        gap: 0.5rem;
+                        margin-right: 0.75rem;
                     }
                     .nav-link {
-                        font-size: 0.75rem;
+                        font-size: 0.72rem;
                     }
                     .cta-button {
-                        padding: 0.4rem 1rem;
-                        font-size: 0.75rem;
+                        padding: 0.375rem 0.875rem;
+                        font-size: 0.72rem;
                     }
                     .phone-dropdown {
                         min-width: 240px;
                         right: -20px;
+                    }
+                }
+                @media (max-width: 480px) {
+                    .nav-link:not(.cta-button) {
+                        display: none;
+                    }
+                    .phone-icon-btn {
+                        display: none;
+                    }
+                    .logo-img {
+                        height: 36px;
+                        width: 180px;
                     }
                 }
             </style>
@@ -308,7 +329,7 @@ class CustomNavbar extends HTMLElement {
             <nav class="navbar" id="mainNavbar">
                 <div class="navbar-container">
                     <a href="/" class="logo-container">
-                        <img src="assets/images/image copy 3.png" alt="ScaleMako Logo" class="logo-img">
+                        <img src="assets/images/logo.png" alt="ScaleMako Logo" class="logo-img">
                     </a>
                     <div class="nav-links">
                         <a href="index.html#demos" class="nav-link">Demos</a>
