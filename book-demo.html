@@ -714,6 +714,11 @@
 
     <!-- Form Handling Script -->
     <script>
+        // ===== N8N AVAILABILITY WEBHOOK =====
+        // Switch to production URL once workflow is Active:
+        // https://oludev.app.n8n.cloud/webhook/df11b6c4-fc98-451f-a684-bcd71d583cde
+        const N8N_AVAILABILITY_URL = 'https://oludev.app.n8n.cloud/webhook-test/df11b6c4-fc98-451f-a684-bcd71d583cde';
+
         // Multi-step form state
         let currentStep = 1;
         const totalSteps = 3;
@@ -748,7 +753,10 @@
                 d.setDate(today.getDate() + i);
                 // Skip weekends
                 if (d.getDay() === 0 || d.getDay() === 6) continue;
-                const dateStr = d.toISOString().split('T')[0];
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                const dateStr = `${year}-${month}-${day}`;
                 html += `<div class="day-pill" data-date="${dateStr}" onclick="selectDayPill(this)">
                     <div class="day-pill-day">${dayNames[d.getDay()]}</div>
                     <div class="day-pill-date">${monthNames[d.getMonth()]} ${d.getDate()}</div>
@@ -757,36 +765,96 @@
             container.innerHTML = html;
         })();
 
+        // ===== ALL POSSIBLE 30-MIN SLOTS (EST 9 AM – 5 PM) =====
+        const ALL_TIME_SLOTS = [
+            { value: '09:00', label: '9:00 AM' },
+            { value: '09:30', label: '9:30 AM' },
+            { value: '10:00', label: '10:00 AM' },
+            { value: '10:30', label: '10:30 AM' },
+            { value: '11:00', label: '11:00 AM' },
+            { value: '11:30', label: '11:30 AM' },
+            { value: '13:00', label: '1:00 PM' },
+            { value: '13:30', label: '1:30 PM' },
+            { value: '14:00', label: '2:00 PM' },
+            { value: '14:30', label: '2:30 PM' },
+            { value: '15:00', label: '3:00 PM' },
+            { value: '15:30', label: '3:30 PM' },
+            { value: '16:00', label: '4:00 PM' },
+            { value: '16:30', label: '4:30 PM' },
+        ];
+
         // ===== RENDER TIME PILLS =====
-        (function renderTimePills() {
+        // Pass an array of available "HH:MM" strings from n8n, or null to show all.
+        function renderTimePills(availableSlots, restoreTime) {
             const container = document.getElementById('timePillsContainer');
-            const times = [
-                { value: '09:00', label: '9:00 AM' },
-                { value: '09:30', label: '9:30 AM' },
-                { value: '10:00', label: '10:00 AM' },
-                { value: '10:30', label: '10:30 AM' },
-                { value: '11:00', label: '11:00 AM' },
-                { value: '11:30', label: '11:30 AM' },
-                { value: '13:00', label: '1:00 PM' },
-                { value: '13:30', label: '1:30 PM' },
-                { value: '14:00', label: '2:00 PM' },
-                { value: '14:30', label: '2:30 PM' },
-                { value: '15:00', label: '3:00 PM' },
-                { value: '16:00', label: '4:00 PM' },
-            ];
+            let times;
+            if (availableSlots && availableSlots.length > 0) {
+                const slotSet = new Set(availableSlots);
+                times = ALL_TIME_SLOTS.filter(t => slotSet.has(t.value));
+            } else {
+                times = ALL_TIME_SLOTS;
+            }
+            if (times.length === 0) {
+                container.innerHTML = '<div class="col-span-3 text-sm text-gray-400 text-center py-4">No available times on this day. Please select another date.</div>';
+                return;
+            }
             let html = '';
             times.forEach(t => {
                 html += `<div class="time-pill" data-time="${t.value}" onclick="selectTimePill(this)">${t.label}</div>`;
             });
             container.innerHTML = html;
-        })();
+            // Re-select previously chosen time if still available
+            if (restoreTime) {
+                const pill = container.querySelector(`.time-pill[data-time="${restoreTime}"]`);
+                if (pill) {
+                    pill.classList.add('selected');
+                    meetingTimeInput.value = restoreTime;
+                } else {
+                    meetingTimeInput.value = '';
+                }
+            }
+        }
+
+        // ===== FETCH REAL AVAILABILITY FROM N8N / GOOGLE CALENDAR =====
+        async function fetchAndRenderTimePills(dateStr, restoreTime) {
+            const container = document.getElementById('timePillsContainer');
+            meetingTimeInput.value = '';
+            container.innerHTML = `
+                <div class="col-span-3 flex items-center justify-center gap-2 py-4 text-sm text-gray-400">
+                    <svg class="animate-spin h-4 w-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Checking availability…
+                </div>`;
+            try {
+                const res = await fetch(N8N_AVAILABILITY_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ meetingDate: dateStr })
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                // Handle common n8n response shapes
+                let slots = data.slots || data.freeSlots || data.availableSlots || [];
+                if (!Array.isArray(slots)) slots = [];
+                renderTimePills(slots.length > 0 ? slots : null, restoreTime);
+            } catch (err) {
+                console.warn('Availability fetch failed, falling back to default slots:', err);
+                renderTimePills(null, restoreTime);
+            }
+        }
 
         function selectDayPill(el) {
             document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('selected'));
             el.classList.add('selected');
-            meetingDateInput.value = el.dataset.date;
-            // Clear error
+            const dateStr = el.dataset.date;
+            meetingDateInput.value = dateStr;
+            // Clear errors
             document.getElementById('meetingDateError').classList.remove('show');
+            document.getElementById('meetingTimeError').classList.remove('show');
+            // Fetch real availability from Google Calendar via n8n
+            fetchAndRenderTimePills(dateStr);
         }
 
         function selectTimePill(el) {
@@ -884,12 +952,16 @@
                 if (formData.meetingDate) {
                     meetingDateInput.value = formData.meetingDate;
                     const dayPill = document.querySelector(`.day-pill[data-date="${formData.meetingDate}"]`);
-                    if (dayPill) { document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('selected')); dayPill.classList.add('selected'); }
-                }
-                if (formData.meetingTime) {
-                    meetingTimeInput.value = formData.meetingTime;
-                    const timePill = document.querySelector(`.time-pill[data-time="${formData.meetingTime}"]`);
-                    if (timePill) { document.querySelectorAll('.time-pill').forEach(p => p.classList.remove('selected')); timePill.classList.add('selected'); }
+                    if (dayPill) {
+                        document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('selected'));
+                        dayPill.classList.add('selected');
+                    }
+                    // Re-fetch availability; restore previously selected time if still available
+                    fetchAndRenderTimePills(formData.meetingDate, formData.meetingTime || null);
+                } else {
+                    // No date selected yet — show prompt
+                    document.getElementById('timePillsContainer').innerHTML =
+                        '<div class="col-span-3 text-sm text-gray-400 text-center py-4">← Select a date to see available times</div>';
                 }
             }
         }
